@@ -23,14 +23,18 @@ Ext.define('Smoovz.util.Il8n', {
         defaultLanguage: 'nl',
         translations   : {
         	nl: {
-        		sign_in: 'Inloggen',
-        		name   : 'Naam',
-                email  : 'Email'
+        		sign_in          : 'Inloggen',
+        		name             : 'Naam',
+                email            : 'Email',
+                email_placeholder: 'email@voorbeeld.nl',
+                password         : 'Wachtwoord'
         	},
         	en: {
-        		sign_in: 'Sign In',
-                name   : 'Name',
-                email  : 'Email'
+        		sign_in          : 'Sign In',
+                name             : 'Name',
+                email_placeholder: 'email@example.com',
+                email            : 'Email',
+                password         : 'Password'
         	}
         }
     },
