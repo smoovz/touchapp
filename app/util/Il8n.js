@@ -27,14 +27,16 @@ Ext.define('Smoovz.util.Il8n', {
         		name             : 'Naam',
                 email            : 'Email',
                 email_placeholder: 'email@voorbeeld.nl',
-                password         : 'Wachtwoord'
+                password         : 'Wachtwoord',
+                lost_password    : 'Ben je je wachtwoord vergeten?<br>Vraag een nieuw wachtwoord aan.'
         	},
         	en: {
         		sign_in          : 'Sign In',
                 name             : 'Name',
                 email_placeholder: 'email@example.com',
                 email            : 'Email',
-                password         : 'Password'
+                password         : 'Password',
+                lost_password    : 'Did you lost your password?<br>Request a new one.'
         	}
         }
     },
