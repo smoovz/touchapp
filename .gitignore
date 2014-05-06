@@ -4,14 +4,19 @@ nbproject/private
 
 # NodeJS modules
 node_modules/*
+!node_modules/.gitkeep
 
 # Karma test coverage
 coverage/*
+!coverage/.gitkeep
 
 # PhoneGap
 phonegap/merges/*
+!phonegap/merges/.gitkeep
 phonegap/platforms/*
+!phonegap/platforms/.gitkeep
 phonegap/plugins/*
+!phonegap/plugins/.gitkeep
 !phonegap/plugins/*.json
 phonegap/www
 
