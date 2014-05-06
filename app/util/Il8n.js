@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Smoovz.util.I18n', {
+Ext.define('Smoovz.util.Il8n', {
     alternateClassName: 'Il8n',
     singleton         : true,
 
