@@ -18,7 +18,13 @@ Ext.application({
     ],
 
     views: [
+        'Smoovz.util.Config',
+        'Smoovz.util.Il8n',
         'Main'
+    ],
+
+    controllers: [
+        'SessionController'
     ],
 
     icon: {
@@ -44,7 +50,11 @@ Ext.application({
         Ext.fly('appLoadingIndicator').destroy();
 
         // Initialize the main view
-        Ext.Viewport.add(Ext.create('Smoovz.view.Main'));
+        Ext.Viewport.add([{
+            xtype: 'loginform'
+        }, {
+            xtype: 'main'
+        }]);
     },
 
     onUpdated: function() {

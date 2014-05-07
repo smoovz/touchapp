@@ -23,20 +23,48 @@ Ext.define('Smoovz.util.Il8n', {
         defaultLanguage: 'nl',
         translations   : {
         	nl: {
-        		sign_in          : 'Inloggen',
-        		name             : 'Naam',
-                email            : 'Email',
+                /* Login form */
+        		sign_in_title: 'Inloggen',
+                sign_in_text: 'Log in met je emailadres',
+                sign_in_btn_text: 'Inloggen',
+                sign_in_wait_msg: 'Je wordt ingelogd',
+        		name: 'Naam',
+                email: 'Email',
                 email_placeholder: 'email@voorbeeld.nl',
-                password         : 'Wachtwoord',
-                lost_password    : 'Ben je je wachtwoord vergeten?<br>Vraag een nieuw wachtwoord aan.'
+                password: 'Wachtwoord',
+                lost_password: 'Ben je je wachtwoord vergeten?<br>Vraag een nieuw wachtwoord aan.',
+
+                /* Login fail */
+                sign_in_fail_title: 'Inloggen mislukt',
+                sign_in_fail_msg: [
+                    'Het emailadres en/of wachtwoord is niet bekend.',
+                    'Maak een nieuw account aan of vraag je wachtwoord opnieuw op.'
+                ].join('<br>'),
+                sign_in_fail_new_account: 'Nieuw account aanmaken',
+                sign_in_fail_new_password: 'Nieuw wachtwoord opvragen',
+                sign_in_fail_error_create_user_title: 'Je kan niet ingelogd worden'
         	},
         	en: {
-        		sign_in          : 'Sign In',
-                name             : 'Name',
+                /* Login form */
+                sign_in_title: 'Sign in',
+                sign_in_text: 'Sign in with your emailaddress',
+                sign_in_btn_text: 'Sign in',
+                sign_in_wait_msg: 'You are being signed in',
+                name: 'Name',
                 email_placeholder: 'email@example.com',
-                email            : 'Email',
-                password         : 'Password',
-                lost_password    : 'Did you lost your password?<br>Request a new one.'
+                email: 'Email',
+                password: 'Password',
+                lost_password: 'Did you lost your password?<br>Request a new one.',
+
+                /* Login fail */
+                sign_in_fail_title: 'Sign in failed',
+                sign_in_fail_msg: [
+                    'The supplied credentials are unknown.',
+                    'Create a new account or request a new password'
+                ].join('<br>'),
+                sign_in_fail_new_account: 'Create new account',
+                sign_in_fail_new_password: 'Reqest new password',
+                sign_in_fail_error_create_user_title: 'You could not be logged in'
         	}
         }
     },

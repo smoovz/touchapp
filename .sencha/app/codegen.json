@@ -35,6 +35,12 @@
     },
     "app.json.tpl.merge": {
       "a36200bbd84dffd4133a6074252425c15a5f25b1": "eJzFWMtu2zgU3ecrCGOAtoFjrWYTTAtk0hTNTJoWdYpZtF3QFGWxpUiVpOwYgf99zqUeluwkrdOiERBIscR7z33wHJI3BwxXcngY7+yQXeWS8bLUSvCgrHnimeGF9CUXcswqL1M2W7GpNCLn7NQWBTcpC5bNpZGOB8mE5t5L35hL4n1EJkbHbHRDD+vR+OA2r5nSkpU85GQv5Mpv4cicNYG9vnpzwVIrqkKaMGZOarxfyP6YyRdvTTQ3RKFMKq9fh0K/gxOCE3+Y5PjlDkh85q2uENWH9xe3oWLKsFQupLYlwWHSLBRQ1tDURB5jRDfYVWbHQOsMpla2cmwpZ2zm7NJLx9LKKTPv2x8zOZkDdx5CeZwk2gquc+tDUqxgM+mFM2kMb4KB3wXXlWR4MFKmKOQyl4bNKqVjBZ1ErEhkxDHMfCpLCdtGKOmZypgK+PpbpTCEAelCuiOvUhlNVE501Ue4PDDuJDMWd4E3Xs1Q5YXidbn9ygdZsNLZYIXVk2HBKqdRJlNpvVueC+UDsxnjWrN/+IJPhVMlnKD5gqe6UOadmueoyrUUVSyXdal0rRN2xkWOWOCfioK3sy9SBLZU1ILUkFZru6QaZNYVPBy3A+N1M/gv4i2bvqJ7EmziIya044glCXvXtDYFPqY0xvrVeUBGiwoBzeSPdXTPqZOFDTS7gkN1BxecPn1bUuRcP9sZed+FkUfspcx4pZFNIKlQ/0wZdM3TjGsvV8/oV6/mMM14P5RlrpDWpUJdEI2wpZLp/r6npRQqW9VBIVcxE3WqkBFWB73jkNoMsO72O6rKlMdsjVKpAx/9qmwB8nkW/fuIHM7HPdARnTV6Rdi05TT9rCFKBX/u7YsxgdaFCWXivIvZnwbr+FyiUkHp2nU34UHWZi7TyQOiavOEtErDafJamu+YH0dcgaToLauzStNkE/NDfGWY6iNWSG5gA8+t4babCiSupq1NauvY/G6pr49m1gYfHC+3Z8dPlfrcpESNkvqwT/6FBbhY444vVxPG9jUP3fF1Z/tNU3cdjZJHXpANcacgYYHKr8BtmBWZdHC7/4Rr+LJT8Y5zoO8qk2CmurYogRLO1i3stlUmXushh4P8jtnHg9bXzUHfc8eYN5nDymBp3VdiyXXi4wLjKNhK5H+FUoMCno+0mjmOSJ8/Z09A+09GL45w+yvB+xdEsuOh7d36d+/X4+8B6ob+asN1ZrdNzsCvuiXxMQldr81qFUUnxLXVUI1JXAWYBB8a/HX90RHPRuObinQ+t6lwE0R8+ny/5p5Op7eKrTJCV/4RxJZsT4R/JK19MKM8otI+ktD+TKp+l8z+jMpGqURbYwlvDXgaArHcP8zforu/THbvUwCakz8gAd3mIcGAhCYiDdziyf0564OvK8KrYEEroFSN9thsV6nEk07lnsbt5Z+DPV78pBPCZz1exVap5tZhwBh8SmMAcxNrB6mG1VIpsVbHoKcnp6/P2JuTy/NXZ9MrbK3EZo/Yc1BntfHwcZig3h6we/F5vBeKy7Or/96+//d+90YGUutdAIcP9vvq5OLi75PT7zgGJ+oZF9Hz5/jzerfoZ9cQ5812dEBVUC8LldkI47B43aBBaL3uVAXmf78x++8gxXe88oG7UJWju/r0FXVV0lvP0VEJui6gzC5GAAWwruk8hLIireyvBf240zVQkkoR/7zS3GH/WzraeQPb1oFItDgM9NOniV+YP+7E+bID2B7V+ECwaE0ANwtlK0/7+bSKRWygTdglyUhcyRBg5CnQmrmdhx3JRoLpktA6beP6KktaYQQu6gUp/JSg2cZKXHRkNTV6fB6WEqmqKWMrcu5EDt1vD4Kaf285BWo7tUTLEe/Hw7D6uCQegHTrYlGkzToLoOigY7ut6vOSLtm3UZVR3yrZYydkJd2Qe4+TmpM4TpnGYuE6fjTQp69y5bu11yWtqIj2iLB8biugNNi5uIbFezq2dQKj0rg6ryKy83Q9Olgf/A/eSIqN"
+    },
+    "{controllerFileName}.js.tpl.merge": {
+      "7cd8d1cf12515ca525732931d6b775e3f7924ad9": "eJx1j0EKwyAQRfeeYnYmIMk+XZXSbe8gOjaCGSWxbSB49xoTQij0L8ZR3p8/3ufYaDSWsOKL8hRH7xyODzngFKTC1Py8Ji5gYZCFc0TSHfB7niFDaG4HyEUhSsl2Y5/dblo1opnO9wNdlcTR7sH/UXYylNK2SuZ8DZ8eCWKPcA3BWSWj9QR2AidfpHrUIi8x+DeCNUA+AiFq1GXGhnRg8rHaqvy1+rTCFspSfWFfyCxXmA\u003d\u003d"
+    },
+    "{modelFileName}.js.tpl.merge": {
+      "b440abe61f1cfb3bbc31c9554696b4c7e9e2c329": "eJxtUsFugzAMvfMVVqUqtEXQXaF0h2nX/QDikIJpo6UBkdAxRfn3ObCiVasPsbH9Hi923kcT19gIhSGz17ZG+cGvqDteoYutotixCGwAZDgaVHUKzJ64xjfJtabiVJqOqlWNOKe/3d4agbLWKRR2veS83bgcUMdzGXIIm0FVRrSKoim3+UOykLU9hDfeQ4+GMEUZQcd74/EzKNadFCZkEdtEICi9z8gd5q5YojqbSwa7nXjGPsvqoSHcBChEeSdM2SZ7CiAlcTfoS2jBjyqFptiTLPPdTfFLCe4J0gX/UkQ09Mq77LHoNuHDsP7Qrd3BdNKPJV/NxdXxAXsXxZY9zsKY9d4xcLYYhapxhDyHsWoHZeAVGAPqiVjpDgn94BjYNSRbOEmuPkHSSwHTktJ6qBCu2J9xWrwUFa3iKxk09oC1oI9tQhoXRWUw391P5AeOxqsQ"
     }
   },
   "targets": {
@@ -276,6 +282,29 @@
         "library": "core",
         "controllerNamespace": "Smoovz.controller",
         "appStores": ""
+      }
+    },
+    "app/controller/SessionController.js": {
+      "source": "{controllerFileName}.js.tpl.merge",
+      "version": "7cd8d1cf12515ca525732931d6b775e3f7924ad9",
+      "parameters": {
+        "appName": "Smoovz",
+        "controllerName": "SessionController",
+        "controllerFileName": "SessionController",
+        "name": "SessionController",
+        "controllerNamespace": "Smoovz.controller"
+      }
+    },
+    "app/model/User.js": {
+      "source": "{modelFileName}.js.tpl.merge",
+      "version": "b440abe61f1cfb3bbc31c9554696b4c7e9e2c329",
+      "parameters": {
+        "appName": "Smoovz",
+        "modelNamespace": "Smoovz.model",
+        "baseClass": "Ext.data.Model",
+        "modelFileName": "User",
+        "name": "User",
+        "fields": "id:int:null"
       }
     }
   }
