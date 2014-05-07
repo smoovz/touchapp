@@ -110,21 +110,23 @@ Ext.define('Smoovz.controller.SessionController', {
         Ext.Msg.show({
             title: Il8n.translate('sign_in_fail_title'),
             message: Il8n.translate('sign_in_fail_msg'),
-            buttons: [{
-                text: Il8n.translate('sign_in_fail_new_account'),
-                itemId: 'newAccount'
-            }, {
-                text: Il8n.translate('sign_in_fail_new_password'),
-                itemId: 'newPassword'
-            }],
+//            buttons: [{
+//                text: Il8n.translate('try_again_btn'),
+//                itemId: 'tryAgainBtn',
+//                ui: 'action'
+//            }, {
+//                text: Il8n.translate('new_account_btn'),
+//                itemId: 'newAccountBtn',
+//                ui: 'confirm'
+//            }],
             icon: Ext.Msg.WARNING,
             scope: me,
             fn: function (btnId, value, opt) {
                 switch (btnId) {
-                    case 'newPassword':
+                    case 'newPasswordBtn':
                         console.log('NEW PASS');
                         break;
-                    case 'tryAgain':
+                    case 'tryAgainBtn':
                     default:
                         console.log('if at first you don\'t succeed..');
                         break;

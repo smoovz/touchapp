@@ -48,11 +48,24 @@ Ext.define('Smoovz.form.LoginForm', {
             }]
         }, {
             xtype: 'button',
+            itemId: 'signInBtn',
             ui: 'action'
         }, {
             xtype: 'component',
             itemId: 'lostpass',
-            margin: '50 0'
+            margin: '50 0 5 0'
+        }, {
+            xtype: 'button',
+            itemId: 'newPasswordBtn',
+            ui: 'confirm'
+        }, {
+            xtype: 'component',
+            itemId: 'noaccount',
+            margin: '50 0 5 0'
+        }, {
+            xtype: 'button',
+            itemId: 'newAccountBtn',
+            ui: 'confirm'
         }]
     },
 
@@ -71,10 +84,16 @@ Ext.define('Smoovz.form.LoginForm', {
             .setPlaceHolder(Il8n.translate('email_placeholder'));
         me.down('passwordfield')
             .setLabel(Il8n.translate('password'));
-        me.down('button')
+        me.getComponent('signInBtn')
             .setText(Il8n.translate('sign_in_btn_text'));
         me.getComponent('lostpass')
             .setHtml(Il8n.translate('lost_password'));
+        me.getComponent('newPasswordBtn')
+            .setText(Il8n.translate('new_password_btn'));
+        me.getComponent('noaccount')
+            .setHtml(Il8n.translate('no_account_yet'));
+        me.getComponent('newAccountBtn')
+            .setText(Il8n.translate('new_account_btn'));
     }
 
 });

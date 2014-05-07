@@ -32,7 +32,11 @@ Ext.define('Smoovz.util.Il8n', {
                 email: 'Email',
                 email_placeholder: 'email@voorbeeld.nl',
                 password: 'Wachtwoord',
-                lost_password: 'Ben je je wachtwoord vergeten?<br>Vraag een nieuw wachtwoord aan.',
+                lost_password: 'Ben je je wachtwoord vergeten?',
+                no_account_yet: 'Nog geen SMOOVZ account?',
+                new_account_btn: 'Nieuw account aanmaken',
+                new_password_btn: 'Nieuw wachtwoord opvragen',
+                try_again_btn: 'Opnieuw proberen',
 
                 /* Login fail */
                 sign_in_fail_title: 'Inloggen mislukt',
@@ -40,8 +44,6 @@ Ext.define('Smoovz.util.Il8n', {
                     'Het emailadres en/of wachtwoord is niet bekend.',
                     'Maak een nieuw account aan of vraag je wachtwoord opnieuw op.'
                 ].join('<br>'),
-                sign_in_fail_new_account: 'Nieuw account aanmaken',
-                sign_in_fail_new_password: 'Nieuw wachtwoord opvragen',
                 sign_in_fail_error_create_user_title: 'Je kan niet ingelogd worden'
         	},
         	en: {
@@ -54,7 +56,11 @@ Ext.define('Smoovz.util.Il8n', {
                 email_placeholder: 'email@example.com',
                 email: 'Email',
                 password: 'Password',
-                lost_password: 'Did you lost your password?<br>Request a new one.',
+                lost_password: 'Did you lost your password?',
+                no_account_yet: 'No SMOOVZ account yet?',
+                new_account_btn: 'Create new account',
+                new_password_btn: 'Request new password',
+                try_again_btn: 'Try again',
 
                 /* Login fail */
                 sign_in_fail_title: 'Sign in failed',
@@ -62,8 +68,6 @@ Ext.define('Smoovz.util.Il8n', {
                     'The supplied credentials are unknown.',
                     'Create a new account or request a new password'
                 ].join('<br>'),
-                sign_in_fail_new_account: 'Create new account',
-                sign_in_fail_new_password: 'Reqest new password',
                 sign_in_fail_error_create_user_title: 'You could not be logged in'
         	}
         }
