@@ -23,15 +23,21 @@ Ext.define('Smoovz.util.Il8n', {
         defaultLanguage: 'nl',
         translations   : {
         	nl: {
+                /* General */
+        		name: 'Naam',
+                email: 'Email',
+                email_placeholder: 'email@voorbeeld.nl',
+                password: 'Wachtwoord',
+                firstname: 'Voornaam',
+                lastname: 'Achternaam',
+                date_of_birth: 'Geboortedatum',
+                accept_terms: 'Ik accepteer de privacyverklaring en gebruiksvoorwaarden',
+
                 /* Login form */
         		sign_in_title: 'Inloggen',
                 sign_in_text: 'Log in met je emailadres',
                 sign_in_btn_text: 'Inloggen',
                 sign_in_wait_msg: 'Je wordt ingelogd',
-        		name: 'Naam',
-                email: 'Email',
-                email_placeholder: 'email@voorbeeld.nl',
-                password: 'Wachtwoord',
                 lost_password: 'Ben je je wachtwoord vergeten?',
                 no_account_yet: 'Nog geen SMOOVZ account?',
                 new_account_btn: 'Nieuw account aanmaken',
@@ -44,18 +50,29 @@ Ext.define('Smoovz.util.Il8n', {
                     'Het emailadres en/of wachtwoord is niet bekend.',
                     'Maak een nieuw account aan of vraag je wachtwoord opnieuw op.'
                 ].join('<br>'),
-                sign_in_fail_error_create_user_title: 'Je kan niet ingelogd worden'
+                sign_in_fail_error_create_user_title: 'Je kan niet ingelogd worden',
+
+                /* Register */
+                register_title_12: 'Registreren 1/2',
+                register_text: 'Create a new account',
+                register_btn: 'Ga verder naar club & team kiezen'
         	},
         	en: {
+                /* General */
+                name: 'Name',
+                email_placeholder: 'email@example.com',
+                email: 'Email',
+                password: 'Password',
+                firstname: 'First name',
+                lastname: 'Last name',
+                date_of_birth: 'Birthdate',
+                accept_terms: 'I accept the privacystatement and terms of use',
+
                 /* Login form */
                 sign_in_title: 'Sign in',
                 sign_in_text: 'Sign in with your emailaddress',
                 sign_in_btn_text: 'Sign in',
                 sign_in_wait_msg: 'You are being signed in',
-                name: 'Name',
-                email_placeholder: 'email@example.com',
-                email: 'Email',
-                password: 'Password',
                 lost_password: 'Did you lost your password?',
                 no_account_yet: 'No SMOOVZ account yet?',
                 new_account_btn: 'Create new account',
@@ -68,7 +85,12 @@ Ext.define('Smoovz.util.Il8n', {
                     'The supplied credentials are unknown.',
                     'Create a new account or request a new password'
                 ].join('<br>'),
-                sign_in_fail_error_create_user_title: 'You could not be logged in'
+                sign_in_fail_error_create_user_title: 'You could not be logged in',
+
+                /* Register */
+                register_title_12: 'Register 1/2',
+                register_text: 'Create a new account',
+                register_btn: 'Continue choosing club & team'
         	}
         }
     },

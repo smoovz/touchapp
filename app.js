@@ -24,6 +24,7 @@ Ext.application({
     ],
 
     controllers: [
+        'RegistrationController',
         'SessionController'
     ],
 
@@ -52,6 +53,8 @@ Ext.application({
         // Initialize the main view
         Ext.Viewport.add([{
             xtype: 'loginform'
+        }, {
+            xtype: 'registerform'
         }, {
             xtype: 'main'
         }]);

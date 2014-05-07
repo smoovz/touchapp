@@ -24,11 +24,14 @@ Ext.define('Smoovz.controller.SessionController', {
             loginForm: 'loginform'
         },
         control: {
-            'loginform button': {
+            'loginform button[itemId=signInBtn]': {
                 tap: 'onLoginBtnTap'
             },
             'button[cmd=logout]': {
                 tap: 'onLogoutBtnTap'
+            },
+            'loginform button[itemId=newAccountBtn]': {
+                tap: 'onNewAccountBtnTap'
             }
         }
     },
@@ -54,6 +57,12 @@ Ext.define('Smoovz.controller.SessionController', {
 
         Config.setAuthUser(null);
         me.redirectTo('login');
+    },
+
+    onNewAccountBtnTap: function (btn, evt, opts) {
+        var me = this;
+
+        me.redirectTo('register');
     },
 
     onLogoutBtnTap: function (btn, evt, opts) {
