@@ -41,26 +41,35 @@ Ext.define('Smoovz.form.Register', {
             width: '90%',
             items: [{
                 xtype: 'emailfield',
-                name: 'email'
+                name: 'emailAddress',
+                required: true
             }, {
                 xtype: 'passwordfield',
-                name: 'password'
+                name: 'password',
+                required: true
             }, {
                 xtype: 'passwordfield',
-                name: 'pwcheck'
+                name: 'passwordConfirm',
+                required: true
             }, {
                 xtype: 'textfield',
-                name: 'firstname'
+                name: 'firstname',
+                required: true
             }, {
                 xtype: 'textfield',
-                name: 'lastname'
+                name: 'lastname',
+                required: true
             }, {
                 xtype: 'datepickerfield',
-                name: 'dateOfBirth'
+                name: 'dateOfBirth',
+                required: true
             }, {
                 xtype: 'checkboxfield',
+                name: 'agreeToEULA',
                 labelAlign: 'top',
-                labelWrap: true
+                labelWrap: true,
+                required: true,
+                value: Date.now()
             }]
         }, {
             xtype: 'button',
@@ -74,7 +83,7 @@ Ext.define('Smoovz.form.Register', {
 
         me.callParent();
 
-        me.setUrl(Config.getApiUrl() + 'sessions');
+        me.setUrl(Config.getApiUrl() + 'user');
         me.down('titlebar')
             .setTitle(Il8n.translate('register_title_12'));
         me.down('fieldset')
@@ -84,7 +93,7 @@ Ext.define('Smoovz.form.Register', {
             .setPlaceHolder(Il8n.translate('email_placeholder'));
         me.down('passwordfield[name=password]')
             .setLabel(Il8n.translate('password'));
-        me.down('passwordfield[name=pwcheck]')
+        me.down('passwordfield[name=passwordConfirm]')
             .setLabel(Il8n.translate('password'));
         me.down('textfield[name=firstname]')
             .setLabel(Il8n.translate('firstname'));

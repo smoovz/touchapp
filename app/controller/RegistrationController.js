@@ -20,7 +20,10 @@ Ext.define('Smoovz.controller.RegistrationController', {
 
     requires: [
         'Ext.app.Route',
-        'Ext.viewport.Viewport'
+        'Ext.viewport.Viewport',
+        'Ext.MessageBox',
+        'Smoovz.util.Il8n',
+        'Smoovz.form.validate.Register'
     ],
 
     config: {
@@ -34,7 +37,9 @@ Ext.define('Smoovz.controller.RegistrationController', {
             registerForm: 'registerform'
         },
         control: {
-
+            'registerform button[itemId=registerBtn]': {
+                tap: 'onRegisterBtnTap'
+            }
         }
     },
 
@@ -49,5 +54,45 @@ Ext.define('Smoovz.controller.RegistrationController', {
         // TODO: check if user is logged in already?
 
         Ext.Viewport.setActiveItem(me.getRegisterForm());
+    },
+
+    onRegisterBtnTap: function (btn, evt, opts) {
+        var me        = this,
+            form      = me.getRegisterForm(),
+            validator = Ext.create('Smoovz.form.validate.Register'),
+            errors;
+
+        form.clearInvalid();
+
+        errors = validator.validate(form);
+        if (!errors.isValid()) {
+            Ext.Msg.show({
+                title: Il8n.translate('register_fail_title'),
+                message: validator.formatErrors(errors),
+                icon: Ext.MessageBox.WARNING
+            });
+            return;
+        }
+
+        me.getRegisterForm().submit({
+            waitMsg: Il8n.translate('register_wait_msg'),
+            success: me.onRegisterSuccess,
+            failure: me.onRegisterFailure,
+            scope: me
+        });
+    },
+
+    onRegisterSuccess: function () {
+        var me = this;
+
+        console.log('REG SUCCESS');
+        console.dir(arguments);
+    },
+
+    onRegisterFailure: function () {
+        var me = this;
+
+        console.log('REG FAIL');
+        console.dir(arguments);
     }
 });

@@ -14,13 +14,19 @@ Ext.application({
     name: 'Smoovz',
 
     requires: [
-        'Ext.MessageBox'
+        'Ext.MessageBox',
+        'Smoovz.form.Panel',
+        'Smoovz.field.Field',
+        'Smoovz.util.Config',
+        'Smoovz.util.Il8n'
     ],
 
     views: [
-        'Smoovz.util.Config',
-        'Smoovz.util.Il8n',
         'Main'
+    ],
+
+    stores: [
+        'User'
     ],
 
     controllers: [

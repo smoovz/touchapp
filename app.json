@@ -104,6 +104,10 @@
             "platform": ["windows"],
             "theme": "windows",
             "update": "delta"
+        },
+        {
+            "path": "resources/css/smoovz-touchapp.css",
+            "update": "delta"
         }
     ],
 

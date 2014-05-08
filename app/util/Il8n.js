@@ -55,7 +55,11 @@ Ext.define('Smoovz.util.Il8n', {
                 /* Register */
                 register_title_12: 'Registreren 1/2',
                 register_text: 'Create a new account',
-                register_btn: 'Ga verder naar club & team kiezen'
+                register_btn: 'Ga verder naar club & team kiezen',
+                register_wait_msg: 'Je account word aangemaakt',
+
+                /* Register fail */
+                register_fail_title: 'Registratie mislukt'
         	},
         	en: {
                 /* General */
@@ -90,7 +94,11 @@ Ext.define('Smoovz.util.Il8n', {
                 /* Register */
                 register_title_12: 'Register 1/2',
                 register_text: 'Create a new account',
-                register_btn: 'Continue choosing club & team'
+                register_btn: 'Continue choosing club & team',
+                register_wait_msg: 'Your account is being created',
+
+                /* Register fail */
+                register_fail_title: 'Registration failed'
         	}
         }
     },
