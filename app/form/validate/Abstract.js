@@ -18,11 +18,11 @@
 
 Ext.define('Smoovz.form.validate.Abstract', {
 
-    requires: [
+    uses: [
         'Ext.data.Error',
         'Ext.data.Errors',
         'Ext.data.Validations',
-        'Ext.form.Panel',
+        'Ext.Object',
         'Ext.String'
     ],
 
@@ -37,43 +37,54 @@ Ext.define('Smoovz.form.validate.Abstract', {
         me.callParent([config]);
     },
 
+    validateForm: function (form, markInvalid) {
+        var me     = this,
+            fields = form.getFields(),
+            errors = Ext.create('Ext.data.Errors'),
+            fieldErrors;
 
-    validate: function (form, markInvalid) {
+        Ext.Object.each(fields, function (key, field) {
+            fieldErrors = me.validateField(field, markInvalid);
+            fieldErrors.each(function (error) {
+                errors.add(error);
+            });
+        });
+
+        return errors;
+    },
+
+    validateField: function (field, markInvalid) {
         var me          = this,
-            data        = form.getValues(),
-            errors      = Ext.create('Ext.data.Errors'),
+            fieldName   = field.getName(),
             validations = me.getValidations(),
             validators  = Ext.data.Validations,
+            errors      = Ext.create('Ext.data.Errors'),
             markInvalid = markInvalid || true,
-            length, validation, field, valid, value, type, i, query;
+            validation, type, valid, i;
 
         if (validations) {
-            length = validations.length;
-
-            for (i = 0; i < length; i++) {
+            for (i = 0; i < validations.length; i++) {
                 validation = validations[i];
-                field = validation.field || validation.name;
+                if (fieldName !== validation.field &&
+                    fieldName !== validation.name) {
+                    continue;
+                }
+
                 type  = validation.type;
-                value = data[field] || null;
-                valid = validators[type](validation, value);
+                valid = validators[type](validation, field.getValue());
 
                 if (!valid) {
                     errors.add(Ext.create('Ext.data.Error', {
-                        field  : field,
+                        field  : fieldName,
                         message: validation.message || validators.getMessage(type)
                     }));
-                }
-            }
 
-            field = null;
-            if (markInvalid) {
-                errors.each(function (error) {
-                    query = Ext.String.format('field[name={0}]', error.getField());
-                    field = form.down(query);
-                    if (field) {
+                    if (markInvalid) {
                         field.markInvalid();
                     }
-                });
+                } else if (markInvalid) {
+                    field.clearInvalid();
+                }
             }
         }
 

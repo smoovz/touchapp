@@ -20,13 +20,18 @@ Ext.define('Smoovz.controller.RegistrationController', {
 
     requires: [
         'Ext.app.Route',
-        'Ext.viewport.Viewport',
-        'Ext.MessageBox',
-        'Smoovz.util.Il8n',
         'Smoovz.form.validate.Register'
     ],
 
+    uses: [
+        'Ext.data.Error',
+        'Ext.MessageBox',
+        'Ext.viewport.Viewport',
+        'Smoovz.util.Il8n'
+    ],
+
     config: {
+        validator: null,
         views: [
             'Smoovz.form.Register'
         ],
@@ -39,13 +44,17 @@ Ext.define('Smoovz.controller.RegistrationController', {
         control: {
             'registerform button[itemId=registerBtn]': {
                 tap: 'onRegisterBtnTap'
+            },
+            'registerform textfield': {
+                blur: 'onTextFieldBlur'
             }
         }
     },
 
-    //called when the Application is launched, remove if not needed
-    launch: function(app) {
+    init: function(app) {
+        var me = this;
 
+        me.setValidator(Ext.create('Smoovz.form.validate.Register'));
     },
 
     register: function () {
@@ -59,12 +68,20 @@ Ext.define('Smoovz.controller.RegistrationController', {
     onRegisterBtnTap: function (btn, evt, opts) {
         var me        = this,
             form      = me.getRegisterForm(),
-            validator = Ext.create('Smoovz.form.validate.Register'),
-            errors;
+            validator = me.getValidator(),
+            errors, values, pass, passConfirm;
 
         form.clearInvalid();
 
-        errors = validator.validate(form);
+        errors = validator.validateForm(form);
+        values = form.getValues();
+        if (values.password !== values.passwordConfirm) {
+            errors.add(Ext.create('Ext.data.Error', {
+                field  : 'passwordConfirm',
+                message: Il8n.translate('password_no_match')
+            }));
+        }
+
         if (!errors.isValid()) {
             Ext.Msg.show({
                 title: Il8n.translate('register_fail_title'),
@@ -94,5 +111,12 @@ Ext.define('Smoovz.controller.RegistrationController', {
 
         console.log('REG FAIL');
         console.dir(arguments);
+    },
+
+    onTextFieldBlur: function (field, evt, opts) {
+        var me        = this,
+            validator = me.getValidator();
+
+        validator.validateField(field);
     }
 });

@@ -25,7 +25,10 @@ Ext.define('Smoovz.form.Register', {
         'Ext.field.DatePicker',
         'Ext.field.Email',
         'Ext.field.Password',
-        'Ext.form.FieldSet'
+        'Ext.form.FieldSet',
+        'Ext.TitleBar',
+        'Smoovz.util.Config',
+        'Smoovz.util.Il8n'
     ],
 
     config: {

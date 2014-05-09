@@ -19,6 +19,10 @@
 Ext.define('Smoovz.form.Panel', {
     override: 'Ext.form.Panel',
 
+    uses: [
+        'Ext.Object'
+    ],
+
     clearInvalid: function () {
         var me     = this,
             fields = me.getFields();

@@ -33,6 +33,9 @@ Ext.define('Smoovz.util.Il8n', {
                 date_of_birth: 'Geboortedatum',
                 accept_terms: 'Ik accepteer de privacyverklaring en gebruiksvoorwaarden',
 
+                /* Messages */
+                password_no_match: 'komt niet overeen',
+
                 /* Login form */
         		sign_in_title: 'Inloggen',
                 sign_in_text: 'Log in met je emailadres',
@@ -71,6 +74,9 @@ Ext.define('Smoovz.util.Il8n', {
                 lastname: 'Last name',
                 date_of_birth: 'Birthdate',
                 accept_terms: 'I accept the privacystatement and terms of use',
+
+                /* Messages */
+                password_no_match: 'does not match',
 
                 /* Login form */
                 sign_in_title: 'Sign in',

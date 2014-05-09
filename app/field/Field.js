@@ -29,5 +29,20 @@ Ext.define('Smoovz.field.Field', {
     markInvalid: function () {
         var me = this;
         me.addCls(me.invalidCls);
+    },
+
+    getInvalidCls: function () {
+        var me = this;
+        return me.invalidCls;
+    },
+
+    setInvalidCls: function (cls) {
+        var me = this;
+
+        if (Ext.isString(cls)) {
+            me.invalidCls = cls;
+        }
+
+        return me;
     }
 });

@@ -20,6 +20,22 @@ Ext.define('Smoovz.form.validate.Register', {
 
     config: {
         validations: [{
+            field: 'emailAddress',
+            type: 'presence'
+        }, {
+            field: 'emailAddress',
+            type: 'email'
+        }, {
+            field: 'password',
+            type: 'presence'
+        }, {
+            field: 'password',
+            type: 'length',
+            min: 8
+        }, {
+            field: 'passwordConfirm',
+            type: 'presence'
+        }, {
             field: 'firstname',
             type: 'presence'
         }, {
@@ -33,12 +49,6 @@ Ext.define('Smoovz.form.validate.Register', {
             field: 'firstname',
             type: 'length',
             min: 2
-        }, {
-            field: 'emailAddress',
-            type: 'presence'
-        }, {
-            field: 'emailAddress',
-            type: 'email'
         }, {
             field: 'dateOfBirth',
             type: 'presence'
