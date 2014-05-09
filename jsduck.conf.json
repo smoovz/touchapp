@@ -1,0 +1,5 @@
+{
+    "--"               : ["touch/src", "app"],
+    "--builtin-classes": true,
+    "--output"         : "docs"
+}

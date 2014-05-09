@@ -10,6 +10,10 @@ node_modules/*
 coverage/*
 !coverage/.gitkeep
 
+# API docs
+docs/*
+!docs/.gitkeep
+
 # PhoneGap
 phonegap/merges/*
 !phonegap/merges/.gitkeep
