@@ -15,7 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
+/**
+ * Add the ability to clear all fields from the invalid status
+ *
+ * @class Smoovz.form.Panel
+ * @author Rocco Bruyn <rocco@smoovz.com>
+ */
 Ext.define('Smoovz.form.Panel', {
     override: 'Ext.form.Panel',
 
@@ -23,6 +28,11 @@ Ext.define('Smoovz.form.Panel', {
         'Ext.Object'
     ],
 
+    /**
+     * Clear all fields from the invalid status
+     *
+     * @returns {void}
+     */
     clearInvalid: function () {
         var me     = this,
             fields = me.getFields();

@@ -15,27 +15,60 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
+/**
+ * Add the ability to mark a field as invalid
+ *
+ * @class Smoovz.field.Field
+ * @author Rocco Bruyn <rocco@smoovz.com>
+ */
 Ext.define('Smoovz.field.Field', {
     override: 'Ext.field.Field',
 
+    /**
+     * @cfg {String} invalidCls
+     * css-class to add when field is marked invalid
+     */
     invalidCls: 'smvz-field-invalid',
 
+    /**
+     * Clear the field of invalid status
+     * Removes the {@link #invalidCls} css-class
+     *
+     * @returns {void}
+     */
     clearInvalid: function () {
         var me = this;
         me.removeCls(me.invalidCls);
     },
 
+    /**
+     * Mark the field as invalid
+     * Adds the {@link #invalidCls} css-class
+     *
+     * @returns {void}
+     */
     markInvalid: function () {
         var me = this;
         me.addCls(me.invalidCls);
     },
 
+    /**
+     * Get the value of {@link #invalidCls}
+     *
+     * @return {String}
+     */
     getInvalidCls: function () {
         var me = this;
         return me.invalidCls;
     },
 
+    /**
+     * Set the value of {@link #invalidCls}
+     *
+     * @chainable
+     * @param {String} cls
+     * @return {Smoovz.field.Field} Provides fluent interface
+     */
     setInvalidCls: function (cls) {
         var me = this;
 

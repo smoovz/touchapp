@@ -15,6 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
+/**
+ * Controller that handles registration proccess
+ *
+ * @class  Smoovz.controller.RegistrationController
+ * @author Rocco Bruyn <rocco@smoovz.com>
+ */
 Ext.define('Smoovz.controller.RegistrationController', {
     extend: 'Ext.app.Controller',
 
@@ -31,6 +38,10 @@ Ext.define('Smoovz.controller.RegistrationController', {
     ],
 
     config: {
+        /**
+         * @cfg {Smoovz.form.validate.Abstract} validator
+         * A validator class to validate the {@link Smoovz.form.Register form}
+         */
         validator: null,
         views: [
             'Smoovz.form.Register'
@@ -51,12 +62,25 @@ Ext.define('Smoovz.controller.RegistrationController', {
         }
     },
 
+    /**
+     * Initialize controller
+     * Creates {@link Smoovz.form.validate.Register validator}
+     *
+     * @param   {Ext.Application} app
+     * @returns {void}
+     */
     init: function(app) {
         var me = this;
 
         me.setValidator(Ext.create('Smoovz.form.validate.Register'));
     },
 
+    /**
+     * Register action
+     * Displays the {@link Smoovz.form.Register register} form
+     *
+     * @returns {void}
+     */
     register: function () {
         var me = this;
 
@@ -65,6 +89,14 @@ Ext.define('Smoovz.controller.RegistrationController', {
         Ext.Viewport.setActiveItem(me.getRegisterForm());
     },
 
+    /**
+     * Event handler for the {@link Ext.Button#event-tap tap} event
+     *
+     * @param   {type} btn
+     * @param   {type} evt
+     * @param   {type} opts
+     * @returns {void}
+     */
     onRegisterBtnTap: function (btn, evt, opts) {
         var me        = this,
             form      = me.getRegisterForm(),
@@ -99,6 +131,11 @@ Ext.define('Smoovz.controller.RegistrationController', {
         });
     },
 
+    /**
+     * Callback when registration was successful
+     *
+     * @returns {void}
+     */
     onRegisterSuccess: function () {
         var me = this;
 
@@ -106,6 +143,11 @@ Ext.define('Smoovz.controller.RegistrationController', {
         console.dir(arguments);
     },
 
+    /**
+     * Callback when registration failed
+     *
+     * @returns {void}
+     */
     onRegisterFailure: function () {
         var me = this;
 
@@ -113,6 +155,15 @@ Ext.define('Smoovz.controller.RegistrationController', {
         console.dir(arguments);
     },
 
+    /**
+     * Event handler for {@link Ext.field.Text textfield} {@link Ext.field.Text#event-blur blur}
+     * Validates the field
+     *
+     * @param   {Ext.field.Text}  The field
+     * @param   {Ext.event.Event} evt
+     * @param   {Object} opts
+     * @returns {void}
+     */
     onTextFieldBlur: function (field, evt, opts) {
         var me        = this,
             validator = me.getValidator();

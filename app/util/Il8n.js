@@ -15,6 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Utility class for translating keys
+ *
+ * @class Smoovz.util.Il8n
+ * @author Rocco Bruyn <rocco@smoovz.com>
+ */
 Ext.define('Smoovz.util.Il8n', {
     alternateClassName: 'Il8n',
     singleton         : true,
@@ -109,6 +115,12 @@ Ext.define('Smoovz.util.Il8n', {
         }
     },
 
+    /**
+     * Create a new Il8n
+     *
+     * @param   {Object} config
+     * @returns {void}
+     */
     constructor: function(config) {
         var me = this;
 
@@ -116,6 +128,12 @@ Ext.define('Smoovz.util.Il8n', {
         me.callParent([config]);
     },
 
+    /**
+     * Translate a key
+     *
+     * @param   {String} key
+     * @returns {String}
+     */
     translate: function (key) {
     	var me = this,
             browserLanguage = window.navigator.userLanguage || window.navigator.language,

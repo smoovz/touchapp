@@ -15,6 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Class to validate the {@link Smoovz.form.Register register} form
+ *
+ * @class Smoovz.form.validate.Register
+ * @author Rocco Bruyn <rocco@smoovz.com>
+ */
 Ext.define('Smoovz.form.validate.Register', {
     extend: 'Smoovz.form.validate.Abstract',
 

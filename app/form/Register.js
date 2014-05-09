@@ -15,6 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * From to register new users
+ *
+ * @class Smoovz.form.Register
+ * @author Rocco Bruyn <rocco@smoovz.com>
+ */
 Ext.define('Smoovz.form.Register', {
     extend: 'Ext.form.Panel',
     alias: 'widget.registerform',
@@ -81,6 +87,12 @@ Ext.define('Smoovz.form.Register', {
         }]
     },
 
+    /**
+     * Initialize the form
+     * Sets all the localized texts
+     *
+     * @returns {void}
+     */
     initialize: function () {
         var me = this;
 

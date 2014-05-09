@@ -15,6 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Utility class for storing and retrieving application wide configuration
+ *
+ * @class Smoovz.util.Config
+ * @author Rocco Bruyn <rocco@smoovz.com>
+ */
 Ext.define('Smoovz.util.Config', {
     alternateClassName: 'Config',
     singleton: true,
@@ -26,10 +32,17 @@ Ext.define('Smoovz.util.Config', {
         authUser: null
     },
 
+    /**
+     * Creates a new Config
+     *
+     * @constructor
+     * @param   {Object} config
+     * @returns {void}
+     */
     constructor: function (config) {
         var me = this;
 
         me.initConfig(config);
-        return me;
+        me.callParent([config]);
     }
 });
