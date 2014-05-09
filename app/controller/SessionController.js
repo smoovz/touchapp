@@ -41,7 +41,7 @@ Ext.define('Smoovz.controller.SessionController', {
             'Smoovz.model.User'
         ],
         views: [
-            'Smoovz.form.LoginForm'
+            'Smoovz.form.Login'
         ],
         routes: {
             'login': 'login',
@@ -82,7 +82,7 @@ Ext.define('Smoovz.controller.SessionController', {
 
     /**
      * Login action
-     * Displays {@link Smoovz.form.LoginForm login} form
+     * Displays {@link Smoovz.form.Login login} form
      *
      * @returns {void}
      */
@@ -137,7 +137,7 @@ Ext.define('Smoovz.controller.SessionController', {
 
     /**
      * Event handler for when 'login' button is tapped
-     * Submits {@link Smoovz.form.LoginForm login} form
+     * Submits {@link Smoovz.form.Login login} form
      *
      * @param   {Ext.Button} btn
      * @param   {Ext.event.Event} evt
@@ -161,7 +161,7 @@ Ext.define('Smoovz.controller.SessionController', {
      * Saves newly created {@link Smoovz.model.User user} in the {@link Smoovz.util.Config config} as {@link Smoovz.util.Config#authUser authUser}
      * Displays error if creation failed
      *
-     * @param   {Smoovz.form.LoginForm} form
+     * @param   {Smoovz.form.Login} form
      * @param   {Object} result The result object returned by the server as a result of the submit request
      * @param   {Object} data The parsed data returned by the server
      * @returns {void}
@@ -201,7 +201,7 @@ Ext.define('Smoovz.controller.SessionController', {
      * Callback for when login failed
      * Displays error messages
      *
-     * @param   {Smoovz.form.LoginForm} form
+     * @param   {Smoovz.form.Login} form
      * @param   {Object} result
      * @returns {void}
      */

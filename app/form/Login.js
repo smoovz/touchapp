@@ -18,10 +18,10 @@
 /**
  * Form used for signing in users
  *
- * @class Smoovz.form.LoginForm
+ * @class Smoovz.form.Login
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
-Ext.define('Smoovz.form.LoginForm', {
+Ext.define('Smoovz.form.Login', {
     extend: 'Ext.form.Panel',
     alias: 'widget.loginform',
 
