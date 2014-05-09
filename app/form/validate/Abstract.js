@@ -28,6 +28,7 @@ Ext.define('Smoovz.form.validate.Abstract', {
         'Ext.data.Error',
         'Ext.data.Errors',
         'Ext.data.Validations',
+        'Ext.field.Checkbox',
         'Ext.Object',
         'Ext.String'
     ],
@@ -42,7 +43,7 @@ Ext.define('Smoovz.form.validate.Abstract', {
 
     /**
      * Creates new from validator
-     * 
+     *
      * @constructor
      * @param   {Object} config
      * @returns {void}
@@ -93,7 +94,13 @@ Ext.define('Smoovz.form.validate.Abstract', {
             validators  = Ext.data.Validations,
             errors      = Ext.create('Ext.data.Errors'),
             markInvalid = markInvalid || true,
-            validation, type, valid, i;
+            validation, value, type, valid, i;
+
+        if (field instanceof Ext.field.Checkbox) {
+            value = (field.isChecked()) ? field.getValue() : value;
+        } else {
+            value = field.getValue();
+        }
 
         if (validations) {
             for (i = 0; i < validations.length; i++) {
@@ -104,7 +111,7 @@ Ext.define('Smoovz.form.validate.Abstract', {
                 }
 
                 type  = validation.type;
-                valid = validators[type](validation, field.getValue());
+                valid = validators[type](validation, value);
 
                 if (!valid) {
                     errors.add(Ext.create('Ext.data.Error', {
