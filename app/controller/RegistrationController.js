@@ -57,7 +57,7 @@ Ext.define('Smoovz.controller.RegistrationController', {
                 tap: 'onRegisterBtnTap'
             },
             'registerform textfield': {
-                blur: 'onTextFieldBlur'
+                change: 'onTextFieldChange'
             }
         }
     },
@@ -156,15 +156,16 @@ Ext.define('Smoovz.controller.RegistrationController', {
     },
 
     /**
-     * Event handler for {@link Ext.field.Text textfield} {@link Ext.field.Text#event-blur blur}
+     * Event handler for {@link Ext.field.Text textfield} {@link Ext.field.Text#event-change change}
      * Validates the field
      *
-     * @param   {Ext.field.Text}  The field
-     * @param   {Ext.event.Event} evt
+     * @param   {Ext.field.Text} The field
+     * @param   {Mixed} newValue
+     * @param   {Mixed} oldValue
      * @param   {Object} opts
      * @returns {void}
      */
-    onTextFieldBlur: function (field, evt, opts) {
+    onTextFieldChange: function (field, newValue, oldValue, opts) {
         var me        = this,
             validator = me.getValidator();
 
