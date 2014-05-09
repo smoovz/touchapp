@@ -15,6 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Form used for signing in users
+ *
+ * @class Smoovz.form.LoginForm
+ * @author Rocco Bruyn <rocco@smoovz.com>
+ */
 Ext.define('Smoovz.form.LoginForm', {
     extend: 'Ext.form.Panel',
     alias: 'widget.loginform',
@@ -25,6 +31,7 @@ Ext.define('Smoovz.form.LoginForm', {
         'Ext.field.Password',
         'Ext.form.FieldSet',
         'Ext.TitleBar',
+        'Smoovz.util.Config',
         'Smoovz.util.Il8n'
     ],
 
@@ -69,6 +76,12 @@ Ext.define('Smoovz.form.LoginForm', {
         }]
     },
 
+    /**
+     * Initialize the form
+     * Sets all the localized texts
+     *
+     * @returns {void}
+     */
     initialize: function () {
         var me = this;
 
