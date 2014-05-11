@@ -156,9 +156,8 @@ Ext.define('Smoovz.controller.RegistrationController', {
      * @returns {void}
      */
     onRegisterFailure: function (form, result) {
-        var me        = this,
-            validator = me.getValidator(),
-            errors    = Ext.data.Errors.fromServerMessages(result.message);
+        var me     = this,
+            errors = Ext.data.Errors.fromServerMessages(result.message);
 
         form.markInvalid(errors);
         Ext.Msg.show({
