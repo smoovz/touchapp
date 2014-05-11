@@ -1,0 +1,47 @@
+[{
+    "name"  : "Smoovz",
+    "groups": [{
+        "name"   : "Controllers",
+        "classes": [
+            "Smoovz.controller.*"
+        ]
+    }, {
+        "name"   : "Forms",
+        "classes": [
+            "Smoovz.form.Login",
+            "Smoovz.form.Register"
+        ]
+    }, {
+        "name"   : "Form validators",
+        "classes": [
+            "Smoovz.form.validate.*"
+        ]
+    }, {
+        "name"   : "Models",
+        "classes": [
+            "Smoovz.model.*"
+        ]
+    }, {
+        "name"   : "Stores",
+        "classes": [
+            "Smoovz.store.*"
+        ]
+    }, {
+        "name"   : "Utilities",
+        "classes": [
+            "Smoovz.util.*"
+        ]
+    }, {
+        "name"   : "Views",
+        "classes": [
+            "Smoovz.view.*"
+        ]
+    }, {
+        "name"   : "Overrides",
+        "classes": [
+            "Smoovz.data.Errors",
+            "Smoovz.field.Field",
+            "Smoovz.form.Panel"
+        ]
+    }]
+}]

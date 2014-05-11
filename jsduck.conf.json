@@ -1,5 +1,6 @@
 {
     "--"               : ["touch/src", "app"],
+    "--categories"     : "jsduck.conf.categories.json",
     "--builtin-classes": true,
     "--output"         : "docs"
 }
