@@ -16,7 +16,7 @@
  */
 
 /**
- * Add the ability to mark a field as invalid
+ * Add the ability to mark a field as invalid.
  *
  * @class Smoovz.field.Field
  * @author Rocco Bruyn <rocco@smoovz.com>
@@ -26,13 +26,13 @@ Ext.define('Smoovz.field.Field', {
 
     /**
      * @cfg {String} invalidCls
-     * css-class to add when field is marked invalid
+     * css-class to add when field is marked invalid.
      */
     invalidCls: 'smvz-field-invalid',
 
     /**
-     * Clear the field of invalid status
-     * Removes the {@link #invalidCls} css-class
+     * Clear the field of invalid status.
+     * Removes the {@link #invalidCls} css-class.
      *
      * @returns {void}
      */
@@ -42,8 +42,8 @@ Ext.define('Smoovz.field.Field', {
     },
 
     /**
-     * Mark the field as invalid
-     * Adds the {@link #invalidCls} css-class
+     * Mark the field as invalid.
+     * Adds the {@link #invalidCls} css-class.
      *
      * @returns {void}
      */
@@ -53,7 +53,7 @@ Ext.define('Smoovz.field.Field', {
     },
 
     /**
-     * Get the value of {@link #invalidCls}
+     * Get the value of {@link #invalidCls}.
      *
      * @return {String}
      */
@@ -63,7 +63,7 @@ Ext.define('Smoovz.field.Field', {
     },
 
     /**
-     * Set the value of {@link #invalidCls}
+     * Set the value of {@link #invalidCls}.
      *
      * @chainable
      * @param {String} cls

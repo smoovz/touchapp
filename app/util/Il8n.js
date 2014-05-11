@@ -16,7 +16,7 @@
  */
 
 /**
- * Utility class for translating keys
+ * Utility class for translating keys.
  *
  * @class Smoovz.util.Il8n
  * @author Rocco Bruyn <rocco@smoovz.com>
@@ -116,7 +116,7 @@ Ext.define('Smoovz.util.Il8n', {
     },
 
     /**
-     * Create a new Il8n
+     * Create a new Il8n.
      *
      * @param   {Object} config
      * @returns {void}
@@ -129,7 +129,7 @@ Ext.define('Smoovz.util.Il8n', {
     },
 
     /**
-     * Translate a key
+     * Translate a key.
      *
      * @param   {String} key
      * @returns {String}

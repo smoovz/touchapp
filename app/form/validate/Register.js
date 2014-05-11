@@ -16,7 +16,7 @@
  */
 
 /**
- * Class to validate the {@link Smoovz.form.Register register} form
+ * Class to validate the {@link Smoovz.form.Register register} form.
  *
  * @class Smoovz.form.validate.Register
  * @author Rocco Bruyn <rocco@smoovz.com>

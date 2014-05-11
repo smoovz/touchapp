@@ -16,7 +16,7 @@
  */
 
 /**
- * Utility class for storing and retrieving application wide configuration
+ * Utility class for storing and retrieving application wide configuration.
  *
  * @class Smoovz.util.Config
  * @author Rocco Bruyn <rocco@smoovz.com>
@@ -33,7 +33,7 @@ Ext.define('Smoovz.util.Config', {
     },
 
     /**
-     * Creates a new Config
+     * Creates a new Config.
      *
      * @constructor
      * @param   {Object} config
