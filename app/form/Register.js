@@ -16,7 +16,7 @@
  */
 
 /**
- * From to register new users
+ * From to register new users.
  *
  * @class Smoovz.form.Register
  * @author Rocco Bruyn <rocco@smoovz.com>
@@ -27,12 +27,15 @@ Ext.define('Smoovz.form.Register', {
 
     requires: [
         'Ext.Button',
+        'Ext.Date',
         'Ext.field.Checkbox',
         'Ext.field.DatePicker',
         'Ext.field.Email',
         'Ext.field.Password',
         'Ext.form.FieldSet',
         'Ext.TitleBar',
+        'Smoovz.form.Panel',
+        'Smoovz.field.Field',
         'Smoovz.util.Config',
         'Smoovz.util.Il8n'
     ],
@@ -84,12 +87,16 @@ Ext.define('Smoovz.form.Register', {
             xtype: 'button',
             itemId: 'registerBtn',
             ui: 'action'
+        }],
+        listeners: [{
+            event: 'beforesubmit',
+            fn: 'onBeforeSubmit'
         }]
     },
 
     /**
-     * Initialize the form
-     * Sets all the localized texts
+     * Initialize the form.
+     * Sets all the localized texts.
      *
      * @returns {void}
      */
@@ -120,5 +127,26 @@ Ext.define('Smoovz.form.Register', {
             .setLabel(Il8n.translate('accept_terms'));
         me.getComponent('registerBtn')
             .setText(Il8n.translate('register_btn'));
+    },
+
+    /**
+     * Event handler for form submission.
+     * Transforms dateOfBirth to unix timestamp.
+     *
+     * See [the forum](http://www.sencha.com/forum/showthread.php?160553-Alter-form-data-using-the-beforesubmit-event).
+     *
+     * @protected
+     * @param   {Smoovz.form.Register} form
+     * @param   {Object} values
+     * @param   {Object} opts
+     * @param   {Ext.event.Event} evt
+     * @param   {Object} eOpts
+     * @returns {void}
+     */
+    onBeforeSubmit: function (form, values, opts, evt, eOpts) {
+        var timestamp = Ext.Date.format(values.dateOfBirth, 'U');
+
+        // setting the value on 'values' doesn't work so we do it on the (DOM) form
+        Ext.fly(opts.form).down('input[name=dateOfBirth]', true).value = timestamp;
     }
 });

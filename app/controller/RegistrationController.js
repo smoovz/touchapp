@@ -17,7 +17,7 @@
 
 
 /**
- * Controller that handles registration proccess
+ * Controller that handles registration proccess.
  *
  * @class  Smoovz.controller.RegistrationController
  * @author Rocco Bruyn <rocco@smoovz.com>
@@ -27,11 +27,13 @@ Ext.define('Smoovz.controller.RegistrationController', {
 
     requires: [
         'Ext.app.Route',
+        'Smoovz.data.Errors',
         'Smoovz.form.validate.Register'
     ],
 
     uses: [
         'Ext.data.Error',
+        'Ext.data.Errors',
         'Ext.MessageBox',
         'Ext.viewport.Viewport',
         'Smoovz.util.Il8n'
@@ -40,7 +42,7 @@ Ext.define('Smoovz.controller.RegistrationController', {
     config: {
         /**
          * @cfg {Smoovz.form.validate.Abstract} validator
-         * A validator class to validate the {@link Smoovz.form.Register form}
+         * A validator class to validate the {@link Smoovz.form.Register form}.
          */
         validator: null,
         views: [
@@ -63,8 +65,8 @@ Ext.define('Smoovz.controller.RegistrationController', {
     },
 
     /**
-     * Initialize controller
-     * Creates {@link Smoovz.form.validate.Register validator}
+     * Initialize controller.
+     * Creates {@link Smoovz.form.validate.Register validator}.
      *
      * @param   {Ext.Application} app
      * @returns {void}
@@ -76,8 +78,8 @@ Ext.define('Smoovz.controller.RegistrationController', {
     },
 
     /**
-     * Register action
-     * Displays the {@link Smoovz.form.Register register} form
+     * Register action.
+     * Displays the {@link Smoovz.form.Register register} form.
      *
      * @returns {void}
      */
@@ -90,8 +92,9 @@ Ext.define('Smoovz.controller.RegistrationController', {
     },
 
     /**
-     * Event handler for the {@link Ext.Button#event-tap tap} event
+     * Event handler for the {@link Ext.Button#event-tap tap} event.
      *
+     * @protected
      * @param   {type} btn
      * @param   {type} evt
      * @param   {type} opts
@@ -117,7 +120,7 @@ Ext.define('Smoovz.controller.RegistrationController', {
         if (!errors.isValid()) {
             Ext.Msg.show({
                 title: Il8n.translate('register_fail_title'),
-                message: validator.formatErrors(errors),
+                message: Ext.data.Errors.format(errors),
                 icon: Ext.MessageBox.WARNING
             });
             return;
@@ -132,8 +135,9 @@ Ext.define('Smoovz.controller.RegistrationController', {
     },
 
     /**
-     * Callback when registration was successful
+     * Callback when registration was successful.
      *
+     * @protected
      * @returns {void}
      */
     onRegisterSuccess: function () {
@@ -144,21 +148,31 @@ Ext.define('Smoovz.controller.RegistrationController', {
     },
 
     /**
-     * Callback when registration failed
+     * Callback when registration failed.
      *
+     * @protected
+     * @param   {Ext.form.Register} form
+     * @param   {Object} result
      * @returns {void}
      */
-    onRegisterFailure: function () {
-        var me = this;
+    onRegisterFailure: function (form, result) {
+        var me        = this,
+            validator = me.getValidator(),
+            errors    = Ext.data.Errors.fromServerMessages(result.message);
 
-        console.log('REG FAIL');
-        console.dir(arguments);
+        form.markInvalid(errors);
+        Ext.Msg.show({
+            title: Il8n.translate('register_fail_title'),
+            message: Ext.data.Errors.format(errors),
+            icon: Ext.MessageBox.WARNING
+        });
     },
 
     /**
-     * Event handler for {@link Ext.field.Text textfield} {@link Ext.field.Text#event-change change}
-     * Validates the field
+     * Event handler for {@link Ext.field.Text textfield} {@link Ext.field.Text#event-change change}.
+     * Validates the field.
      *
+     * @protected
      * @param   {Ext.field.Text} The field
      * @param   {Mixed} newValue
      * @param   {Mixed} oldValue
