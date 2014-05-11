@@ -16,7 +16,7 @@
  */
 
 /**
- * Form used for signing in users
+ * Form used for signing in users.
  *
  * @class Smoovz.form.Login
  * @author Rocco Bruyn <rocco@smoovz.com>
@@ -31,6 +31,8 @@ Ext.define('Smoovz.form.Login', {
         'Ext.field.Password',
         'Ext.form.FieldSet',
         'Ext.TitleBar',
+        'Smoovz.form.Panel',
+        'Smoovz.field.Field',
         'Smoovz.util.Config',
         'Smoovz.util.Il8n'
     ],
@@ -77,8 +79,8 @@ Ext.define('Smoovz.form.Login', {
     },
 
     /**
-     * Initialize the form
-     * Sets all the localized texts
+     * Initialize the form.
+     * Sets all the localized texts.
      *
      * @returns {void}
      */
