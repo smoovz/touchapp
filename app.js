@@ -18,6 +18,7 @@ Ext.application({
 
     requires: [
         'Ext.MessageBox',
+        'Smoovz.data.Errors',
         'Smoovz.form.Panel',
         'Smoovz.field.Field',
         'Smoovz.util.Config',
