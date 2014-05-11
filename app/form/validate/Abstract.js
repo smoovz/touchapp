@@ -16,9 +16,10 @@
  */
 
 /**
- * Class to validate {@link Ext.form.Panel forms} without using models
- * Extend this class with validation config
+ * Class to validate {@link Ext.form.Panel forms} without using models.
+ * Extend this class with validation config.
  *
+ * @abstract
  * @class Smoovz.form.validate.Abstract
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
@@ -36,13 +37,13 @@ Ext.define('Smoovz.form.validate.Abstract', {
     config: {
         /**
          * @cfg {Object[]} validations
-         * An array of {@link Ext.data.Validations validations}
+         * An array of {@link Ext.data.Validations validations}.
          */
         validations: null
     },
 
     /**
-     * Creates new from validator
+     * Creates new from validator.
      *
      * @constructor
      * @param   {Object} config
@@ -56,8 +57,8 @@ Ext.define('Smoovz.form.validate.Abstract', {
     },
 
     /**
-     * Check if a form is valid
-     * Optionally mark the fields as invalid if this is the case
+     * Check if a form is valid.
+     * Optionally mark the fields as invalid if this is the case.
      *
      * @param   {Ext.form.Panel} form
      * @param   {Boolean} markInvalid
@@ -80,8 +81,8 @@ Ext.define('Smoovz.form.validate.Abstract', {
     },
 
     /**
-     * Check if a field is valid
-     * Optionally mark it as invalid if this is the case
+     * Check if a field is valid.
+     * Optionally mark it as invalid if this is the case.
      *
      * @param   {Ext.field.Field} field
      * @param   {Boolean} [markInvalid=true]
@@ -129,26 +130,5 @@ Ext.define('Smoovz.form.validate.Abstract', {
         }
 
         return errors;
-    },
-
-    /**
-     * Formats {@link Ext.data.Errors errors} to a string separated by a given string
-     *
-     * @param   {Ext.data.Errors} errors
-     * @param   {String} [separator="<br>"]
-     * @returns {String}
-     */
-    formatErrors: function (errors, separator) {
-        var me        = this,
-            separator = separator || '<br>',
-            messages  = [],
-            msg;
-
-        errors.each(function (error) {
-            msg = Ext.String.format('{0} {1}', error.getField(), error.getMessage());
-            messages.push(msg);
-        });
-
-        return messages.join(separator);
     }
 });
