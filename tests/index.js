@@ -19,8 +19,9 @@
 var Harness = Siesta.Harness.Browser.SenchaTouch;
 
 Harness.configure({
-    title       : 'Smoovz integration test Suite',
-    preload     : [
+    title        : 'Smoovz integration test Suite',
+    viewportWidth: 480,
+    preload      : [
         // version of Sencha Touch used by your application
         '../touch/resources/css/sencha-touch.css',
         '../resources/css/smoovz-touchapp.css',
