@@ -22,7 +22,7 @@
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
 Ext.define('Smoovz.form.validate.Register', {
-    extend: 'Smoovz.form.validate.Abstract',
+    extend: 'Smoovz.form.validate.Validate',
 
     config: {
         validations: [{

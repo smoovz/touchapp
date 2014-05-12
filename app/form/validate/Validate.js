@@ -19,11 +19,10 @@
  * Class to validate {@link Ext.form.Panel forms} without using models.
  * Extend this class with validation config.
  *
- * @abstract
- * @class Smoovz.form.validate.Abstract
+ * @class Smoovz.form.validate.Validate
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
-Ext.define('Smoovz.form.validate.Abstract', {
+Ext.define('Smoovz.form.validate.Validate', {
 
     uses: [
         'Ext.data.Error',
@@ -94,7 +93,7 @@ Ext.define('Smoovz.form.validate.Abstract', {
             validations = me.getValidations(),
             validators  = Ext.data.Validations,
             errors      = Ext.create('Ext.data.Errors'),
-            markInvalid = markInvalid || true,
+            markInvalid = (markInvalid === undefined) ? true : markInvalid,
             validation, value, type, valid, i;
 
         if (field instanceof Ext.field.Checkbox) {
