@@ -16,10 +16,10 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'touch/sencha-touch-all-debug.js',
-      'tests/helper.js',
-      'tests/app.js',
+      'specs/helper.js',
+      'specs/app.js',
       'app/**/*.js',
-      'tests/**/*.spec.js'
+      'specs/**/*.spec.js'
     ],
 
 
