@@ -16,7 +16,8 @@
  */
 
 describe('Smoovz.field.Field', function () {
-    var field;
+    var defaultInvalidCls = 'smvz-field-invalid',
+        field;
 
     // Setup
     beforeEach(function () {
@@ -29,27 +30,38 @@ describe('Smoovz.field.Field', function () {
         field = undefined;
     });
 
-    // test if accessors work
-    it('accessors', function () {
-        var defaultCls = field.getInvalidCls(),
-            customCls  = 'custom-css-class',
+    // test default invalid class and inherently the getter
+    if('has correct default invalid class', function () {
+        var defaultCls = field.getInvalidCls();
+        expect(defaultCls).toBe(defaultInvalidCls);
+    });
+
+    // test setting a custom invalid class works and inherently the getter
+    it('can set a custom invalid class', function () {
+        var customCls = 'custom-css-class',
             testCls;
-        expect(defaultCls).toBe('smvz-field-invalid');
 
         field.setInvalidCls(customCls);
         testCls = field.getInvalidCls();
         expect(testCls).toBe(customCls);
     });
 
-    // test if invalid class get added removed
-    it('invalid marking', function () {
+    // test if invalid class gets added
+    it('can be marked invalid', function () {
         var invalidCls = field.getInvalidCls(),
             hasCls;
 
         field.markInvalid();
         hasCls = field.element.hasCls(invalidCls);
         expect(hasCls).toBe(true);
+    });
 
+    // test if invalid class gets removed
+    it('can be cleared of invalid state', function () {
+        var invalidCls = field.getInvalidCls(),
+            hasCls;
+
+        field.markInvalid();
         field.clearInvalid();
         hasCls = field.element.hasCls(invalidCls);
         expect(hasCls).toBe(false);
