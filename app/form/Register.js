@@ -74,7 +74,11 @@ Ext.define('Smoovz.form.Register', {
             }, {
                 xtype: 'datepickerfield',
                 name: 'dateOfBirth',
-                required: true
+                required: true,
+                picker: {
+                    yearFrom: 1900,
+                    value: Ext.Date.add(new Date(), Ext.Date.YEAR, -18)
+                }
             }, {
                 xtype: 'checkboxfield',
                 name: 'agreeToEULA',
