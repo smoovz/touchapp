@@ -29,7 +29,7 @@ Harness.configure({
 });
 
 Harness.start({
-    group: 'Application tests',
+    group      : 'Application tests',
     alsoPreload: [
         '../app/data/Connection.js',
         '../app/ux/ajax/Simlet.js',
@@ -39,8 +39,8 @@ Harness.start({
     items: [
         '010_sanity.t.js',
         {
-            group      : 'User login & registration',
-            items      : [
+            group: 'User login & registration',
+            items: [
                 'epic_01/010_registration.js'
             ]
         }
