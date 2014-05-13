@@ -24,13 +24,13 @@ StartTest(function (t) {
             url  : t.cq1('registerform').getUrl(),
             data : {
                 success: true,
-                data   : [{
+                data   : {
                     id          : 1234,
                     emailAddress: 'user@example.com',
                     firstname   : 'Rokkie',
                     lastname    : 'Brown',
                     dateOfBirth : 458690400
-                }]
+                }
             }
         });
     });

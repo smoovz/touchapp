@@ -29,32 +29,30 @@ Ext.define('Smoovz.ux.ajax.DataSimlet', {
             sortFn,
             ret;
 
-        if (!order) {
-            return data;
+        if (order !== '--' && Ext.isArray(data)) {
+            ctx.groupSpec = params.group && Ext.decode(params.group);
+            if (order == me.currentOrder) {
+                return me.sortedData;
+            }
+
+            fields = params.sort;
+            if (params.dir) {
+                fields = [{ direction: params.dir, property: fields }];
+            } else {
+                fields = Ext.decode(params.sort);
+            }
+
+            sortFn = me.makeSortFns((ctx.sortSpec = fields));
+            sortFn = me.makeSortFns(ctx.groupSpec, sortFn);
+
+            data = data.slice(0); // preserve 'physical' order of raw data...
+            if (sortFn) {
+                Ext.Array.sort(data, sortFn);
+            }
+
+            me.sortedData = data;
+            me.currentOrder = order;
         }
-
-        ctx.groupSpec = params.group && Ext.decode(params.group);
-        if (order == me.currentOrder) {
-            return me.sortedData;
-        }
-
-        fields = params.sort;
-        if (params.dir) {
-            fields = [{ direction: params.dir, property: fields }];
-        } else {
-            fields = Ext.decode(params.sort);
-        }
-
-        sortFn = me.makeSortFns((ctx.sortSpec = fields));
-        sortFn = me.makeSortFns(ctx.groupSpec, sortFn);
-
-        data = data.slice(0); // preserve 'physical' order of raw data...
-        if (sortFn) {
-            Ext.Array.sort(data, sortFn);
-        }
-
-        me.sortedData = data;
-        me.currentOrder = order;
 
         if (root) {
             ret = me.data;
