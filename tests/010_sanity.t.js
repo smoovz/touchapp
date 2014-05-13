@@ -23,5 +23,5 @@ StartTest(function(t) {
 
     t.ok(Smoovz.app, 'My project is here');
 
-    t.done();   // Optional, marks the correct exit point from the test
+    t.done();
 });

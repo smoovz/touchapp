@@ -77,7 +77,10 @@ Ext.define('Smoovz.form.Register', {
                 required: true,
                 picker: {
                     yearFrom: 1900,
-                    value: Ext.Date.add(new Date(), Ext.Date.YEAR, -18)
+                    value: Ext.Date.add(new Date(), Ext.Date.YEAR, -18),
+                    doneButton: {
+                        itemId: 'doneBtn'
+                    }
                 }
             }, {
                 xtype: 'checkboxfield',

@@ -19,25 +19,30 @@
 var Harness = Siesta.Harness.Browser.SenchaTouch;
 
 Harness.configure({
-    title        : 'Smoovz integration test Suite',
-    viewportWidth: 480,
-    preload      : [
-        // version of Sencha Touch used by your application
-        '../touch/resources/css/sencha-touch.css',
-        '../resources/css/smoovz-touchapp.css',
-
-        // version of Sencha Touch used by your application
-        '../touch/sencha-touch-all-debug.js',
-        '../app.js'
+    title           : 'Smoovz integration test Suite',
+    hostPageUrl     : '../',
+    viewportWidth   : 480,
+    autoCheckGlobals: true,
+    expectedGlobals : [
+        'Ext', 'Smoovz', 'Config', 'Il8n'
     ]
 });
 
 Harness.start({
-    group       : 'Application tests',
-    hostPageUrl : '../',
-    performSetup: false,
-    items       : [
+    group: 'Application tests',
+    alsoPreload: [
+        '../app/data/Connection.js',
+        '../app/ux/ajax/Simlet.js',
+        '../app/ux/ajax/DataSimlet.js',
+        '../app/ux/ajax/JsonSimlet.js'
+    ],
+    items: [
         '010_sanity.t.js',
-        '020_basic.t.js'
+        {
+            group      : 'User login & registration',
+            items      : [
+                'epic_01/010_registration.js'
+            ]
+        }
     ]
 });

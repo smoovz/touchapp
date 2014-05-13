@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2014 Rocco Bruyn <rocco@smoovz.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,4 +15,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Implements HTTP-POST simulation
+ *
+ * @class Smoovz.ux.ajax.Simlet
+ * @author Rocco Bruyn <rocco@smoovz.com>
+ */
+Ext.define('Smoovz.ux.ajax.Simlet', {
+    override: 'Ext.ux.ajax.Simlet',
 
+    /**
+     * Simulate HTTP-POST.
+     * Proxies to {@link #doGet}
+     *
+     * @param   {Object} ctx
+     * @returns {Object}
+     */
+    doPost: function (ctx) {
+        var me = this,
+            ret = {};
+
+        Ext.each(me.responseProps, function (prop) {
+            if (prop in me) {
+                ret[prop] = me[prop];
+            }
+        });
+
+        return ret;
+    }
+});
