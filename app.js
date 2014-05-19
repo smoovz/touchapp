@@ -35,7 +35,8 @@ Ext.application({
 
     controllers: [
         'RegistrationController',
-        'SessionController'
+        'SessionController',
+        'TeamSelectController'
     ],
 
     icon: {
@@ -65,6 +66,8 @@ Ext.application({
             xtype: 'loginform'
         }, {
             xtype: 'registerform'
+        }, {
+            xtype: 'teamfinder'
         }, {
             xtype: 'main'
         }]);

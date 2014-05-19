@@ -16,83 +16,75 @@
  */
 
 /**
- * User model.
+ * Model for clubs
  *
- * @class Smoovz.model.User
+ * @param  {Smoovz.model.City}
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
-Ext.define('Smoovz.model.User', {
+Ext.define('Smoovz.model.Club', {
     extend: 'Ext.data.Model',
+    alias: 'model.club',
+
+    requires: [
+        'Ext.data.Field',
+        'Ext.data.proxy.Rest',
+        'Ext.data.reader.Json'
+    ],
 
     config: {
+        idProperty: 'name',
         fields: [{
             name: 'id',
             type: 'int'
         }, {
-            name: 'firstname',
+            name: 'name',
             type: 'string'
         }, {
-            name: 'lastname',
+            name: 'urlFriendlyName',
             type: 'string'
         }, {
-            name: 'emailAddress',
+            name: 'address',
             type: 'string'
         }, {
-            name: 'dateOfBirth',
+            name: 'zipcode',
+            type: 'string'
+        }, {
+            name: 'city',
+            type: 'string'
+        }, {
+            name: 'province',
+            type: 'string'
+        }, {
+            name: 'country',
+            type: 'string'
+        }, {
+            name: 'websiteUrl',
+            type: 'string'
+        }, {
+            name: 'phoneNumber',
+            type: 'string'
+        }, {
+            name: 'gpsLatitude',
+            type: 'float'
+        }, {
+            name: 'gpsLongitude',
+            type: 'float'
+        }, {
+            name: 'foundationDate',
             type: 'date',
             dateFormat: 'timestamp'
+        }, {
+            name: 'twitterScreenName',
+            type: 'string'
         }],
-
-        validations: [{
-            field: 'firstname',
-            type: 'presence'
-        }, {
-            field: 'firstname',
-            type: 'length',
-            min: 2
-        }, {
-            field: 'lastname',
-            type: 'presence'
-        }, {
-            field: 'firstname',
-            type: 'length',
-            min: 2
-        }, {
-            field: 'emailAddress',
-            type: 'presence'
-        }, {
-            field: 'emailAddress',
-            type: 'email'
-        }, {
-            field: 'dateOfBirth',
-            type: 'presence'
-        }],
-
         proxy: {
             type: 'rest',
             reader: {
                 type: 'json',
+                idProperty: 'name',
                 messageProperty: 'message',
                 rootProperty: 'data'
-            },
-            writer: {
-                type: 'json'
             }
         }
-    },
-
-    /**
-     * Creates new User model.
-     * Sets proxy url.
-     *
-     * @constructor
-     * @param   {Object} config
-     * @returns {void}
-     */
-    constructor: function(config) {
-        var me = this;
-
-        me.callParent([config]);
-        me.getProxy().setUrl(Config.getApiUrl() + 'user');
     }
 });

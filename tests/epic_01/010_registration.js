@@ -71,7 +71,7 @@ StartTest(function (t) {
         target: '>>datepicker button[itemId=doneBtn]'
     }, {
         action: 'tap',
-        target: '>>registerform checkboxfield[name=agreeToEULA]'
+        target: '>>registerform checkboxfield[name=agreedToEULAAt]'
     }, {
         action: 'tap',
         target: '>>registerform button[itemId=registerBtn]'

@@ -26,7 +26,7 @@ Ext.define('Smoovz.util.Il8n', {
     singleton         : true,
 
     config: {
-        defaultLanguage: 'nl',
+        defaultLanguage: 'en',
         translations   : {
         	nl: {
                 /* General */
@@ -86,7 +86,7 @@ Ext.define('Smoovz.util.Il8n', {
 
                 /* Login form */
                 sign_in_title: 'Sign in',
-                sign_in_text: 'Sign in with your emailaddress',
+                sign_in_text: 'Sign in with your email address',
                 sign_in_btn_text: 'Sign in',
                 sign_in_wait_msg: 'You are being signed in',
                 lost_password: 'Did you lost your password?',

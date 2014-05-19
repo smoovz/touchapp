@@ -145,6 +145,9 @@ Ext.define('Smoovz.controller.RegistrationController', {
 
         console.log('REG SUCCESS');
         console.dir(arguments);
+        console.log('do something useful with response');
+
+        me.redirectTo('teamselect');
     },
 
     /**

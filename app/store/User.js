@@ -16,58 +16,25 @@
  */
 
 /**
- * User model.
+ * User store.
  *
- * @class Smoovz.model.User
+ * @class Smoovz.store.User
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
-Ext.define('Smoovz.model.User', {
-    extend: 'Ext.data.Model',
+Ext.define('Smoovz.store.User', {
+    extend: 'Ext.data.Store',
+    alias: 'store.userstore',
+
+    requires: [
+        'Smoovz.model.User',
+        'Ext.data.proxy.Rest',
+        'Ext.data.reader.Json',
+        'Ext.data.writer.Json'
+    ],
 
     config: {
-        fields: [{
-            name: 'id',
-            type: 'int'
-        }, {
-            name: 'firstname',
-            type: 'string'
-        }, {
-            name: 'lastname',
-            type: 'string'
-        }, {
-            name: 'emailAddress',
-            type: 'string'
-        }, {
-            name: 'dateOfBirth',
-            type: 'date',
-            dateFormat: 'timestamp'
-        }],
-
-        validations: [{
-            field: 'firstname',
-            type: 'presence'
-        }, {
-            field: 'firstname',
-            type: 'length',
-            min: 2
-        }, {
-            field: 'lastname',
-            type: 'presence'
-        }, {
-            field: 'firstname',
-            type: 'length',
-            min: 2
-        }, {
-            field: 'emailAddress',
-            type: 'presence'
-        }, {
-            field: 'emailAddress',
-            type: 'email'
-        }, {
-            field: 'dateOfBirth',
-            type: 'presence'
-        }],
-
+        model: 'Smoovz.model.User',
+        storeId: 'User',
         proxy: {
             type: 'rest',
             reader: {
@@ -82,8 +49,7 @@ Ext.define('Smoovz.model.User', {
     },
 
     /**
-     * Creates new User model.
-     * Sets proxy url.
+     * Creates new User store.
      *
      * @constructor
      * @param   {Object} config

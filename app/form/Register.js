@@ -84,11 +84,11 @@ Ext.define('Smoovz.form.Register', {
                 }
             }, {
                 xtype: 'checkboxfield',
-                name: 'agreeToEULA',
+                name: 'agreedToEULAAt',
                 labelAlign: 'top',
                 labelWrap: true,
                 required: true,
-                value: Date.now()
+                value: Ext.Date.format(new Date(), 'U')
             }]
         }, {
             xtype: 'button',
