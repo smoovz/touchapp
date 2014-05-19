@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * Copyright (C) 2014 Rocco Bruyn &lt;rocco@smoovz.com&gt;
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+ */
+
+<span id='Smoovz-form-Login'>/**
+</span> * Form used for signing in users.
+ *
+ * @class Smoovz.form.Login
+ * @author Rocco Bruyn &lt;rocco@smoovz.com&gt;
+ */
+Ext.define(&#39;Smoovz.form.Login&#39;, {
+    extend: &#39;Ext.form.Panel&#39;,
+    alias: &#39;widget.loginform&#39;,
+
+    requires: [
+        &#39;Ext.Button&#39;,
+        &#39;Ext.field.Email&#39;,
+        &#39;Ext.field.Password&#39;,
+        &#39;Ext.form.FieldSet&#39;,
+        &#39;Ext.TitleBar&#39;,
+        &#39;Smoovz.form.Panel&#39;,
+        &#39;Smoovz.field.Field&#39;,
+        &#39;Smoovz.util.Config&#39;,
+        &#39;Smoovz.util.Il8n&#39;
+    ],
+
+    config: {
+<span id='Smoovz-form-Login-cfg-layout'>        layout: {
+</span>            type: &#39;vbox&#39;,
+            align: &#39;center&#39;
+        },
+<span id='Smoovz-form-Login-cfg-items'>        items: [{
+</span>            xtype: &#39;titlebar&#39;,
+            docked: &#39;top&#39;
+        }, {
+            xtype: &#39;fieldset&#39;,
+            width: &#39;90%&#39;,
+            items: [{
+                xtype: &#39;emailfield&#39;,
+                name: &#39;email&#39;
+            }, {
+                xtype: &#39;passwordfield&#39;,
+                name: &#39;password&#39;
+            }]
+        }, {
+            xtype: &#39;button&#39;,
+            itemId: &#39;signInBtn&#39;,
+            ui: &#39;action&#39;
+        }, {
+            xtype: &#39;component&#39;,
+            itemId: &#39;lostpass&#39;,
+            margin: &#39;50 0 5 0&#39;
+        }, {
+            xtype: &#39;button&#39;,
+            itemId: &#39;newPasswordBtn&#39;,
+            ui: &#39;confirm&#39;
+        }, {
+            xtype: &#39;component&#39;,
+            itemId: &#39;noaccount&#39;,
+            margin: &#39;50 0 5 0&#39;
+        }, {
+            xtype: &#39;button&#39;,
+            itemId: &#39;newAccountBtn&#39;,
+            ui: &#39;confirm&#39;
+        }]
+    },
+
+<span id='Smoovz-form-Login-method-initialize'>    /**
+</span>     * Initialize the form.
+     * Sets all the localized texts.
+     *
+     * @returns {void}
+     */
+    initialize: function () {
+        var me = this;
+
+        me.callParent();
+
+        me.setUrl(Config.getApiUrl() + &#39;sessions&#39;);
+        me.down(&#39;titlebar&#39;)
+            .setTitle(Il8n.translate(&#39;sign_in_title&#39;));
+        me.down(&#39;fieldset&#39;)
+            .setTitle(Il8n.translate(&#39;sign_in_text&#39;));
+        me.down(&#39;emailfield&#39;)
+            .setLabel(Il8n.translate(&#39;email&#39;))
+            .setPlaceHolder(Il8n.translate(&#39;email_placeholder&#39;));
+        me.down(&#39;passwordfield&#39;)
+            .setLabel(Il8n.translate(&#39;password&#39;));
+        me.getComponent(&#39;signInBtn&#39;)
+            .setText(Il8n.translate(&#39;sign_in_btn_text&#39;));
+        me.getComponent(&#39;lostpass&#39;)
+            .setHtml(Il8n.translate(&#39;lost_password&#39;));
+        me.getComponent(&#39;newPasswordBtn&#39;)
+            .setText(Il8n.translate(&#39;new_password_btn&#39;));
+        me.getComponent(&#39;noaccount&#39;)
+            .setHtml(Il8n.translate(&#39;no_account_yet&#39;));
+        me.getComponent(&#39;newAccountBtn&#39;)
+            .setText(Il8n.translate(&#39;new_account_btn&#39;));
+    }
+
+});</pre>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-chart-series-Scatter'>/**
+</span> * @class Ext.chart.series.Scatter
+ * @extends Ext.chart.series.Cartesian
+ *
+ * Creates a Scatter Chart. The scatter plot is useful when trying to display more than two variables in the same visualization.
+ * These variables can be mapped into x, y coordinates and also to an element&#39;s radius/size, color, etc.
+ * As with all other series, the Scatter Series must be appended in the *series* Chart array configuration. See the Chart
+ * documentation for more information on creating charts. A typical configuration object for the scatter could be:
+ *
+ *     @example preview
+ *     var chart = new Ext.chart.CartesianChart({
+ *         animate: true,
+ *         store: {
+ *           fields: [&#39;name&#39;, &#39;data1&#39;, &#39;data2&#39;, &#39;data3&#39;, &#39;data4&#39;, &#39;data5&#39;],
+ *           data: [
+ *               {&#39;name&#39;:&#39;metric one&#39;, &#39;data1&#39;:10, &#39;data2&#39;:12, &#39;data3&#39;:14, &#39;data4&#39;:8, &#39;data5&#39;:13},
+ *               {&#39;name&#39;:&#39;metric two&#39;, &#39;data1&#39;:7, &#39;data2&#39;:8, &#39;data3&#39;:16, &#39;data4&#39;:10, &#39;data5&#39;:3},
+ *               {&#39;name&#39;:&#39;metric three&#39;, &#39;data1&#39;:5, &#39;data2&#39;:2, &#39;data3&#39;:14, &#39;data4&#39;:12, &#39;data5&#39;:7},
+ *               {&#39;name&#39;:&#39;metric four&#39;, &#39;data1&#39;:2, &#39;data2&#39;:14, &#39;data3&#39;:6, &#39;data4&#39;:1, &#39;data5&#39;:23},
+ *               {&#39;name&#39;:&#39;metric five&#39;, &#39;data1&#39;:27, &#39;data2&#39;:38, &#39;data3&#39;:36, &#39;data4&#39;:13, &#39;data5&#39;:33}
+ *           ]
+ *         },
+ *         axes: [{
+ *             type: &#39;numeric&#39;,
+ *             position: &#39;left&#39;,
+ *             fields: [&#39;data1&#39;],
+ *             title: {
+ *                 text: &#39;Sample Values&#39;,
+ *                 fontSize: 15
+ *             },
+ *             grid: true,
+ *             minimum: 0
+ *         }, {
+ *             type: &#39;category&#39;,
+ *             position: &#39;bottom&#39;,
+ *             fields: [&#39;name&#39;],
+ *             title: {
+ *                 text: &#39;Sample Values&#39;,
+ *                 fontSize: 15
+ *             }
+ *         }],
+ *         series: [{
+ *             type: &#39;scatter&#39;,
+ *             highlight: {
+ *                 size: 7,
+ *                 radius: 7
+ *             },
+ *             fill: true,
+ *             xField: &#39;name&#39;,
+ *             yField: &#39;data3&#39;,
+ *             marker: {
+ *                 type: &#39;circle&#39;,
+ *                 fillStyle: &#39;blue&#39;,
+ *                 radius: 10,
+ *                 lineWidth: 0
+ *             }
+ *         }]
+ *     });
+ *     Ext.Viewport.setLayout(&#39;fit&#39;);
+ *     Ext.Viewport.add(chart);
+ *
+ * In this configuration we add three different categories of scatter series. Each of them is bound to a different field of the same data store,
+ * `data1`, `data2` and `data3` respectively. All x-fields for the series must be the same field, in this case `name`.
+ * Each scatter series has a different styling configuration for markers, specified by the `marker` object. Finally we set the left axis as
+ * axis to show the current values of the elements.
+ *
+ */
+Ext.define(&#39;Ext.chart.series.Scatter&#39;, {
+
+    extend: &#39;Ext.chart.series.Cartesian&#39;,
+
+    alias: &#39;series.scatter&#39;,
+
+<span id='Ext-chart-series-Scatter-property-type'>    type: &#39;scatter&#39;,
+</span><span id='Ext-chart-series-Scatter-property-seriesType'>    seriesType: &#39;scatterSeries&#39;,
+</span>
+    requires: [
+        &#39;Ext.chart.series.sprite.Scatter&#39;
+    ],
+
+    config: {
+<span id='Ext-chart-series-Scatter-cfg-itemInstancing'>        itemInstancing: {
+</span>            fx: {
+                customDuration: {
+                    translationX: 0,
+                    translationY: 0
+                }
+            }
+        }
+    },
+
+<span id='Ext-chart-series-Scatter-method-applyMarker'>    applyMarker: function (marker) {
+</span>        this.getItemInstancing();
+        this.setItemInstancing(marker);
+    },
+
+<span id='Ext-chart-series-Scatter-method-provideLegendInfo'>    provideLegendInfo: function (target) {
+</span>        var style = this.config.marker;
+        target.push({
+            name: this.getTitle() || this.getYField() || this.getId(),
+            mark: style.fill || style.stroke || &#39;black&#39;,
+            disabled: false,
+            series: this.getId(),
+            index: 0
+        });
+    }
+});
+
+</pre>
+</body>
+</html>

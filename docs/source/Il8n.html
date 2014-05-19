@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * Copyright (C) 2014 Rocco Bruyn &lt;rocco@smoovz.com&gt;
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+ */
+
+<span id='Smoovz-util-Il8n'>/**
+</span> * Utility class for translating keys.
+ *
+ * @class Smoovz.util.Il8n
+ * @author Rocco Bruyn &lt;rocco@smoovz.com&gt;
+ */
+Ext.define(&#39;Smoovz.util.Il8n&#39;, {
+    alternateClassName: &#39;Il8n&#39;,
+    singleton         : true,
+
+    config: {
+<span id='Smoovz-util-Il8n-cfg-defaultLanguage'>        defaultLanguage: &#39;nl&#39;,
+</span><span id='Smoovz-util-Il8n-cfg-translations'>        translations   : {
+</span>        	nl: {
+                /* General */
+        		name: &#39;Naam&#39;,
+                email: &#39;Email&#39;,
+                email_placeholder: &#39;email@voorbeeld.nl&#39;,
+                password: &#39;Wachtwoord&#39;,
+                firstname: &#39;Voornaam&#39;,
+                lastname: &#39;Achternaam&#39;,
+                date_of_birth: &#39;Geboortedatum&#39;,
+                accept_terms: &#39;Ik accepteer de privacyverklaring en gebruiksvoorwaarden&#39;,
+
+                /* Messages */
+                password_no_match: &#39;komt niet overeen&#39;,
+
+                /* Login form */
+        		sign_in_title: &#39;Inloggen&#39;,
+                sign_in_text: &#39;Log in met je emailadres&#39;,
+                sign_in_btn_text: &#39;Inloggen&#39;,
+                sign_in_wait_msg: &#39;Je wordt ingelogd&#39;,
+                lost_password: &#39;Ben je je wachtwoord vergeten?&#39;,
+                no_account_yet: &#39;Nog geen SMOOVZ account?&#39;,
+                new_account_btn: &#39;Nieuw account aanmaken&#39;,
+                new_password_btn: &#39;Nieuw wachtwoord opvragen&#39;,
+                try_again_btn: &#39;Opnieuw proberen&#39;,
+
+                /* Login fail */
+                sign_in_fail_title: &#39;Inloggen mislukt&#39;,
+                sign_in_fail_msg: [
+                    &#39;Het emailadres en/of wachtwoord is niet bekend.&#39;,
+                    &#39;Maak een nieuw account aan of vraag je wachtwoord opnieuw op.&#39;
+                ].join(&#39;&lt;br&gt;&#39;),
+                sign_in_fail_error_create_user_title: &#39;Je kan niet ingelogd worden&#39;,
+
+                /* Register */
+                register_title_12: &#39;Registreren 1/2&#39;,
+                register_text: &#39;Create a new account&#39;,
+                register_btn: &#39;Ga verder naar club &amp; team kiezen&#39;,
+                register_wait_msg: &#39;Je account word aangemaakt&#39;,
+
+                /* Register fail */
+                register_fail_title: &#39;Registratie mislukt&#39;
+        	},
+        	en: {
+                /* General */
+                name: &#39;Name&#39;,
+                email_placeholder: &#39;email@example.com&#39;,
+                email: &#39;Email&#39;,
+                password: &#39;Password&#39;,
+                firstname: &#39;First name&#39;,
+                lastname: &#39;Last name&#39;,
+                date_of_birth: &#39;Birthdate&#39;,
+                accept_terms: &#39;I accept the privacystatement and terms of use&#39;,
+
+                /* Messages */
+                password_no_match: &#39;does not match&#39;,
+
+                /* Login form */
+                sign_in_title: &#39;Sign in&#39;,
+                sign_in_text: &#39;Sign in with your emailaddress&#39;,
+                sign_in_btn_text: &#39;Sign in&#39;,
+                sign_in_wait_msg: &#39;You are being signed in&#39;,
+                lost_password: &#39;Did you lost your password?&#39;,
+                no_account_yet: &#39;No SMOOVZ account yet?&#39;,
+                new_account_btn: &#39;Create new account&#39;,
+                new_password_btn: &#39;Request new password&#39;,
+                try_again_btn: &#39;Try again&#39;,
+
+                /* Login fail */
+                sign_in_fail_title: &#39;Sign in failed&#39;,
+                sign_in_fail_msg: [
+                    &#39;The supplied credentials are unknown.&#39;,
+                    &#39;Create a new account or request a new password&#39;
+                ].join(&#39;&lt;br&gt;&#39;),
+                sign_in_fail_error_create_user_title: &#39;You could not be logged in&#39;,
+
+                /* Register */
+                register_title_12: &#39;Register 1/2&#39;,
+                register_text: &#39;Create a new account&#39;,
+                register_btn: &#39;Continue choosing club &amp; team&#39;,
+                register_wait_msg: &#39;Your account is being created&#39;,
+
+                /* Register fail */
+                register_fail_title: &#39;Registration failed&#39;
+        	}
+        }
+    },
+
+<span id='Smoovz-util-Il8n-method-constructor'>    /**
+</span>     * Create a new Il8n.
+     *
+     * @param   {Object} config
+     * @returns {void}
+     */
+    constructor: function(config) {
+        var me = this;
+
+        me.initConfig(config);
+        me.callParent([config]);
+    },
+
+<span id='Smoovz-util-Il8n-method-translate'>    /**
+</span>     * Translate a key.
+     *
+     * @param   {String} key
+     * @returns {String}
+     */
+    translate: function (key) {
+    	var me = this,
+            browserLanguage = window.navigator.userLanguage || window.navigator.language,
+            language = me.getTranslations()[browserLanguage] === undefined ? me.getDefaultLanguage() : browserLanguage,
+            translation = &quot;[&quot; + key + &quot;]&quot;,
+            tokenCount, token, re;
+
+    	if (me.getTranslations()[language][key] === undefined) {
+    		// Key not found in language : tries default one
+    		if (me.getTranslations()[me.getDefaultLanguage()][key] !== undefined) {
+    			translation = me.getTranslations()[me.getDefaultLanguage()][key];
+    		}
+    	} else {
+    		// Key found
+    		translation = me.getTranslations()[language][key];
+    	}
+
+    	// If there is more than one argument : format string
+    	if (arguments.length &gt; 1) {
+    	    tokenCount = arguments.length - 2;
+            for(token = 0; token &lt;= tokenCount; token++ ) {
+                re = new RegExp( &quot;\\{&quot; + token + &quot;\\}&quot;, &quot;gi&quot; ), arguments[token + 1];
+    	    	translation = translation.replace(re);
+    	    }
+    	}
+
+    	return translation;
+    }
+});</pre>
+</body>
+</html>

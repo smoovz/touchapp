@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * Copyright (C) 2014 Rocco Bruyn &lt;rocco@smoovz.com&gt;
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+ */
+
+
+<span id='Smoovz-controller-SessionController'>/**
+</span> * Controller that handles authentication.
+ *
+ * @class  Smoovz.controller.SessionController
+ * @author Rocco Bruyn &lt;rocco@smoovz.com&gt;
+ */
+Ext.define(&#39;Smoovz.controller.SessionController&#39;, {
+    extend: &#39;Ext.app.Controller&#39;,
+
+    requires: [
+        &#39;Ext.app.Route&#39;
+    ],
+
+    uses: [
+        &#39;Ext.Ajax&#39;,
+        &#39;Ext.MessageBox&#39;,
+        &#39;Ext.String&#39;,
+        &#39;Ext.viewport.Viewport&#39;
+    ],
+
+    config: {
+<span id='Smoovz-controller-SessionController-cfg-models'>        models: [
+</span>            &#39;Smoovz.model.User&#39;
+        ],
+<span id='Smoovz-controller-SessionController-cfg-views'>        views: [
+</span>            &#39;Smoovz.form.Login&#39;
+        ],
+<span id='Smoovz-controller-SessionController-cfg-routes'>        routes: {
+</span>            &#39;login&#39;: &#39;login&#39;,
+            &#39;logout&#39;: &#39;logout&#39;
+        },
+<span id='Smoovz-controller-SessionController-cfg-refs'>        refs: {
+</span>            loginForm: &#39;loginform&#39;
+        },
+<span id='Smoovz-controller-SessionController-cfg-control'>        control: {
+</span>            &#39;loginform button[itemId=signInBtn]&#39;: {
+                tap: &#39;onLoginBtnTap&#39;
+            },
+            &#39;button[cmd=logout]&#39;: {
+                tap: &#39;onLogoutBtnTap&#39;
+            },
+            &#39;loginform button[itemId=newAccountBtn]&#39;: {
+                tap: &#39;onNewAccountBtnTap&#39;
+            }
+        }
+    },
+
+<span id='Smoovz-controller-SessionController-method-launch'>    /**
+</span>     * Application launch.
+     * Register global Ajax listener to check for HTTP 401, 403, 500 etc.
+     * @todo refactor to separate class (single responsibility and whatnot..).
+     *
+     * @param   {Ext.Application} app
+     * @returns {void}
+     */
+    launch: function(app) {
+        var me = this;
+
+        Ext.Ajax.on({
+            requestcomplete: me.onRequestComplete,
+            requestexception: me.onRequestException
+        });
+    },
+
+<span id='Smoovz-controller-SessionController-method-login'>    /**
+</span>     * Login action.
+     * Displays {@link Smoovz.form.Login login} form.
+     *
+     * @returns {void}
+     */
+    login: function () {
+        var me = this;
+
+        Ext.Viewport.setActiveItem(me.getLoginForm());
+    },
+
+<span id='Smoovz-controller-SessionController-method-logout'>    /**
+</span>     * Logout action.
+     * Logs out user, then redirects to {@link #login login}.
+     *
+     * @returns {void}
+     */
+    logout: function () {
+        var me = this;
+
+        Config.setAuthUser(null);
+        me.redirectTo(&#39;login&#39;);
+    },
+
+<span id='Smoovz-controller-SessionController-method-onNewAccountBtnTap'>    /**
+</span>     * Event handler for when &#39;new account&#39; button is tapped.
+     * Redirects to {@link Smoovz.controller.RegistrationCont.roller#register register}.
+     *
+     * @protected
+     * @param   {Ext.Button} btn
+     * @param   {Ext.event.Event} evt
+     * @param   {Object} opts
+     * @returns {void}
+     */
+    onNewAccountBtnTap: function (btn, evt, opts) {
+        var me = this;
+
+        me.redirectTo(&#39;register&#39;);
+    },
+
+<span id='Smoovz-controller-SessionController-method-onLogoutBtnTap'>    /**
+</span>     * Event handler for when &#39;logout&#39; button is tapped.
+     * Redirects to {@link #logout logout}.
+     *
+     * @protected
+     * @param   {Ext.Button} btn
+     * @param   {Ext.event.Event} evt
+     * @param   {Object} opts
+     * @returns {void}
+     */
+    onLogoutBtnTap: function (btn, evt, opts) {
+        var me = this;
+
+        me.redirectTo(&#39;logout&#39;);
+    },
+
+<span id='Smoovz-controller-SessionController-method-onLoginBtnTap'>    /**
+</span>     * Event handler for when &#39;login&#39; button is tapped.
+     * Submits {@link Smoovz.form.Login login} form.
+     *
+     * @protected
+     * @param   {Ext.Button} btn
+     * @param   {Ext.event.Event} evt
+     * @param   {Object} opts
+     * @returns {void}
+     */
+    onLoginBtnTap: function (btn, evt, opts) {
+        var me = this;
+
+        me.getLoginForm().submit({
+            waitMsg: Il8n.translate(&#39;sign_in_wait_msg&#39;),
+            success: me.onLoginSuccess,
+            failure: me.onLoginFailure,
+            scope: me
+        });
+    },
+
+<span id='Smoovz-controller-SessionController-method-onLoginSuccess'>    /**
+</span>     * Callback for when login was successfull.
+     * Creates a new {@link Smoovz.model.User user} based on result.
+     * Saves newly created {@link Smoovz.model.User user} in the {@link Smoovz.util.Config config} as {@link Smoovz.util.Config#authUser authUser}.
+     * Displays error if creation failed.
+     *
+     * @protected
+     * @param   {Smoovz.form.Login} form
+     * @param   {Object} result The result object returned by the server as a result of the submit request
+     * @param   {Object} data The parsed data returned by the server
+     * @returns {void}
+     */
+    onLoginSuccess: function (form, result, data) {
+        var me   = this,
+            rd   = result.data,
+            user = Ext.create(&#39;Smoovz.model.User&#39;, {
+                id: rd.id,
+                firstname: rd.firstname,
+                lastname: rd.lastname,
+                emailAddress: rd.emailAddress,
+                dateOfBirth: rd.dateOfBirth
+            }),
+            errors = user.validate(),
+            messages = [], msg;
+
+        if (errors.isValid()) {
+            Config.setAuthUser(user);
+            Ext.Viewport.setActiveItem(&#39;main&#39;);
+            return;
+        }
+
+        errors.each(function (err) {
+            msg = Ext.String.format(&#39;{0} {1}&#39;, err.getField(), err.getMessage());
+            messages.push(msg);
+        }, me);
+
+        Ext.Msg.show({
+            title: Il8n.translate(&#39;sign_in_fail_error_create_user_title&#39;),
+            message: messages.join(&#39;&lt;br&gt;&#39;),
+            icon: Ext.MessageBox.ERROR
+        });
+    },
+
+<span id='Smoovz-controller-SessionController-method-onLoginFailure'>    /**
+</span>     * Callback for when login failed.
+     * Displays error messages.
+     *
+     * @protected
+     * @param   {Smoovz.form.Login} form
+     * @param   {Object} result
+     * @returns {void}
+     */
+    onLoginFailure: function (form, result) {
+        var me = this;
+
+        Ext.Msg.show({
+            title: Il8n.translate(&#39;sign_in_fail_title&#39;),
+            message: Il8n.translate(&#39;sign_in_fail_msg&#39;),
+//            buttons: [{
+//                text: Il8n.translate(&#39;try_again_btn&#39;),
+//                itemId: &#39;tryAgainBtn&#39;,
+//                ui: &#39;action&#39;
+//            }, {
+//                text: Il8n.translate(&#39;new_account_btn&#39;),
+//                itemId: &#39;newAccountBtn&#39;,
+//                ui: &#39;confirm&#39;
+//            }],
+            icon: Ext.Msg.WARNING,
+            scope: me,
+            fn: function (btnId, value, opt) {
+                switch (btnId) {
+                    case &#39;newPasswordBtn&#39;:
+                        console.log(&#39;NEW PASS&#39;);
+                        break;
+                    case &#39;tryAgainBtn&#39;:
+                    default:
+                        console.log(&#39;if at first you don\&#39;t succeed..&#39;);
+                        break;
+                }
+            }
+        });
+    },
+
+<span id='Smoovz-controller-SessionController-method-onRequestComplete'>    /**
+</span>     * Event handler for all xhr-requests that are completed.
+     * Checks for [HTTP Status Codes](http://en.wikipedia.org/wiki/List_of_HTTP_status_codes).
+     * @todo refactor to separate class (single responsibility and whatnot..).
+     *
+     * @protected
+     * @param   {Ext.data.Connection} conn The connection object
+     * @param   {Object} response The [XHR](http://www.w3.org/TR/XMLHttpRequest) object containing the response data
+     * @param   {Object} opts The options config object passed to the {@link Ext.Ajax#request request} method
+     * @param   {Object} eOpts The options object passed to {@link Ext.util.Observable#addListener addListener}
+     * @returns {void}
+     */
+    onRequestComplete: function (conn, response, opts, eOpts) {
+        var me = this;
+
+        switch (response.status) {
+            case 200:   // OK
+            default:
+                break;
+
+            case 401:   // Unauthorized
+                me.redirectTo(&#39;login&#39;);
+                break;
+            case 403:   // Forbidden
+                break;
+        }
+    },
+
+<span id='Smoovz-controller-SessionController-method-onRequestException'>    /**
+</span>     * Event handler for all xhr-requests that are completed.
+     * Checks for [HTTP Status Codes](http://en.wikipedia.org/wiki/List_of_HTTP_status_codes).
+     * @todo refactor to separate class (single responsibility and whatnot..).
+     *
+     * @param   {Ext.data.Connection} conn The connection object
+     * @param   {Object} response The [XHR](http://www.w3.org/TR/XMLHttpRequest) object containing the response data
+     * @param   {Object} opts The options config object passed to the {@link Ext.Ajax#request request} method
+     * @param   {Object} eOpts The options object passed to {@link Ext.util.Observable#addListener addListener}
+     * @returns {void}
+     */
+    onRequestException: function (conn, response, opts, eOpts) {
+        console.log(&#39;request exception&#39;);
+    }
+});
+</pre>
+</body>
+</html>

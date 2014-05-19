@@ -32,6 +32,9 @@ Ext.define('Smoovz.controller.SessionController', {
             },
             'loginform button[itemId=newAccountBtn]': {
                 tap: 'onNewAccountBtnTap'
+            },
+            'loginform button[itemId=newPasswordBtn]': {
+                tap: 'onNewPasswordBtnTap'
             }
         }
     },
@@ -63,6 +66,12 @@ Ext.define('Smoovz.controller.SessionController', {
         var me = this;
 
         me.redirectTo('register');
+    },
+    
+    onNewPasswordBtnTap: function (btn, evt, opts) {
+        var me = this;
+
+        me.redirectTo('resetpassword');
     },
 
     onLogoutBtnTap: function (btn, evt, opts) {

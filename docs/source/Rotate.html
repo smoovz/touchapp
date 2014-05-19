@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-chart-interactions-Rotate'>/**
+</span> * @class Ext.chart.interactions.Rotate
+ * @extends Ext.chart.interactions.Abstract
+ *
+ * The Rotate interaction allows the user to rotate a polar chart about its central point.
+ *
+ *     @example preview
+ *     var chart = new Ext.chart.PolarChart({
+ *         animate: true,
+ *         interactions: [&#39;rotate&#39;],
+ *         colors: [&quot;#115fa6&quot;, &quot;#94ae0a&quot;, &quot;#a61120&quot;, &quot;#ff8809&quot;, &quot;#ffd13e&quot;],
+ *         store: {
+ *           fields: [&#39;name&#39;, &#39;data1&#39;, &#39;data2&#39;, &#39;data3&#39;, &#39;data4&#39;, &#39;data5&#39;],
+ *           data: [
+ *               {&#39;name&#39;:&#39;metric one&#39;, &#39;data1&#39;:10, &#39;data2&#39;:12, &#39;data3&#39;:14, &#39;data4&#39;:8, &#39;data5&#39;:13},
+ *               {&#39;name&#39;:&#39;metric two&#39;, &#39;data1&#39;:7, &#39;data2&#39;:8, &#39;data3&#39;:16, &#39;data4&#39;:10, &#39;data5&#39;:3},
+ *               {&#39;name&#39;:&#39;metric three&#39;, &#39;data1&#39;:5, &#39;data2&#39;:2, &#39;data3&#39;:14, &#39;data4&#39;:12, &#39;data5&#39;:7},
+ *               {&#39;name&#39;:&#39;metric four&#39;, &#39;data1&#39;:2, &#39;data2&#39;:14, &#39;data3&#39;:6, &#39;data4&#39;:1, &#39;data5&#39;:23},
+ *               {&#39;name&#39;:&#39;metric five&#39;, &#39;data1&#39;:27, &#39;data2&#39;:38, &#39;data3&#39;:36, &#39;data4&#39;:13, &#39;data5&#39;:33}
+ *           ]
+ *         },
+ *         series: [{
+ *             type: &#39;pie&#39;,
+ *             label: {
+ *                 field: &#39;name&#39;,
+ *                 display: &#39;rotate&#39;
+ *             },
+ *             xField: &#39;data3&#39;,
+ *             donut: 30
+ *         }]
+ *     });
+ *     Ext.Viewport.setLayout(&#39;fit&#39;);
+ *     Ext.Viewport.add(chart);
+ */
+Ext.define(&#39;Ext.chart.interactions.Rotate&#39;, {
+    extend: &#39;Ext.chart.interactions.Abstract&#39;,
+
+<span id='Ext-chart-interactions-Rotate-property-type'>    type: &#39;rotate&#39;,
+</span>
+    alias: &#39;interaction.rotate&#39;,
+
+<span id='Ext-chart-interactions-Rotate-event-rotate'>    /**
+</span>     * @event rotate
+     * Fires on every tick of the rotation
+     * @param {Ext.chart.interactions.Rotate} this This interaction.
+     * @param {Number} angle The new current rotation angle.
+     */
+
+<span id='Ext-chart-interactions-Rotate-event-rotationEnd'>    /**
+</span>     * @event rotationEnd
+     * Fires after a user finishes the rotation
+     * @param {Ext.chart.interactions.Rotate} this This interaction.
+     * @param {Number} angle The new current rotation angle.
+     */
+
+    config: {
+<span id='Ext-chart-interactions-Rotate-cfg-gesture'>        /**
+</span>         * @cfg {String} gesture
+         * Defines the gesture type that will be used to rotate the chart. Currently only
+         * supports `pinch` for two-finger rotation and `drag` for single-finger rotation.
+         */
+        gesture: &#39;rotate&#39;,
+
+<span id='Ext-chart-interactions-Rotate-cfg-currentRotation'>        /**
+</span>         * @cfg {Number} currentRotation
+         * Saves the current rotation of the series. Accepts negative values and values &gt; 360 ( / 180 * Math.PI)
+         * @private
+         */
+        currentRotation: 0
+    },
+
+<span id='Ext-chart-interactions-Rotate-property-oldRotations'>    oldRotations: null,
+</span>
+<span id='Ext-chart-interactions-Rotate-method-getGestures'>    getGestures: function() {
+</span>        return {
+            rotate: &#39;onRotate&#39;,
+            rotateend: &#39;onRotate&#39;,
+            dragstart: &#39;onGestureStart&#39;,
+            drag: &#39;onGesture&#39;,
+            dragend: &#39;onGestureEnd&#39;
+        };
+    },
+
+<span id='Ext-chart-interactions-Rotate-method-getAngle'>    getAngle: function(e) {
+</span>        var me = this,
+            chart = me.getChart(),
+            xy = chart.getEventXY(e),
+            center = chart.getCenter();
+
+        return Math.atan2(
+            xy[1] - center[1],
+            xy[0] - center[0]
+        );
+    },
+
+<span id='Ext-chart-interactions-Rotate-method-getEventRadius'>    getEventRadius: function(e) {
+</span>        var me = this,
+            chart = me.getChart(),
+            xy = chart.getEventXY(e),
+            center = chart.getCenter(),
+            dx = xy[0] - center[0],
+            dy = xy[1] - center[1];
+
+        return Math.sqrt(dx * dx + dy * dy);
+    },
+
+<span id='Ext-chart-interactions-Rotate-method-onGestureStart'>    onGestureStart: function(e) {
+</span>        var me = this,
+            chart = me.getChart(),
+            radius = chart.getRadius(),
+            eventRadius = me.getEventRadius(e);
+
+        if (radius &gt;= eventRadius) {
+            me.lockEvents(&#39;drag&#39;);
+            me.angle = me.getAngle(e);
+            me.oldRotations = {};
+            return false;
+        }
+    },
+
+<span id='Ext-chart-interactions-Rotate-method-onGesture'>    onGesture: function(e) {
+</span>        var me = this,
+            chart = me.getChart(),
+            angle = me.getAngle(e) - me.angle,
+            axes = chart.getAxes(),
+            series = chart.getSeries(), seriesItem,
+            oldRotations = me.oldRotations,
+            axis, oldRotation, i, ln;
+
+        if (me.getLocks().drag === me) {
+            chart.suspendAnimation();
+
+            for (i = 0, ln = axes.length; i &lt; ln; i++) {
+                axis = axes[i];
+                oldRotation = oldRotations[axis.getId()] || (oldRotations[axis.getId()] = axis.getRotation());
+                axis.setRotation(angle + oldRotation);
+            }
+
+            for (i = 0, ln = series.length; i &lt; ln; i++) {
+                seriesItem = series[i];
+                oldRotation = oldRotations[seriesItem.getId()] || (oldRotations[seriesItem.getId()] = seriesItem.getRotation());
+
+                seriesItem.setRotation(angle + oldRotation);
+            }
+
+            me.setCurrentRotation(angle + oldRotation);
+
+            me.fireEvent(&#39;rotate&#39;, me, me.getCurrentRotation());
+
+            me.sync();
+            chart.resumeAnimation();
+            return false;
+        }
+    },
+
+<span id='Ext-chart-interactions-Rotate-method-rotateTo'>    rotateTo: function(angle) {
+</span>        var me = this,
+            chart = me.getChart(),
+            axes = chart.getAxes(),
+            series = chart.getSeries(),
+            i, ln;
+
+        chart.suspendAnimation();
+
+        for (i = 0, ln = axes.length; i &lt; ln; i++) {
+            axes[i].setRotation(angle);
+        }
+
+        for (i = 0, ln = series.length; i &lt; ln; i++) {
+            series[i].setRotation(angle);
+        }
+
+        me.setCurrentRotation(angle);
+
+        me.fireEvent(&#39;rotate&#39;, me, me.getCurrentRotation());
+
+        me.sync();
+        chart.resumeAnimation();
+    },
+
+<span id='Ext-chart-interactions-Rotate-method-onGestureEnd'>    onGestureEnd: function(e) {
+</span>        var me = this;
+
+        if (me.getLocks().drag === me) {
+            me.onGesture(e);
+            me.unlockEvents(&#39;drag&#39;);
+
+            me.fireEvent(&#39;rotationEnd&#39;, me, me.getCurrentRotation());
+
+            return false;
+        }
+    },
+
+<span id='Ext-chart-interactions-Rotate-method-onRotate'>    onRotate: function(e) {
+</span>
+    }
+});</pre>
+</body>
+</html>

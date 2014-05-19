@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-chart-series-Line'>/**
+</span> * @class Ext.chart.series.Line
+ * @extends Ext.chart.series.Cartesian
+ *
+ * Creates a Line Chart. A Line Chart is a useful visualization technique to display quantitative information for different
+ * categories or other real values (as opposed to the bar chart), that can show some progression (or regression) in the dataset.
+ * As with all other series, the Line Series must be appended in the *series* Chart array configuration. See the Chart
+ * documentation for more information. A typical configuration object for the line series could be:
+ *
+ *     @example preview
+ *     var lineChart = new Ext.chart.CartesianChart({
+ *         animate: true,
+ *         store: {
+ *           fields: [&#39;name&#39;, &#39;data1&#39;, &#39;data2&#39;, &#39;data3&#39;, &#39;data4&#39;, &#39;data5&#39;],
+ *           data: [
+ *               {&#39;name&#39;:&#39;metric one&#39;, &#39;data1&#39;:10, &#39;data2&#39;:12, &#39;data3&#39;:14, &#39;data4&#39;:8, &#39;data5&#39;:13},
+ *               {&#39;name&#39;:&#39;metric two&#39;, &#39;data1&#39;:7, &#39;data2&#39;:8, &#39;data3&#39;:16, &#39;data4&#39;:10, &#39;data5&#39;:3},
+ *               {&#39;name&#39;:&#39;metric three&#39;, &#39;data1&#39;:5, &#39;data2&#39;:2, &#39;data3&#39;:14, &#39;data4&#39;:12, &#39;data5&#39;:7},
+ *               {&#39;name&#39;:&#39;metric four&#39;, &#39;data1&#39;:2, &#39;data2&#39;:14, &#39;data3&#39;:6, &#39;data4&#39;:1, &#39;data5&#39;:23},
+ *               {&#39;name&#39;:&#39;metric five&#39;, &#39;data1&#39;:27, &#39;data2&#39;:38, &#39;data3&#39;:36, &#39;data4&#39;:13, &#39;data5&#39;:33}
+ *           ]
+ *         },
+ *         axes: [{
+ *             type: &#39;numeric&#39;,
+ *             position: &#39;left&#39;,
+ *             fields: [&#39;data1&#39;],
+ *             title: {
+ *                 text: &#39;Sample Values&#39;,
+ *                 fontSize: 15
+ *             },
+ *             grid: true,
+ *             minimum: 0
+ *         }, {
+ *             type: &#39;category&#39;,
+ *             position: &#39;bottom&#39;,
+ *             fields: [&#39;name&#39;],
+ *             title: {
+ *                 text: &#39;Sample Values&#39;,
+ *                 fontSize: 15
+ *             }
+ *         }],
+ *         series: [{
+ *             type: &#39;line&#39;,
+ *             highlight: {
+ *                 size: 7,
+ *                 radius: 7
+ *             },
+ *             style: {
+ *                 stroke: &#39;rgb(143,203,203)&#39;
+ *             },
+ *             xField: &#39;name&#39;,
+ *             yField: &#39;data1&#39;,
+ *             marker: {
+ *                 type: &#39;path&#39;,
+ *                 path: [&#39;M&#39;, -2, 0, 0, 2, 2, 0, 0, -2, &#39;Z&#39;],
+ *                 stroke: &#39;blue&#39;,
+ *                 lineWidth: 0
+ *             }
+ *         }, {
+ *             type: &#39;line&#39;,
+ *             highlight: {
+ *                 size: 7,
+ *                 radius: 7
+ *             },
+ *             fill: true,
+ *             xField: &#39;name&#39;,
+ *             yField: &#39;data3&#39;,
+ *             marker: {
+ *                 type: &#39;circle&#39;,
+ *                 radius: 4,
+ *                 lineWidth: 0
+ *             }
+ *         }]
+ *     });
+ *     Ext.Viewport.setLayout(&#39;fit&#39;);
+ *     Ext.Viewport.add(lineChart);
+ *
+ * In this configuration we&#39;re adding two series (or lines), one bound to the `data1`
+ * property of the store and the other to `data3`. The type for both configurations is
+ * `line`. The `xField` for both series is the same, the `name` property of the store.
+ * Both line series share the same axis, the left axis. You can set particular marker
+ * configuration by adding properties onto the markerConfig object. Both series have
+ * an object as highlight so that markers animate smoothly to the properties in highlight
+ * when hovered. The second series has `fill = true` which means that the line will also
+ * have an area below it of the same color.
+ *
+ * **Note:** In the series definition remember to explicitly set the axis to bind the
+ * values of the line series to. This can be done by using the `axis` configuration property.
+ */
+Ext.define(&#39;Ext.chart.series.Line&#39;, {
+    extend: &#39;Ext.chart.series.Cartesian&#39;,
+    alias: &#39;series.line&#39;,
+<span id='Ext-chart-series-Line-property-type'>    type: &#39;line&#39;,
+</span><span id='Ext-chart-series-Line-property-seriesType'>    seriesType: &#39;lineSeries&#39;,
+</span>
+    requires: [
+        &#39;Ext.chart.series.sprite.Line&#39;
+    ],
+
+    config: {
+<span id='Ext-chart-series-Line-cfg-selectionTolerance'>        /**
+</span>         * @cfg {Number} selectionTolerance
+         * The offset distance from the cursor position to the line series to trigger events (then used for highlighting series, etc).
+         */
+        selectionTolerance: 20,
+
+<span id='Ext-chart-series-Line-cfg-style'>        /**
+</span>         * @cfg {Object} style
+         * An object containing styles for the visualization lines. These styles will override the theme styles.
+         * Some options contained within the style object will are described next.
+         */
+
+<span id='Ext-chart-series-Line-cfg-smooth'>        /**
+</span>         * @cfg {Boolean/Number} smooth
+         * If set to `true` or a non-zero number, the line will be smoothed/rounded around its points; otherwise
+         * straight line segments will be drawn.
+         *
+         * A numeric value is interpreted as a divisor of the horizontal distance between consecutive points in
+         * the line; larger numbers result in sharper curves while smaller numbers result in smoother curves.
+         *
+         * If set to `true` then a default numeric value of 3 will be used.
+         */
+        smooth: false,
+
+<span id='Ext-chart-series-Line-cfg-step'>        /**
+</span>         * @cfg {Boolean} step
+         * If set to `true`, the line uses steps instead of straight lines to connect the dots.
+         * It is ignored if `smooth` is true.
+         */
+        step: false,
+
+<span id='Ext-chart-series-Line-cfg-fill'>        /**
+</span>         * @cfg {Boolean} fill
+         * If set to `true`, the area underneath the line is filled with the color defined as follows, listed by priority:
+         * - The color that is configured for this series ({@link Ext.chart.series.Series#colors}).
+         * - The color that is configured for this chart ({@link Ext.chart.AbstractChart#colors}).
+         * - The fill color that is set in the {@link #style} config.
+         * - The stroke color that is set in the {@link #style} config, or the same color as the line.
+         *
+         * Note: Do not confuse `series.config.fill` (which is a boolean) with `series.style.fill&#39; (which is an alias
+         * for the `fillStyle` property and contains a color). For compatibility with previous versions of the API,
+         * if `config.fill` is undefined but a `style.fill&#39; color is provided, `config.fill` is considered true.
+         * So the default value below must be undefined, not false.
+         */
+         fill: undefined,
+
+<span id='Ext-chart-series-Line-cfg-aggregator'>        aggregator: { strategy: &#39;double&#39; }
+</span>    },
+
+<span id='Ext-chart-series-Line-property-defaultSmoothness'>    /**
+</span>     * @private Default numeric smoothing value to be used when `{@link #smooth} = true`.
+     */
+    defaultSmoothness: 3,
+
+<span id='Ext-chart-series-Line-property-overflowBuffer'>    /**
+</span>     * @private Size of the buffer area on either side of the viewport to provide seamless zoom/pan
+     * transforms. Expressed as a multiple of the viewport length, e.g. 1 will make the buffer on
+     * each side equal to the length of the visible axis viewport.
+     */
+    overflowBuffer: 1,
+
+<span id='Ext-chart-series-Line-method-getDefaultSpriteConfig'>    /**
+</span>     * @private Override {@link Ext.chart.series.Series#getDefaultSpriteConfig}
+     */
+    getDefaultSpriteConfig: function () {
+        var me = this,
+            parentConfig = me.callSuper(arguments),
+            style = me.getStyle(),
+            fillArea = false;
+
+        if (typeof me.config.fill != &#39;undefined&#39;) {
+            // If config.fill is present but there is no fillStyle, then use the
+            // strokeStyle to fill (and paint the area the same color as the line).
+            if (me.config.fill) {
+                fillArea = true;
+                if (typeof style.fillStyle == &#39;undefined&#39;) {
+                    style.fillStyle = style.strokeStyle;
+                }
+            }
+        } else {
+            // For compatibility with previous versions of the API, if config.fill
+            // is undefined but style.fillStyle is provided, we fill the area.
+            if (style.fillStyle) {
+                fillArea = true;
+            }
+        }
+
+        // If we don&#39;t fill, then delete the fillStyle because that&#39;s what is used by
+        // the Line sprite to fill below the line.
+        if (!fillArea) {
+            delete style.fillStyle;
+        }
+
+        return Ext.apply(parentConfig || {}, {
+            fillArea: fillArea,
+            step: me.config.step,
+            smooth: me.config.smooth,
+            selectionTolerance: me.config.selectionTolerance
+        });
+    }
+
+});</pre>
+</body>
+</html>

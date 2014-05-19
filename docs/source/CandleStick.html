@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-chart-series-CandleStick'>/**
+</span> * @class Ext.chart.series.CandleStick
+ * @extends Ext.chart.series.Cartesian
+ * 
+ * Creates a candlestick or OHLC Chart.
+ *
+ *     @example preview
+ *     var chart = new Ext.chart.CartesianChart({
+ *         animate: true,
+ *         store: {
+ *           fields: [&#39;time&#39;, &#39;open&#39;, &#39;high&#39;, &#39;low&#39;, &#39;close&#39;],
+ *           data: [
+ *             {&#39;time&#39;:new Date(&#39;Jan 1 2010&#39;).getTime(), &#39;open&#39;:600, &#39;high&#39;:614, &#39;low&#39;:578, &#39;close&#39;:590},
+ *             {&#39;time&#39;:new Date(&#39;Jan 2 2010&#39;).getTime(), &#39;open&#39;:590, &#39;high&#39;:609, &#39;low&#39;:580, &#39;close&#39;:580},
+ *             {&#39;time&#39;:new Date(&#39;Jan 3 2010&#39;).getTime(), &#39;open&#39;:580, &#39;high&#39;:602, &#39;low&#39;:578, &#39;close&#39;:602},
+ *             {&#39;time&#39;:new Date(&#39;Jan 4 2010&#39;).getTime(), &#39;open&#39;:602, &#39;high&#39;:614, &#39;low&#39;:586, &#39;close&#39;:586},
+ *             {&#39;time&#39;:new Date(&#39;Jan 5 2010&#39;).getTime(), &#39;open&#39;:586, &#39;high&#39;:602, &#39;low&#39;:565, &#39;close&#39;:565}
+ *           ]
+ *         },
+ *         axes: [{
+ *             type: &#39;numeric&#39;,
+ *             position: &#39;left&#39;,
+ *             fields: [&#39;open&#39;, &#39;high&#39;, &#39;low&#39;, &#39;close&#39;],
+ *             title: {
+ *                 text: &#39;Sample Values&#39;,
+ *                 fontSize: 15
+ *             },
+ *             grid: true,
+ *             minimum: 560,
+ *             maximum: 640
+ *         }, {
+ *             type: &#39;time&#39;,
+ *             position: &#39;bottom&#39;,
+ *             fields: [&#39;time&#39;],
+ *             fromDate: new Date(&#39;Dec 31 2009&#39;),
+ *             toDate: new Date(&#39;Jan 6 2010&#39;),
+ *             title: {
+ *                 text: &#39;Sample Values&#39;,
+ *                 fontSize: 15
+ *             },
+ *             style: {
+ *               axisLine: false
+ *             }
+ *         }],
+ *         series: [{
+ *             type: &#39;candlestick&#39;,
+ *             xField: &#39;time&#39;,
+ *             openField: &#39;open&#39;,
+ *             highField: &#39;high&#39;,
+ *             lowField: &#39;low&#39;,
+ *             closeField: &#39;close&#39;,
+ *             style: {
+ *               dropStyle: {
+ *                 fill: &#39;rgb(237, 123, 43)&#39;,
+ *                 stroke: &#39;rgb(237, 123, 43)&#39;
+ *               },
+ *               raiseStyle: {
+ *                 fill: &#39;rgb(55, 153, 19)&#39;,
+ *                 stroke: &#39;rgb(55, 153, 19)&#39;
+ *               }
+ *             },
+ *             aggregator: {
+ *               strategy: &#39;time&#39;
+ *             }
+ *         }]
+ *     });
+ *     Ext.Viewport.setLayout(&#39;fit&#39;);
+ *     Ext.Viewport.add(chart);
+ */
+Ext.define(&#39;Ext.chart.series.CandleStick&#39;, {
+    extend: &#39;Ext.chart.series.Cartesian&#39;,
+    requires: [&#39;Ext.chart.series.sprite.CandleStick&#39;],
+    alias: &#39;series.candlestick&#39;,
+<span id='Ext-chart-series-CandleStick-property-type'>    type: &#39;candlestick&#39;,
+</span><span id='Ext-chart-series-CandleStick-property-seriesType'>    seriesType: &#39;candlestickSeries&#39;,
+</span>    config: {
+<span id='Ext-chart-series-CandleStick-cfg-openField'>        /**
+</span>         * @cfg {String} openField
+         * The store record field name that represents the opening value of the given period.
+         */
+        openField: null,
+<span id='Ext-chart-series-CandleStick-cfg-highField'>        /**
+</span>         * @cfg {String} highField
+         * The store record field name that represents the highest value of the time interval represented.
+         */
+        highField: null,
+<span id='Ext-chart-series-CandleStick-cfg-lowField'>        /**
+</span>         * @cfg {String} lowField
+         * The store record field name that represents the lowest value of the time interval represented.
+         */
+        lowField: null,
+<span id='Ext-chart-series-CandleStick-cfg-closeField'>        /**
+</span>         * @cfg {String} closeField
+         * The store record field name that represents the closing value of the given period.
+         */
+        closeField: null
+    },
+
+<span id='Ext-chart-series-CandleStick-property-fieldCategoryY'>    fieldCategoryY: [&#39;Open&#39;, &#39;High&#39;, &#39;Low&#39;, &#39;Close&#39;]
+</span>});</pre>
+</body>
+</html>

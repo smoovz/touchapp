@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * Copyright (C) 2014 Rocco Bruyn &lt;rocco@smoovz.com&gt;
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+ */
+
+<span id='Smoovz-form-validate-Validate'>/**
+</span> * Class to validate {@link Ext.form.Panel forms} without using models.
+ * Extend this class with validation config.
+ *
+ * @class Smoovz.form.validate.Validate
+ * @author Rocco Bruyn &lt;rocco@smoovz.com&gt;
+ */
+Ext.define(&#39;Smoovz.form.validate.Validate&#39;, {
+
+    uses: [
+        &#39;Ext.data.Error&#39;,
+        &#39;Ext.data.Errors&#39;,
+        &#39;Ext.data.Validations&#39;,
+        &#39;Ext.field.Checkbox&#39;,
+        &#39;Ext.Object&#39;,
+        &#39;Ext.String&#39;
+    ],
+
+    config: {
+<span id='Smoovz-form-validate-Validate-cfg-validations'>        /**
+</span>         * @cfg {Object[]} validations
+         * An array of {@link Ext.data.Validations validations}.
+         */
+        validations: null
+    },
+
+<span id='Smoovz-form-validate-Validate-method-constructor'>    /**
+</span>     * Creates new from validator.
+     *
+     * @constructor
+     * @param   {Object} config
+     * @returns {void}
+     */
+    constructor: function(config) {
+        var me = this;
+
+        me.initConfig(config);
+        me.callParent([config]);
+    },
+
+<span id='Smoovz-form-validate-Validate-method-validateForm'>    /**
+</span>     * Check if a form is valid.
+     * Optionally mark the fields as invalid if this is the case.
+     *
+     * @param   {Ext.form.Panel} form
+     * @param   {Boolean} markInvalid
+     * @returns {Ext.data.Errors}
+     */
+    validateForm: function (form, markInvalid) {
+        var me     = this,
+            fields = form.getFields(),
+            errors = Ext.create(&#39;Ext.data.Errors&#39;),
+            fieldErrors;
+
+        Ext.Object.each(fields, function (key, field) {
+            fieldErrors = me.validateField(field, markInvalid);
+            fieldErrors.each(function (error) {
+                errors.add(error);
+            });
+        });
+
+        return errors;
+    },
+
+<span id='Smoovz-form-validate-Validate-method-validateField'>    /**
+</span>     * Check if a field is valid.
+     * Optionally mark it as invalid if this is the case.
+     *
+     * @param   {Ext.field.Field} field
+     * @param   {Boolean} [markInvalid=true]
+     * @returns {Ext.data.Errors}
+     */
+    validateField: function (field, markInvalid) {
+        var me          = this,
+            fieldName   = field.getName(),
+            validations = me.getValidations(),
+            validators  = Ext.data.Validations,
+            errors      = Ext.create(&#39;Ext.data.Errors&#39;),
+            markInvalid = (markInvalid === undefined) ? true : markInvalid,
+            validation, value, type, valid, i;
+
+        if (field instanceof Ext.field.Checkbox) {
+            value = (field.isChecked()) ? field.getValue() : value;
+        } else {
+            value = field.getValue();
+        }
+
+        if (validations) {
+            for (i = 0; i &lt; validations.length; i++) {
+                validation = validations[i];
+                if (fieldName !== validation.field &amp;&amp;
+                    fieldName !== validation.name) {
+                    continue;
+                }
+
+                type  = validation.type;
+                valid = validators[type](validation, value);
+
+                if (!valid) {
+                    errors.add(Ext.create(&#39;Ext.data.Error&#39;, {
+                        field  : fieldName,
+                        message: validation.message || validators.getMessage(type)
+                    }));
+
+                    if (markInvalid) {
+                        field.markInvalid();
+                    }
+                } else if (markInvalid) {
+                    field.clearInvalid();
+                }
+            }
+        }
+
+        return errors;
+    }
+});</pre>
+</body>
+</html>

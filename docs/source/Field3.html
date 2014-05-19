@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * Copyright (C) 2014 Rocco Bruyn &lt;rocco@smoovz.com&gt;
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+ */
+
+<span id='Smoovz-field-Field'>/**
+</span> * Add the ability to mark a field as invalid.
+ *
+ * @class Smoovz.field.Field
+ * @author Rocco Bruyn &lt;rocco@smoovz.com&gt;
+ */
+Ext.define(&#39;Smoovz.field.Field&#39;, {
+    override: &#39;Ext.field.Field&#39;,
+
+<span id='Ext-field-Field-cfg-invalidCls'>    /**
+</span>     * @cfg {String} invalidCls
+     * css-class to add when field is marked invalid.
+     */
+    invalidCls: &#39;smvz-field-invalid&#39;,
+
+<span id='Ext-field-Field-method-clearInvalid'>    /**
+</span>     * Clear the field of invalid status.
+     * Removes the {@link #invalidCls} css-class.
+     *
+     * @returns {void}
+     */
+    clearInvalid: function () {
+        var me = this;
+        me.removeCls(me.invalidCls);
+    },
+
+<span id='Ext-field-Field-method-markInvalid'>    /**
+</span>     * Mark the field as invalid.
+     * Adds the {@link #invalidCls} css-class.
+     *
+     * @returns {void}
+     */
+    markInvalid: function () {
+        var me = this;
+        me.addCls(me.invalidCls);
+    },
+
+<span id='Ext-field-Field-method-getInvalidCls'>    /**
+</span>     * Get the value of {@link #invalidCls}.
+     *
+     * @return {String}
+     */
+    getInvalidCls: function () {
+        var me = this;
+        return me.invalidCls;
+    },
+
+<span id='Ext-field-Field-method-setInvalidCls'>    /**
+</span>     * Set the value of {@link #invalidCls}.
+     *
+     * @chainable
+     * @param {String} cls
+     * @return {Smoovz.field.Field} Provides fluent interface
+     */
+    setInvalidCls: function (cls) {
+        var me = this;
+
+        if (Ext.isString(cls)) {
+            me.invalidCls = cls;
+        }
+
+        return me;
+    }
+});</pre>
+</body>
+</html>

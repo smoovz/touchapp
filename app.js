@@ -25,7 +25,8 @@ Ext.application({
 
     controllers: [
         'RegistrationController',
-        'SessionController'
+        'SessionController',
+        'PasswordController'
     ],
 
     icon: {

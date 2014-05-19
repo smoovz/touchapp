@@ -1,0 +1,73 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'local' ]
+2 info using npm@1.4.9
+3 info using node@v0.10.28
+4 verbose node symlink C:\Program Files\nodejs\\node.exe
+5 warn package.json Smoovz@2.0.0 No README data
+6 verbose readDependencies using package.json deps
+7 verbose cache add [ 'local', null ]
+8 verbose cache add name=undefined spec="local" args=["local",null]
+9 verbose parsed url { protocol: null,
+9 verbose parsed url   slashes: null,
+9 verbose parsed url   auth: null,
+9 verbose parsed url   host: null,
+9 verbose parsed url   port: null,
+9 verbose parsed url   hostname: null,
+9 verbose parsed url   hash: null,
+9 verbose parsed url   search: null,
+9 verbose parsed url   query: null,
+9 verbose parsed url   pathname: 'local',
+9 verbose parsed url   path: 'local',
+9 verbose parsed url   href: 'local' }
+10 silly lockFile 939bb46a-local local
+11 verbose lock local C:\Users\Tim Schipper\AppData\Roaming\npm-cache\939bb46a-local.lock
+12 silly lockFile 939bb46a-local local
+13 silly lockFile 939bb46a-local local
+14 verbose addNamed [ 'local', '' ]
+15 verbose addNamed [ null, '*' ]
+16 silly lockFile 475dd229-local local@
+17 verbose lock local@ C:\Users\Tim Schipper\AppData\Roaming\npm-cache\475dd229-local.lock
+18 silly addNameRange { name: 'local', range: '*', hasData: false }
+19 verbose url raw local
+20 verbose url resolving [ 'https://registry.npmjs.org/', './local' ]
+21 verbose url resolved https://registry.npmjs.org/local
+22 info trying registry request attempt 1 at 12:59:19
+23 http GET https://registry.npmjs.org/local
+24 http 404 https://registry.npmjs.org/local
+25 silly registry.get cb [ 404,
+25 silly registry.get   { date: 'Wed, 07 May 2014 10:59:22 GMT',
+25 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R14B04)',
+25 silly registry.get     etag: '"NGVTNTL2SGYHTCH6DTWXP69G"',
+25 silly registry.get     'content-type': 'application/json',
+25 silly registry.get     via: '1.1 varnish',
+25 silly registry.get     'cache-control': 'max-age=0',
+25 silly registry.get     'content-length': '534',
+25 silly registry.get     'accept-ranges': 'bytes',
+25 silly registry.get     age: '0',
+25 silly registry.get     'x-served-by': 'cache-v41-ASH, cache-am69-AMS',
+25 silly registry.get     'x-cache': 'MISS, MISS',
+25 silly registry.get     'x-cache-hits': '0, 0',
+25 silly registry.get     'x-timer': 'S1399460362.384371519,VS0,VS45,VE133,VE173',
+25 silly registry.get     vary: 'Accept',
+25 silly registry.get     'keep-alive': 'timeout=10, max=50',
+25 silly registry.get     connection: 'Keep-Alive' } ]
+26 silly lockFile 475dd229-local local@
+27 silly lockFile 475dd229-local local@
+28 error 404 Not Found
+28 error 404
+28 error 404 'local' is not in the npm registry.
+28 error 404 You should bug the author to publish it
+28 error 404 It was specified as a dependency of 'Smoovz'
+28 error 404
+28 error 404 Note that you can also install from a
+28 error 404 tarball, folder, or http url, or git url.
+29 error System Windows_NT 6.1.7601
+30 error command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "local"
+31 error cwd D:\Development\workspace\Smoovz\touchapp
+32 error node -v v0.10.28
+33 error npm -v 1.4.9
+34 error code E404
+35 verbose exit [ 1, true ]

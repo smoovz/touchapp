@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">Ext.define(&#39;Smoovz.model.User&#39;, {
+    extend: &#39;Ext.data.Model&#39;,
+
+    config: {
+        fields: [{
+            name: &#39;id&#39;,
+            type: &#39;int&#39;
+        }, {
+            name: &#39;firstname&#39;,
+            type: &#39;string&#39;
+        }, {
+            name: &#39;lastname&#39;,
+            type: &#39;string&#39;
+        }, {
+            name: &#39;emailAddress&#39;,
+            type: &#39;string&#39;
+        }, {
+            name: &#39;dateOfBirth&#39;,
+            type: &#39;date&#39;,
+            dateFormat: &#39;timestamp&#39;
+        }],
+
+        validations: [{
+            field: &#39;id&#39;,
+            type: &#39;presence&#39;
+        }, {
+            field: &#39;firstname&#39;,
+            type: &#39;presence&#39;
+        }, {
+            field: &#39;lastname&#39;,
+            type: &#39;presence&#39;
+        }, {
+            field: &#39;emailAddress&#39;,
+            type: &#39;presence&#39;
+        }, {
+            field: &#39;emailAddress&#39;,
+            type: &#39;email&#39;
+        }, {
+            field: &#39;dateOfBirth&#39;,
+            type: &#39;presence&#39;
+        }]
+    }
+});
+</pre>
+</body>
+</html>
