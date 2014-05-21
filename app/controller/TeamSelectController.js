@@ -30,7 +30,8 @@ Ext.define('Smoovz.controller.TeamSelectController', {
 
     config: {
         models: [
-            'Club'
+            'Club',
+            'Team'
         ],
         stores: [
             'TeamSelect'
@@ -47,61 +48,60 @@ Ext.define('Smoovz.controller.TeamSelectController', {
         },
         control: {
             'teamfinder': {
-                itemtap: 'onItemTap'
+                itemtap: 'onItemTap',
+                order: 'before'
             },
             'teamfinder searchfield': {
-                keyup: 'onSearchKeyUp'
+                keyup: 'onSearchKeyUp',
+                buffer: 500
             }
         }
     },
 
     showFinder: function() {
-        var me = this,
-            tf = me.getTeamFinder(),
-            ai;
+        var me         = this,
+            teamFinder = me.getTeamFinder();
 
-        tf.setActiveItem(0);
-//        ai = tf.getActiveItem();
-//        ai.getStore().
-
-
-//        tf.getStore().load();
-        Ext.Viewport.setActiveItem(tf);
+        teamFinder.setMode('club');
+        Ext.Viewport.setActiveItem(teamFinder);
     },
 
     onItemTap: function(nestedlist, list, index, target, record, evt, opts) {
-        console.log(record.get('name'));
+        var me         = this,
+            teamFinder = me.getTeamFinder();
 
-        evt.stopEvent();
-        return false;
+        switch (teamFinder.getMode()) {
+            case 'club':
+                teamFinder.getStore().setRemoteFilter(false);
+                teamFinder.setMode('team');
+
+//                record.teams();
+            break;
+            case 'team':
+            break;
+        }
     },
 
     onSearchKeyUp: function (field, evt, opts) {
-        var me    = this,
-            store = me.getTeamFinder().getStore(),
-            value = field.getValue().trim(),
-            expr, regex;
+        var me         = this,
+            teamFinder = me.getTeamFinder(),
+            store      = teamFinder.getStore(),
+            value      = field.getValue().trim();
 
-        store.clearFilter(!!value);
-        if (!value || 3 >= value.length) {
+        if (!value || 3 > value.length) {
             return;
         }
-
-        expr = value.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-console.log('FILTER');
-        store.setRemoteFilter(true);
-        store.filter('name', expr, true);
-
-//        regex = new RegExp(expr, 'i');
-//        store.filter(function (record) {
-//            if (regex.test(record.get('name'))) {
-//                console.log('matches');
-//                return true;
-//            } else {
-//                console.log('not matches');
-//                return false;
-//            }
-//        });
+        store.clearFilter(!!value);
+        switch (teamFinder.getMode()) {
+            case 'club':
+                store.filter('club', value);
+                store.filter('city', value);
+                store.load();
+            break;
+            case 'team':
+                store.filter('name', value);
+            break;
+        }
     }
 
 });

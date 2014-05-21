@@ -16,20 +16,39 @@
  */
 
 /**
- * Model for clubs
+ * Team model
  *
- * @param  {Smoovz.model.City}
+ * @class  {Smoovz.model.Team}
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
-Ext.define('Smoovz.model.Club', {
+Ext.define('Smoovz.model.Team', {
     extend: 'Ext.data.Model',
-    alias: 'model.club',
+    alias: 'model.team',
 
     requires: [
         'Ext.data.Field',
         'Ext.data.proxy.Rest',
         'Ext.data.reader.Json'
     ],
+
+    statics: {
+        ageClassMap: {
+            seniors: 'ageclass_seniors',
+            a      : 'ageclass_a',
+            b      : 'ageclass_b',
+            c      : 'ageclass_c',
+            d      : 'ageclass_d',
+            e      : 'ageclass_e',
+            f      : 'ageclass_f',
+            g      : 'ageclass_g',
+            jg     : 'ageclass_jg',
+            mp     : 'ageclass_mp',
+            o      : 'ageclass_o',
+            ve     : 'ageclass_ve',
+            '35+'  : 'ageclass_35plus',
+            '45+'  : 'ageclass_45plus'
+        }
+    },
 
     config: {
         fields: [{
@@ -39,42 +58,24 @@ Ext.define('Smoovz.model.Club', {
             name: 'name',
             type: 'string'
         }, {
-            name: 'urlFriendlyName',
+            name: 'shortName',
             type: 'string'
         }, {
-            name: 'address',
+            name: 'gender',
             type: 'string'
         }, {
-            name: 'zipcode',
+            name: 'ageClass',
             type: 'string'
         }, {
-            name: 'city',
-            type: 'string'
+            name: 'teamNumber',
+            type: 'int'
         }, {
-            name: 'province',
-            type: 'string'
+            name: 'matchRound',
+            type: 'int'
         }, {
-            name: 'country',
-            type: 'string'
-        }, {
-            name: 'websiteUrl',
-            type: 'string'
-        }, {
-            name: 'phoneNumber',
-            type: 'string'
-        }, {
-            name: 'gpsLatitude',
-            type: 'float'
-        }, {
-            name: 'gpsLongitude',
-            type: 'float'
-        }, {
-            name: 'foundationDate',
-            type: 'date',
-            dateFormat: 'timestamp'
-        }, {
-            name: 'twitterScreenName',
-            type: 'string'
+            name: 'club',
+            type: 'int',
+            mapping: 'club_id'
         }],
         proxy: {
             type: 'rest',
@@ -84,10 +85,12 @@ Ext.define('Smoovz.model.Club', {
                 rootProperty: 'data'
             }
         },
-        hasMany: {
-            instanceName: 'ClubHasManyTeamInstance',
-            model: 'Smoovz.model.Team',
-            foreignKey: 'club'
+        belongsTo: {
+            instanceName: 'TeamBelongsToClubInstance',
+            model: 'Smoovz.model.Club',
+            foreignKey: 'club',
+            getterName: 'getClub',
+            setterName: 'setClub'
         }
     }
 });

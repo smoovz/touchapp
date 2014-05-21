@@ -31,8 +31,7 @@ Ext.define('Smoovz.view.NestedList', {
                 rootVisible: false,
                 model: store.getModel(),
                 grouper: store.getGrouper(),
-                groupField: store.getGroupField(),
-                filters: store.getFilters()
+                groupField: store.getGroupField()
             });
 
         node.expand();

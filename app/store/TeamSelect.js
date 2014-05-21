@@ -27,6 +27,7 @@ Ext.define('Smoovz.store.TeamSelect', {
 
     requires: [
         'Smoovz.model.Club',
+        'Smoovz.model.Team',
         'Ext.data.proxy.Rest',
         'Ext.data.reader.Json'
     ],
@@ -35,12 +36,6 @@ Ext.define('Smoovz.store.TeamSelect', {
         model: 'Smoovz.model.Club',
         storeId: 'TeamSelect',
         defaultRootProperty: 'data',
-        groupField: 'city',
-        remoteFilter: true,
-        filters: {
-            property: 'name',
-            value: 'herc'
-        },
         proxy: {
             type: 'rest',
             reader: {
@@ -54,20 +49,5 @@ Ext.define('Smoovz.store.TeamSelect', {
             name: 'root',
             data: []
         }
-    },
-
-    /**
-     * Creates new TeamSelect store.
-     * Sets proxy URL
-     *
-     * @constructor
-     * @param   {Object} config
-     * @returns {void}
-     */
-    constructor: function(config) {
-        var me = this;
-
-        me.callParent([config]);
-        me.getProxy().setUrl(Config.getApiUrl() + 'club');
     }
 });
