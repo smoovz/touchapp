@@ -20,7 +20,6 @@
  * Fixes a bug in ST which prevents you from adjusting form values prior to submit.
  * See [the forum](http://www.sencha.com/forum/showthread.php?160553-Alter-form-data-using-the-beforesubmit-event).
  *
- * @class Smoovz.form.Panel
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
 Ext.define('Smoovz.form.Panel', {

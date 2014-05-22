@@ -18,7 +18,6 @@
 /**
  * Compatibility layer for {@link Ext.ux.ajax.SimManager}
  *
- * @class Smoovz.data.Connection
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
 Ext.define('Smoovz.data.Connection', {

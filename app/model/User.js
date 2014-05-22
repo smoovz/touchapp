@@ -18,7 +18,6 @@
 /**
  * User model.
  *
- * @class Smoovz.model.User
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
 Ext.define('Smoovz.model.User', {

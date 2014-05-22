@@ -18,7 +18,6 @@
 /**
  * Implements HTTP-POST simulation
  *
- * @class Smoovz.ux.ajax.Simlet
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
 Ext.define('Smoovz.ux.ajax.Simlet', {

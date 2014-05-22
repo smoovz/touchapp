@@ -15,11 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 /**
  * Controller that handles authentication.
  *
- * @class  Smoovz.controller.SessionController
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
 Ext.define('Smoovz.controller.SessionController', {
@@ -112,10 +110,10 @@ Ext.define('Smoovz.controller.SessionController', {
      * @protected
      * @param   {Ext.Button} btn
      * @param   {Ext.event.Event} evt
-     * @param   {Object} opts
+     * @param   {Object} eOpts
      * @returns {void}
      */
-    onNewAccountBtnTap: function (btn, evt, opts) {
+    onNewAccountBtnTap: function (btn, evt, eOpts) {
         var me = this;
 
         me.redirectTo('register');
@@ -128,10 +126,10 @@ Ext.define('Smoovz.controller.SessionController', {
      * @protected
      * @param   {Ext.Button} btn
      * @param   {Ext.event.Event} evt
-     * @param   {Object} opts
+     * @param   {Object} eOpts
      * @returns {void}
      */
-    onLogoutBtnTap: function (btn, evt, opts) {
+    onLogoutBtnTap: function (btn, evt, eOpts) {
         var me = this;
 
         me.redirectTo('logout');
@@ -144,10 +142,10 @@ Ext.define('Smoovz.controller.SessionController', {
      * @protected
      * @param   {Ext.Button} btn
      * @param   {Ext.event.Event} evt
-     * @param   {Object} opts
+     * @param   {Object} eOpts
      * @returns {void}
      */
-    onLoginBtnTap: function (btn, evt, opts) {
+    onLoginBtnTap: function (btn, evt, eOpts) {
         var me = this;
 
         me.getLoginForm().submit({
@@ -161,7 +159,8 @@ Ext.define('Smoovz.controller.SessionController', {
     /**
      * Callback for when login was successfull.
      * Creates a new {@link Smoovz.model.User user} based on result.
-     * Saves newly created {@link Smoovz.model.User user} in the {@link Smoovz.util.Config config} as {@link Smoovz.util.Config#authUser authUser}.
+     * Saves newly created {@link Smoovz.model.User user} in the
+     * {@link Smoovz.util.Config config} as {@link Smoovz.util.Config#authUser authUser}.
      * Displays error if creation failed.
      *
      * @protected

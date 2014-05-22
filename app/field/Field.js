@@ -18,7 +18,6 @@
 /**
  * Add the ability to mark a field as invalid.
  *
- * @class Smoovz.field.Field
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
 Ext.define('Smoovz.field.Field', {

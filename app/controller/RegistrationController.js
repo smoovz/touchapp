@@ -15,11 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 /**
  * Controller that handles registration proccess.
  *
- * @class  Smoovz.controller.RegistrationController
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
 Ext.define('Smoovz.controller.RegistrationController', {
@@ -93,14 +91,18 @@ Ext.define('Smoovz.controller.RegistrationController', {
 
     /**
      * Event handler for the {@link Ext.Button#event-tap tap} event.
+     * Clears invalid fields, then {@link Smoovz.form.validate.Register#validateForm validates} again,
+     * {@link Smoovz.form.Register#markInvalid marking the invalid} fields (again).
+     * Display messages if {@link Smoovz.form.validate.Register#validateForm validates} fails.
+     * Submits {@link Smoovz.form.Registe form} otherwise.
      *
      * @protected
-     * @param   {type} btn
-     * @param   {type} evt
-     * @param   {type} opts
+     * @param   {Ext.Button} btn
+     * @param   {Ext.event.Event} evt
+     * @param   {Object} eOpts
      * @returns {void}
      */
-    onRegisterBtnTap: function (btn, evt, opts) {
+    onRegisterBtnTap: function (btn, evt, eOpts) {
         var me        = this,
             form      = me.getRegisterForm(),
             validator = me.getValidator(),
@@ -178,10 +180,10 @@ Ext.define('Smoovz.controller.RegistrationController', {
      * @param   {Ext.field.Text} The field
      * @param   {Mixed} newValue
      * @param   {Mixed} oldValue
-     * @param   {Object} opts
+     * @param   {Object} eOpts
      * @returns {void}
      */
-    onTextFieldChange: function (field, newValue, oldValue, opts) {
+    onTextFieldChange: function (field, newValue, oldValue, eOpts) {
         var me        = this,
             validator = me.getValidator();
 

@@ -18,7 +18,6 @@
 /**
  * Club store.
  *
- * @class  {Smoovz.store.ClubStore}
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
 Ext.define('Smoovz.store.Club', {
@@ -54,9 +53,9 @@ Ext.define('Smoovz.store.Club', {
      * @returns {void}
      */
      initialize: function() {
-         var me = this;
+        var me = this;
 
-         me.callParent();
-         me.getProxy().setUrl(Config.getApiUrl() + 'club');
+        me.callParent();
+        me.getProxy().setUrl(Config.getApiUrl() + 'club');
      }
 });

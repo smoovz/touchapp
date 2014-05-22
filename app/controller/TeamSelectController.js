@@ -18,7 +18,6 @@
 /**
  * Controller that handles finding teams using the drill down
  *
- * @class  {Smoovz.controller.TeamSelectController}
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
 Ext.define('Smoovz.controller.TeamSelectController', {
@@ -60,5 +59,4 @@ Ext.define('Smoovz.controller.TeamSelectController', {
 
         Ext.Viewport.setActiveItem(teamFinder);
     }
-
 });

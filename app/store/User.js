@@ -18,7 +18,6 @@
 /**
  * User store.
  *
- * @class Smoovz.store.User
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
 Ext.define('Smoovz.store.User', {

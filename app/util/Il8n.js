@@ -18,16 +18,15 @@
 /**
  * Utility class for translating keys.
  *
- * @class Smoovz.util.Il8n
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
 Ext.define('Smoovz.util.Il8n', {
     alternateClassName: 'Il8n',
-    singleton         : true,
+    singleton: true,
 
     config: {
         defaultLanguage: 'en',
-        translations   : {
+        translations: {
         	nl: {
                 /* General */
         		name: 'Naam',

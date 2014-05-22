@@ -18,7 +18,6 @@
 /**
  * List of teams.
  *
- * @class  {Smoovz.view.ClubList}
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
 Ext.define('Smoovz.view.TeamList', {
@@ -52,5 +51,4 @@ Ext.define('Smoovz.view.TeamList', {
         me.setEmptyText(Il8n.translate('_emptyText_'));
         me.setLoadingText(Il8n.translate('loading'));
     }
-
 });

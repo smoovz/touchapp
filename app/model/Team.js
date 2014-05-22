@@ -18,7 +18,6 @@
 /**
  * Team model
  *
- * @class  {Smoovz.model.Team}
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
 Ext.define('Smoovz.model.Team', {

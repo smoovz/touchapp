@@ -18,7 +18,6 @@
 /**
  * From to register new users.
  *
- * @class Smoovz.form.Register
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
 Ext.define('Smoovz.form.Register', {

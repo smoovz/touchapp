@@ -18,7 +18,6 @@
 /**
  * Adds ability to transform server messages into {@link Ext.data.Errors errors}.
  *
- * @class Smoovz.data.Errors
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
 Ext.define('Smoovz.data.Errors', {

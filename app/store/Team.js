@@ -18,7 +18,6 @@
 /**
  * Team store.
  *
- * @class  {Smoovz.store.ClubStore}
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
 Ext.define('Smoovz.store.Team', {

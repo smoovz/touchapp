@@ -18,7 +18,6 @@
 /**
  * Model for clubs
  *
- * @param  {Smoovz.model.City}
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
 Ext.define('Smoovz.model.Club', {

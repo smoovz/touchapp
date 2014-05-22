@@ -18,7 +18,6 @@
 /**
  * Form used for signing in users.
  *
- * @class Smoovz.form.Login
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
 Ext.define('Smoovz.form.Login', {
@@ -110,5 +109,4 @@ Ext.define('Smoovz.form.Login', {
         me.getComponent('newAccountBtn')
             .setText(Il8n.translate('new_account_btn'));
     }
-
 });
