@@ -117,7 +117,7 @@ Ext.define('Smoovz.view.TeamFinder', {
      * Event hander for when the a different list in the {@link Smoovz.view.TeamFinder teamFinder}
      * becomes {@link #event-activeitemchange active}. Shows or hides the back-button accordingly.
      *
-     * @private
+     * @protected
      * @param   {Smoovz.view.TeamFinder} teamFinder
      * @param   {Ext.dataview.List} newItem
      * @param   {Ext.dataview.List} oldItem
@@ -146,7 +146,7 @@ Ext.define('Smoovz.view.TeamFinder', {
      * If the {@link Smoovz.view.ClubList clubList} is active, it filters remote, otherwise
      * if the {@link Smoovz.view.TeamList teamList} is active it filters local.
      *
-     * @private
+     * @protected
      * @param   {Ext.field.Search} field
      * @param   {Ext.event.Event} evt
      * @param   {Object} eOpts
@@ -188,7 +188,7 @@ Ext.define('Smoovz.view.TeamFinder', {
      * {@link Smoovz.view.ClubList#event-itemtap tapped} {@link Smoovz.model.Club club}
      * by loading the corresponding {@link Smoovz.store.Team teamStore}.
      *
-     * @private
+     * @protected
      * @param   {Smoovz.view.ClubList} clubList
      * @param   {Number} index
      * @param   {Ext.dataview.component.SimpleListItemView} listItem
@@ -214,7 +214,7 @@ Ext.define('Smoovz.view.TeamFinder', {
      * {@link Smoovz.view.TeamList#event-itemtap tapped}.
      * Does nothing at the moment.
      *
-     * @private
+     * @protected
      * @param   {Smoovz.view.TeamList} teamList
      * @param   {Number} index
      * @param   {Ext.dataview.component.SimpleListItemView} listItem
@@ -233,7 +233,7 @@ Ext.define('Smoovz.view.TeamFinder', {
      * Sets the {@link Smoovz.view.ClubList clubList} as active item
      * with the {@link Ext.fx.layout.card.Slide animation} reversed.
      *
-     * @private
+     * @protected
      * @param   {Ext.button.Button} button
      * @param   {type} evt
      * @param   {type} eOpts
@@ -251,7 +251,7 @@ Ext.define('Smoovz.view.TeamFinder', {
      * {@link Smoovz.store.Club#event-load loads}.
      * Sets the {@link Smoovz.view.ClubList clubList} as active item.
      *
-     * @private
+     * @protected
      * @param   {Smoovz.model.Club[]} clubs
      * @param   {Ext.data.Operation} operation
      * @param   {Boolean} success
@@ -269,7 +269,7 @@ Ext.define('Smoovz.view.TeamFinder', {
      * Sets the {@link Smoovz.view.TeamList teamList} as active item
      * with the {@link Ext.fx.layout.card.Slide animation} reversed.
      *
-     * @private
+     * @protected
      * @param   {Smoovz.model.Team[]} teams
      * @param   {Ext.data.Operation} operation
      * @param   {Boolean} success
@@ -281,5 +281,4 @@ Ext.define('Smoovz.view.TeamFinder', {
         me.getLayout().getAnimation().setReverse(false);
         me.setActiveItem('teamlist');
     }
-
 });
