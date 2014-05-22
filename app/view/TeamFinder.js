@@ -73,8 +73,12 @@ Ext.define('Smoovz.view.TeamFinder', {
             fn: 'onActiveItemChange'
         }, {
             event: 'keyup',
-            fn: 'onSearchfieldKeyup',
-            buffer: 500,
+            fn: 'onSearchFieldKeyup',
+            delegate: 'searchfield',
+            buffer: 500
+        }, {
+            event: 'clearicontap',
+            fn: 'onSearchFieldClearIconTap',
             delegate: 'searchfield'
         }, {
             event: 'itemtap',
@@ -125,10 +129,11 @@ Ext.define('Smoovz.view.TeamFinder', {
      * @returns {void}
      */
     onActiveItemChange: function(teamFinder, newItem, oldItem, eOpts) {
-        var active  = teamFinder.getActiveItem(),
-            backBtn = teamFinder.down('button[itemId=backBtn]');
+        var searchField = teamFinder.down('searchfield'),
+            backBtn     = teamFinder.down('button[itemId=backBtn]');
 
-        switch (active.getItemId()) {
+        searchField.reset();
+        switch (newItem.getItemId()) {
             case 'clublist':
                 backBtn.hide();
             break;
@@ -152,7 +157,7 @@ Ext.define('Smoovz.view.TeamFinder', {
      * @param   {Object} eOpts
      * @returns {void}
      */
-    onSearchfieldKeyup: function(field, evt, eOpts) {
+    onSearchFieldKeyup: function(field, evt, eOpts) {
         var me    = this,
             value = field.getValue().trim(),
             active, store;
@@ -179,6 +184,21 @@ Ext.define('Smoovz.view.TeamFinder', {
                 store.filter('name', value, true);
             break;
         }
+    },
+
+    /**
+     * Event handler for when the clear-icon is {@link Ext.form.Search#event-clearicontap tapped}.
+     * Clears any filters on the active {@link Ext.data.Store}
+     *
+     * @param   {Ext.field.Search} field
+     * @param   {Ext.event.Event} evt
+     * @param   {Object} eOpts
+     * @returns {void}
+     */
+    onSearchFieldClearIconTap: function(field, evt, eOpts) {
+        var me = this;
+
+        me.getActiveItem().getStore().clearFilter();
     },
 
     /**
