@@ -16,9 +16,8 @@
  */
 
 /**
- * Component to drill-down from City > Club > Team
+ * Component to drill-down from Club > Team
  *
- * @class  {Smoovz.view.TeamFinder}
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
 Ext.define('Smoovz.view.TeamFinder', {
@@ -36,7 +35,7 @@ Ext.define('Smoovz.view.TeamFinder', {
         /**
          * @cfg {Number} minSearchChars
          * Minimum amount of characters the user needs to type before
-         * searching/filtering occurs. Defaults to 3
+         * searching/filtering occurs.
          */
         minSearchChars: 3,
         scrollable: 'vertical',
@@ -116,7 +115,7 @@ Ext.define('Smoovz.view.TeamFinder', {
 
     /**
      * Event hander for when the a different list in the {@link Smoovz.view.TeamFinder teamFinder}
-     * becomes {@link #event-activeitemchange active}. Shows or hires the back-button accordingly.
+     * becomes {@link #event-activeitemchange active}. Shows or hides the back-button accordingly.
      *
      * @private
      * @param   {Smoovz.view.TeamFinder} teamFinder
@@ -140,11 +139,12 @@ Ext.define('Smoovz.view.TeamFinder', {
     },
 
     /**
-     * Event handler for when a key is {@link #event-keyup released} in the {Ext.field.Search searchField}.
+     * Event handler for when a key is {@link Ext.field.Search#event-keyup released}
+     * in the {@link Ext.field.Search searchField}.
      * Filters the active {@link Ext.dataview.List list} if more then, or an equal
      * amount of characters are entered then the configured {@link #cfg-minSearchChars}.
-     * If the {Smoovz.view.ClubList clubList} is active, it filters remote, otherwise
-     * if the {Smoovz.view.TeamList teamList} is active it filters local.
+     * If the {@link Smoovz.view.ClubList clubList} is active, it filters remote, otherwise
+     * if the {@link Smoovz.view.TeamList teamList} is active it filters local.
      *
      * @private
      * @param   {Ext.field.Search} field
@@ -183,9 +183,9 @@ Ext.define('Smoovz.view.TeamFinder', {
 
     /**
      * Event handler for when a {@link Smoovz.model.Club club} is
-     * {@link Smoovz.view.ClubList#event-tap tapped}.
+     * {@link Smoovz.view.ClubList#event-itemtap tapped}.
      * Loads the {@link Smoovz.model.Team teams} of the
-     * {@link Smoovz.view.ClubList#event-tap tapped} {@link Smoovz.model.Club club}
+     * {@link Smoovz.view.ClubList#event-itemtap tapped} {@link Smoovz.model.Club club}
      * by loading the corresponding {@link Smoovz.store.Team teamStore}.
      *
      * @private
@@ -211,7 +211,7 @@ Ext.define('Smoovz.view.TeamFinder', {
 
     /**
      * Event handler for when a {@link Smoovz.model.Team team} is
-     * {@link Smoovz.view.TeamList#event-tap tapped}.
+     * {@link Smoovz.view.TeamList#event-itemtap tapped}.
      * Does nothing at the moment.
      *
      * @private
@@ -228,10 +228,10 @@ Ext.define('Smoovz.view.TeamFinder', {
     },
 
     /**
-     * Event handler for when the {@link Ext.button.Button back-button} is
-     * {@link Ext.button.Button#event-tap tapped}.
+     * Event handler for when the {@link Ext.Button back-button} is
+     * {@link Ext.Button#event-tap tapped}.
      * Sets the {@link Smoovz.view.ClubList clubList} as active item
-     * with the animation reversed.
+     * with the {@link Ext.fx.layout.card.Slide animation} reversed.
      *
      * @private
      * @param   {Ext.button.Button} button
@@ -267,7 +267,7 @@ Ext.define('Smoovz.view.TeamFinder', {
      * Event handler for when the {@link Smoovz.store.Team teamStore}
      * {@link Smoovz.store.Team#event-load loads}.
      * Sets the {@link Smoovz.view.TeamList teamList} as active item
-     * with the animation reversed.
+     * with the {@link Ext.fx.layout.card.Slide animation} reversed.
      *
      * @private
      * @param   {Smoovz.model.Team[]} teams
