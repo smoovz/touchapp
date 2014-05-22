@@ -48,6 +48,12 @@ Ext.define('Smoovz.controller.TeamSelectController', {
         }
     },
 
+    /**
+     * Show finder action.
+     * Displays the {@link Smoovz.view.TeamFinder}.
+     *
+     * @returns {void}
+     */
     showFinder: function() {
         var me         = this,
             teamFinder = me.getTeamFinder();

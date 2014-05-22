@@ -33,8 +33,13 @@ Ext.define('Smoovz.view.TeamFinder', {
     ],
 
     config: {
-        scrollable: 'vertical',
+        /**
+         * @cfg {Number} minSearchChars
+         * Minimum amount of characters the user needs to type before
+         * searching/filtering occurs. Defaults to 3
+         */
         minSearchChars: 3,
+        scrollable: 'vertical',
         layout: {
             type: 'card',
             animation: 'slide'
@@ -66,7 +71,7 @@ Ext.define('Smoovz.view.TeamFinder', {
         }],
         listeners: [{
             event: 'activeitemchange',
-            fn: 'onContainerActiveItemChange'
+            fn: 'onActiveItemChange'
         }, {
             event: 'keyup',
             fn: 'onSearchfieldKeyup',
@@ -109,10 +114,20 @@ Ext.define('Smoovz.view.TeamFinder', {
         backBtn.setText(Il8n.translate('back'));
     },
 
-    onContainerActiveItemChange: function(container, value, oldValue, eOpts) {
-        var me      = this,
-            active  = me.getActiveItem(),
-            backBtn = me.down('button[itemId=backBtn]');
+    /**
+     * Event hander for when the a different list in the {@link Smoovz.view.TeamFinder teamFinder}
+     * becomes {@link #event-activeitemchange active}. Shows or hires the back-button accordingly.
+     *
+     * @private
+     * @param   {Smoovz.view.TeamFinder} teamFinder
+     * @param   {Ext.dataview.List} newItem
+     * @param   {Ext.dataview.List} oldItem
+     * @param   {Object} eOpts
+     * @returns {void}
+     */
+    onActiveItemChange: function(teamFinder, newItem, oldItem, eOpts) {
+        var active  = teamFinder.getActiveItem(),
+            backBtn = teamFinder.down('button[itemId=backBtn]');
 
         switch (active.getItemId()) {
             case 'clublist':
@@ -124,7 +139,20 @@ Ext.define('Smoovz.view.TeamFinder', {
         }
     },
 
-    onSearchfieldKeyup: function(field, e, eOpts) {
+    /**
+     * Event handler for when a key is {@link #event-keyup released} in the {Ext.field.Search searchField}.
+     * Filters the active {@link Ext.dataview.List list} if more then, or an equal
+     * amount of characters are entered then the configured {@link #cfg-minSearchChars}.
+     * If the {Smoovz.view.ClubList clubList} is active, it filters remote, otherwise
+     * if the {Smoovz.view.TeamList teamList} is active it filters local.
+     *
+     * @private
+     * @param   {Ext.field.Search} field
+     * @param   {Ext.event.Event} evt
+     * @param   {Object} eOpts
+     * @returns {void}
+     */
+    onSearchfieldKeyup: function(field, evt, eOpts) {
         var me    = this,
             value = field.getValue().trim(),
             active, store;
@@ -153,36 +181,101 @@ Ext.define('Smoovz.view.TeamFinder', {
         }
     },
 
-    onClubListItemTap: function (list, index, target, record, evt, opts) {
+    /**
+     * Event handler for when a {@link Smoovz.model.Club club} is
+     * {@link Smoovz.view.ClubList#event-tap tapped}.
+     * Loads the {@link Smoovz.model.Team teams} of the
+     * {@link Smoovz.view.ClubList#event-tap tapped} {@link Smoovz.model.Club club}
+     * by loading the corresponding {@link Smoovz.store.Team teamStore}.
+     *
+     * @private
+     * @param   {Smoovz.view.ClubList} clubList
+     * @param   {Number} index
+     * @param   {Ext.dataview.component.SimpleListItemView} listItem
+     * @param   {Smoovz.model.Club} club
+     * @param   {Ext.event.Event} evt
+     * @param   {Object} eOpts
+     * @returns {void}
+     */
+    onClubListItemTap: function (clubList, index, listItem, club, evt, eOpts) {
         var me        = this,
             teamStore = me.getComponent('teamlist').getStore();
 
         teamStore.setRemoteFilter(true);
-        teamStore.filter('club', record.get('id'));
+        teamStore.filter('club', club.get('id'));
         teamStore.load({
             callback: me.onLoadTeamStore,
             scope: me
         });
     },
 
-    onTeamListItemTap: function (list, index, target, record, evt, opts) {
+    /**
+     * Event handler for when a {@link Smoovz.model.Team team} is
+     * {@link Smoovz.view.TeamList#event-tap tapped}.
+     * Does nothing at the moment.
+     *
+     * @private
+     * @param   {Smoovz.view.TeamList} teamList
+     * @param   {Number} index
+     * @param   {Ext.dataview.component.SimpleListItemView} listItem
+     * @param   {Smoovz.model.Team} team
+     * @param   {Ext.event.Event} evt
+     * @param   {Object} eOpts
+     * @returns {void}
+     */
+    onTeamListItemTap: function (teamList, index, listItem, team, evt, eOpts) {
 
     },
 
-    onBackBtnTap: function (button, evt, opts) {
+    /**
+     * Event handler for when the {@link Ext.button.Button back-button} is
+     * {@link Ext.button.Button#event-tap tapped}.
+     * Sets the {@link Smoovz.view.ClubList clubList} as active item
+     * with the animation reversed.
+     *
+     * @private
+     * @param   {Ext.button.Button} button
+     * @param   {type} evt
+     * @param   {type} eOpts
+     * @returns {void}
+     */
+    onBackBtnTap: function (button, evt, eOpts) {
         var me = this;
 
         me.getLayout().getAnimation().setReverse(true);
         me.setActiveItem('clublist');
     },
 
-    onLoadClubStore: function (records, operation, success) {
+    /**
+     * Event handler for when the {@link Smoovz.store.Club clubStore}
+     * {@link Smoovz.store.Club#event-load loads}.
+     * Sets the {@link Smoovz.view.ClubList clubList} as active item.
+     *
+     * @private
+     * @param   {Smoovz.model.Club[]} clubs
+     * @param   {Ext.data.Operation} operation
+     * @param   {Boolean} success
+     * @returns {void}
+     */
+    onLoadClubStore: function (clubs, operation, success) {
         var me = this;
 
         me.setActiveItem('clublist');
     },
 
-    onLoadTeamStore: function (records, operation, success) {
+    /**
+     * Event handler for when the {@link Smoovz.store.Team teamStore}
+     * {@link Smoovz.store.Team#event-load loads}.
+     * Sets the {@link Smoovz.view.TeamList teamList} as active item
+     * with the animation reversed.
+     *
+     * @private
+     * @param   {Smoovz.model.Team[]} teams
+     * @param   {Ext.data.Operation} operation
+     * @param   {Boolean} success
+     * @returns {void}
+     */
+    onLoadTeamStore: function (teams, operation, success) {
         var me = this;
 
         me.getLayout().getAnimation().setReverse(false);
