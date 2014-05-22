@@ -48,7 +48,7 @@ Ext.define('Smoovz.view.TeamList', {
 
         me.callParent();
 
-        me.setEmptyText(Il8n.translate('_emptyText_'));
+        me.setEmptyText(Il8n.translate('no_teams_to_display'));
         me.setLoadingText(Il8n.translate('loading'));
     }
 });

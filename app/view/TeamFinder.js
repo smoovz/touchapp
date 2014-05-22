@@ -38,6 +38,14 @@ Ext.define('Smoovz.view.TeamFinder', {
          * searching/filtering occurs.
          */
         minSearchChars: 3,
+        /**
+         * @cfg {String} mode
+         * Mode of selection.
+         * Valid values are: `'SINGLE'` and `'MULTI'`.
+         * Maps to {@link Ext.mixin.Selectable#cfg-mode select mode}
+         * on {@link Smoovz.view.TeamList teamList}.
+         */
+        mode: 'MULTI',
         scrollable: 'vertical',
         layout: {
             type: 'card',
@@ -60,6 +68,11 @@ Ext.define('Smoovz.view.TeamFinder', {
                 xtype: 'searchfield'
             }, {
                 xtype: 'spacer'
+            }, {
+                xtype: 'button',
+                itemId: 'okBtn',
+                disabled: 'true',
+                ui: 'confirm'
             }]
         }, {
             xtype: 'clublist',
@@ -96,31 +109,111 @@ Ext.define('Smoovz.view.TeamFinder', {
     },
 
     /**
+     * Fires when (a) team(s) is/are selected
+     * @event teamselect
+     * @param {Smoovz.view.TeamFinder} this The TeamFinder
+     * @param {Smoovz.model.Team}/{Smoovz.model.Team[]} team The team or teams that was/were selected
+     */
+
+    /**
      * Initialize the form.
      * Adds listeners to stores.
      * Sets all the localized texts.
+     * Initially hides Ok/back buttons.
      *
      * @returns {void}
      */
     initialize: function() {
         var me        = this,
+            teamList  = me.getComponent('teamlist'),
+            teamStore = teamList.getStore(),
             clubStore = me.getComponent('clublist').getStore(),
-            teamStore = me.getComponent('teamlist').getStore(),
-            backBtn   = me.down('button[itemId=backBtn]');
+            backBtn   = me.down('button[itemId=backBtn]'),
+            okBtn     = me.down('button[itemId=okBtn]');
 
         me.callParent();
         clubStore.getProxy().setExtraParam('mode', 'search');
         clubStore.on('load', me.onLoadClubStore, me);
         teamStore.on('load', me.onLoadTeamStore, me);
+        teamList.on('selectionchange', me.onTeamListSelectionChange, me);
+        teamList.on('select', me.onTeamListSelect, me);
 
         backBtn.hide();
         backBtn.setText(Il8n.translate('back'));
+
+        okBtn.hide();
+        okBtn.setText(Il8n.translate('ok'));
+        okBtn.on('tap', me.onOkBtnTap, me);
+    },
+
+    /**
+     * Destroy the object
+     * Unregisters all event handlers
+     *
+     * @returns {void}
+     */
+    destroy: function () {
+        var me        = this,
+            teamList  = me.getComponent('teamlist'),
+            teamStore = me.getComponent('teamlist').getStore(),
+            clubStore = me.getComponent('clublist').getStore(),
+            okBtn     = me.down('button[itemId=okBtn]');
+
+        clubStore.un('load', me.onLoadClubStore, me);
+        teamStore.un('load', me.onLoadTeamStore, me);
+        teamList.un('selectionchange', me.onTeamListSelectionChange, me);
+        teamList.un('select', me.onTeamListSelect, me);
+        okBtn.un('tap', me.onOkBtnTap, me);
+
+        me.callParent();
+    },
+
+    /**
+     * Applies new mode.
+     * Checks if new mode is valid, reverts to old mode.
+     *
+     * @protected
+     * @param   {String} newMode
+     * @param   {String} oldMode
+     * @returns {String}
+     */
+    applyMode: function (newMode, oldMode) {
+        var validModes = ['SINGLE', 'MULTI'];
+
+        return ((0 > validModes.indexOf(newMode.toUpperCase()))
+            ? oldMode
+            : newMode
+        ).toUpperCase();
+    },
+
+    /**
+     * Maps the new {@link #cfg-mode mode}
+     * to {@link Smoovz.view.TeamList#cfg-mode teamList mode}.
+     * Sets {@link Smoovz.view.TeamList#cfg-allowDeselect} accordingly.
+     * Shows or hides Ok button accordingly.
+     *
+     * @protected
+     * @param   {String} newMode
+     * @param   {String} oldMode
+     * @returns {String}
+     */
+    updateMode: function (newMode, oldMode) {
+        var me       = this,
+            okBtn    = me.down('button[itemId=okBtn]'),
+            teamList = me.getComponent('teamlist');
+
+        teamList.setMode(newMode);
+        teamList.setAllowDeselect(('MULTI' === newMode));
+
+        okBtn[('MULTI' === newMode) ? 'show' : 'hide']();
     },
 
     /**
      * Event hander for when the a different list in the {@link Smoovz.view.TeamFinder teamFinder}
      * becomes {@link #event-activeitemchange active}. Shows or hides the back-button accordingly.
      * Sets {@link #cfg-minSearchChars} accordingly.
+     * Sets {@link Smoovz.view.TeamList#cfg-allowDeselect} accordingly.
+     * Shows/hides Ok/back button accordingly.
      *
      * @protected
      * @param   {Smoovz.view.TeamFinder} teamFinder
@@ -131,16 +224,19 @@ Ext.define('Smoovz.view.TeamFinder', {
      */
     onActiveItemChange: function(teamFinder, newItem, oldItem, eOpts) {
         var searchField = teamFinder.down('searchfield'),
-            backBtn     = teamFinder.down('button[itemId=backBtn]');
+            backBtn     = teamFinder.down('button[itemId=backBtn]'),
+            okBtn       = teamFinder.down('button[itemId=okBtn]');
 
         searchField.reset();
         switch (newItem.getItemId()) {
             case 'clublist':
                 backBtn.hide();
+                okBtn.hide();
                 teamFinder.setMinSearchChars(3);
             break;
             case 'teamlist':
                 backBtn.show();
+                okBtn[('MULTI' === teamFinder.getMode()) ? 'show' : 'hide']();
                 teamFinder.setMinSearchChars(2);
             break;
         }
@@ -191,7 +287,7 @@ Ext.define('Smoovz.view.TeamFinder', {
 
     /**
      * Event handler for when the clear-icon is {@link Ext.form.Search#event-clearicontap tapped}.
-     * Clears any filters on the active {@link Ext.data.Store}
+     * Clears any filters on the active {@link Ext.data.Store}.
      *
      * @param   {Ext.field.Search} field
      * @param   {Ext.event.Event} evt
@@ -303,5 +399,64 @@ Ext.define('Smoovz.view.TeamFinder', {
 
         me.getLayout().getAnimation().setReverse(false);
         me.setActiveItem('teamlist');
+    },
+
+    /**
+     * Event handler for when the selection on {@link Smoovz.view.TeamList teamList} changes.
+     * Enables/disables Ok button accordingly.
+     *
+     * Note: somehow the 2nd param only gives the last selected instead of an array
+     * with the entire selection, contrary to what {@link Smoovz.view.TeamList#event-selectionchange} says.
+     *
+     * @protected
+     * @param   {Smoovz.view.TeamList} teamList
+     * @param   {Smoovz.model.Team[]} teams
+     * @param   {type} eOpts
+     * @returns {void}
+     */
+    onTeamListSelectionChange: function (teamList, teams, eOpts) {
+        var me    = this,
+            okBtn = me.down('button[itemId=okBtn]');
+
+        okBtn[(0 < teamList.getSelectionCount()) ? 'enable' : 'disable']();
+    },
+
+    /**
+     * Event handler for when a single team is {@link Smoovz.view.TeamList#event-select selected}
+     * from the {@link Smoovz.view.TeamList teamList}.
+     * Acts as a relay, fires {@link #event-teamselect teamselect} event
+     * if {@link #cfg-mode mode} is 'SINGLE'.
+     *
+     * @protected
+     * @param   {Smoovz.view.TeamList} teamList
+     * @param   {Smoovz.model.Team} team
+     * @param   {Object} eOpts
+     * @returns {void}
+     */
+    onTeamListSelect: function (teamList, team, eOpts) {
+        var me = this;
+
+        if ('SINGLE' === me.getMode()) {
+            me.fireEvent('teamselect', me, team);
+        }
+    },
+
+    /**
+     * Event handler for when the Ok button is {@link Ext.Button#event-tap tapped}.
+     * Acts as a relay, fires {@link #event-teamselect teamselect} event
+     * if {@link #cfg-mode mode} is 'MULTI'.
+     *
+     * @protected
+     * @param   {Ext.Button} button
+     * @param   {Ext.event.Event} evt
+     * @param   {Object} eOpts
+     * @returns {void}
+     */
+    onOkBtnTap: function (button, evt, eOpts) {
+        var me = this;
+
+        if ('MULTI' === me.getMode()) {
+            me.fireEvent('teamselect', me, me.getComponent('teamlist').getSelection());
+        }
     }
 });
