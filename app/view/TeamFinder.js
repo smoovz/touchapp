@@ -120,6 +120,7 @@ Ext.define('Smoovz.view.TeamFinder', {
     /**
      * Event hander for when the a different list in the {@link Smoovz.view.TeamFinder teamFinder}
      * becomes {@link #event-activeitemchange active}. Shows or hides the back-button accordingly.
+     * Sets {@link #cfg-minSearchChars} accordingly.
      *
      * @protected
      * @param   {Smoovz.view.TeamFinder} teamFinder
@@ -136,9 +137,11 @@ Ext.define('Smoovz.view.TeamFinder', {
         switch (newItem.getItemId()) {
             case 'clublist':
                 backBtn.hide();
+                teamFinder.setMinSearchChars(3);
             break;
             case 'teamlist':
                 backBtn.show();
+                teamFinder.setMinSearchChars(2);
             break;
         }
     },
