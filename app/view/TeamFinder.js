@@ -22,157 +22,171 @@
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
 Ext.define('Smoovz.view.TeamFinder', {
-    extend: 'Ext.dataview.NestedList',
+    extend: 'Ext.Container',
     alias: 'widget.teamfinder',
 
     requires: [
         'Ext.Toolbar',
         'Ext.field.Search',
-        'Smoovz.model.Club',
-        'Smoovz.model.Team',
-        'Smoovz.util.Config',
-        'Smoovz.util.Il8n',
-        'Smoovz.view.NestedList'
+        'Smoovz.view.ClubList',
+        'Smoovz.view.TeamList'
     ],
-
-    statics: {
-        modes: ['club', 'team']
-    },
 
     config: {
         scrollable: 'vertical',
-        backText: '_terug_',
-        emptyText: '_emptyText_',
-        loadingText: '_loading_',
-        store: 'TeamSelect',
-        mode: null,
-        listConfig: {
-            disableSelection: true,
-            striped: true,
-            grouper: null,
-            itemTpl: [
-                '<div>{name:htmlEncode}</div>'
-            ]
-        },
+        minSearchChars: 3,
         layout: {
             type: 'card',
             animation: 'slide'
         },
-        toolbar: {
+        items: [{
             xtype: 'toolbar',
+            docked: 'top',
             layout: {
                 type: 'hbox',
                 pack: 'center'
             },
             items: [{
+                xtype: 'button',
+                itemId: 'backBtn',
+                ui: 'back'
+            }, {
+                xtype: 'spacer'
+            }, {
                 xtype: 'searchfield'
+            }, {
+                xtype: 'spacer'
             }]
+        }, {
+            xtype: 'clublist',
+            itemId: 'clublist'
+        }, {
+            xtype: 'teamlist',
+            itemId: 'teamlist'
+        }],
+        listeners: [{
+            event: 'activeitemchange',
+            fn: 'onContainerActiveItemChange'
+        }, {
+            event: 'keyup',
+            fn: 'onSearchfieldKeyup',
+            buffer: 500,
+            delegate: 'searchfield'
+        }, {
+            event: 'itemtap',
+            fn: 'onClubListItemTap',
+            delegate: 'clublist'
+        }, {
+            event: 'itemtap',
+            fn: 'onTeamListItemTap',
+            delegate: 'teamlist'
+        }, {
+            event: 'tap',
+            fn: 'onBackBtnTap',
+            delegate: 'button[itemId=backBtn]'
+        }]
+    },
+
+    /**
+     * Initialize the form.
+     * Adds listeners to stores.
+     * Sets all the localized texts.
+     *
+     * @returns {void}
+     */
+    initialize: function() {
+        var me        = this,
+            clubStore = me.getComponent('clublist').getStore(),
+            teamStore = me.getComponent('teamlist').getStore(),
+            backBtn   = me.down('button[itemId=backBtn]');
+
+        me.callParent();
+        clubStore.getProxy().setExtraParam('mode', 'search');
+        clubStore.on('load', me.onLoadClubStore, me);
+        teamStore.on('load', me.onLoadTeamStore, me);
+
+        backBtn.hide();
+        backBtn.setText(Il8n.translate('back'));
+    },
+
+    onContainerActiveItemChange: function(container, value, oldValue, eOpts) {
+        var me      = this,
+            active  = me.getActiveItem(),
+            backBtn = me.down('button[itemId=backBtn]');
+
+        switch (active.getItemId()) {
+            case 'clublist':
+                backBtn.hide();
+            break;
+            case 'teamlist':
+                backBtn.show();
+            break;
         }
     },
 
-    /**
-     * Finds the index of the active item
-     *
-     * @returns {Number} The index of the active item
-     */
-    getActiveIndex: function() {
-        var me     = this,
-            active = me.getActiveItem();
+    onSearchfieldKeyup: function(field, e, eOpts) {
+        var me    = this,
+            value = field.getValue().trim(),
+            active, store;
 
-        return me.getItems().findIndexBy(function (o, k) {
-            return active === o;
-        });
-    },
-
-    /**
-     * Applies the mode
-     * Checks if mode is known, otherwise revert to old (current) one
-     *
-     * @param   {String} newMode
-     * @param   {String} oldMode
-     * @returns {String}
-     */
-    applyMode: function (newMode, oldMode) {
-        var me = this;
-        return (0 > me.statics().modes.indexOf(newMode))
-            ? oldMode
-            : newMode;
-    },
-
-    /**
-     *
-     * @param   {String} newMode
-     * @param   {String} oldMode
-     * @returns {void}
-     */
-    updateMode: function (newMode, oldMode) {
-        var me     = this,
-            store  = me.getStore(),
-            proxy  = store.getProxy(),
-            active, activeStore, activeGrouped, activeGroupField,
-            storeModel, storeNodeParam, storeRemoteFilter, storeGrouper,
-            proxyUrl, proxyExtraParams;
-
-        switch (newMode) {
-            case 'club':
-//                me.setActiveItem(0);
-
-                activeGrouped    = true;
-                activeGroupField = 'city';
-
-                storeModel        = 'Smoovz.model.Club';
-                storeNodeParam    = 'node';
-                storeRemoteFilter = true;
-                storeGrouper      = null;
-
-                proxyUrl         = 'club';
-                proxyExtraParams = {
-                    mode: 'search'
-                };
-            break;
-
-            case 'team':
-//                me.setActiveItem(1);
-
-                activeGrouped    = true;
-                activeGroupField = 'ageClass';
-
-                storeModel        = 'Smoovz.model.Team';
-                storeNodeParam    = 'club';
-                storeRemoteFilter = false;
-                storeGrouper      = {
-                    groupFn: me.teamGroupFn
-                };
-
-                proxyUrl         = 'team';
-                proxyExtraParams = null;
-            break;
+        if (!value || me.getMinSearchChars() > value.length) {
+            return;
         }
 
         active = me.getActiveItem();
-        active.setGrouped(activeGrouped);
-        active.getStore().setGroupField(activeGroupField);
+        store  = active.getStore();
 
-        store.setModel(storeModel);
-        store.setNodeParam(storeNodeParam);
-        store.setRemoteFilter(storeRemoteFilter);
-        store.setGrouper(storeGrouper);
-
-        proxy.setExtraParams(proxyExtraParams);
-        proxy.setUrl(Config.getApiUrl() + proxyUrl);
+        store.clearFilter(!!value);
+        switch (active.getItemId()) {
+            case 'clublist':
+                store.filter('club', value);
+                store.filter('city', value);
+                store.load({
+                    callback: me.onLoadClubStore,
+                    scope: me
+                });
+            break;
+            case 'teamlist':
+                store.setRemoteFilter(false);
+                store.filter('name', value, true);
+            break;
+        }
     },
 
+    onClubListItemTap: function (list, index, target, record, evt, opts) {
+        var me        = this,
+            teamStore = me.getComponent('teamlist').getStore();
 
-    /**
-     * Translates ageClass into localized, human-readable value for grouping
-     *
-     * @private
-     * @param   {Smoovz.model.Team} record
-     * @returns {String}
-     */
-    teamGroupFn: function (record) {
-        var trKey = Smoovz.model.Team.ageClassMap[record.get('ageClass')];
-        return Il8n.translate(trKey);
+        teamStore.setRemoteFilter(true);
+        teamStore.filter('club', record.get('id'));
+        teamStore.load({
+            callback: me.onLoadTeamStore,
+            scope: me
+        });
+    },
+
+    onTeamListItemTap: function (list, index, target, record, evt, opts) {
+
+    },
+
+    onBackBtnTap: function (button, evt, opts) {
+        var me = this;
+
+        me.getLayout().getAnimation().setReverse(true);
+        me.setActiveItem('clublist');
+    },
+
+    onLoadClubStore: function (records, operation, success) {
+        var me = this;
+
+        me.setActiveItem('clublist');
+    },
+
+    onLoadTeamStore: function (records, operation, success) {
+        var me = this;
+
+        me.getLayout().getAnimation().setReverse(false);
+        me.setActiveItem('teamlist');
     }
 
 });

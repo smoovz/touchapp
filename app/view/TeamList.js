@@ -16,38 +16,41 @@
  */
 
 /**
- * Store used for the drill down to find a team
+ * List of teams.
  *
- * @class  {Smoovz.store.TeamSelect}
+ * @class  {Smoovz.view.ClubList}
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
-Ext.define('Smoovz.store.TeamSelect', {
-    extend: 'Ext.data.TreeStore',
-    alias: 'store.teamselect',
+Ext.define('Smoovz.view.TeamList', {
+    extend: 'Ext.dataview.List',
+    alias: 'widget.teamlist',
 
     requires: [
-        'Smoovz.model.Club',
-        'Smoovz.model.Team',
-        'Ext.data.proxy.Rest',
-        'Ext.data.reader.Json'
+        'Ext.XTemplate'
     ],
 
     config: {
-        model: 'Smoovz.model.Club',
-        storeId: 'TeamSelect',
-        defaultRootProperty: 'data',
-        proxy: {
-            type: 'rest',
-            reader: {
-                type: 'json',
-                messageProperty: 'message',
-                rootProperty: 'data'
-            }
-        },
-        root: {
-            expanded: true,
-            name: 'root',
-            data: []
-        }
+        store: 'Team',
+        grouped: true,
+        striped: true,
+        itemTpl: [
+            '<div>{name:htmlEncode}</div>'
+        ]
+    },
+
+    /**
+     * Initialize the list.
+     * Sets all the localized texts.
+     *
+     * @returns {void}
+     */
+    initialize: function () {
+        var me = this;
+
+        me.callParent();
+
+        me.setEmptyText(Il8n.translate('_emptyText_'));
+        me.setLoadingText(Il8n.translate('loading'));
     }
+
 });

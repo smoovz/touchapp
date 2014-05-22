@@ -16,43 +16,47 @@
  */
 
 /**
- * Controller that handles finding teams using the drill down
+ * Club store.
  *
- * @class  {Smoovz.controller.TeamSelectController}
+ * @class  {Smoovz.store.ClubStore}
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
-Ext.define('Smoovz.controller.TeamSelectController', {
-    extend: 'Ext.app.Controller',
+Ext.define('Smoovz.store.Club', {
+    extend: 'Ext.data.Store',
+    alias: 'store.club',
 
     requires: [
-        'Ext.app.Route'
+        'Ext.data.proxy.Rest',
+        'Ext.data.reader.Json',
+        'Smoovz.model.Club',
+        'Smoovz.util.Config'
     ],
 
     config: {
-        models: [
-            'Club',
-            'Team'
-        ],
-        stores: [
-            'Club',
-            'Team'
-        ],
-        views: [
-            'TeamFinder'
-        ],
-        routes: {
-            'teamselect': 'showFinder'
-        },
-        refs: {
-            teamFinder: 'teamfinder'
+        groupField: 'city',
+        model: 'Smoovz.model.Club',
+        remoteFilter: true,
+        storeId: 'Club',
+        proxy: {
+            type: 'rest',
+            reader: {
+                type: 'json',
+                messageProperty: 'message',
+                rootProperty: 'data'
+            }
         }
     },
 
-    showFinder: function() {
-        var me         = this,
-            teamFinder = me.getTeamFinder();
+    /**
+     * Initialize Club store.
+     * Sets API url.
+     *
+     * @returns {void}
+     */
+     initialize: function() {
+         var me = this;
 
-        Ext.Viewport.setActiveItem(teamFinder);
-    }
-
+         me.callParent();
+         me.getProxy().setUrl(Config.getApiUrl() + 'club');
+     }
 });

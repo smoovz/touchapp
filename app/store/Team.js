@@ -16,41 +16,47 @@
  */
 
 /**
- * User store.
+ * Team store.
  *
- * @class Smoovz.store.User
+ * @class  {Smoovz.store.ClubStore}
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
-Ext.define('Smoovz.store.User', {
+Ext.define('Smoovz.store.Team', {
     extend: 'Ext.data.Store',
-    alias: 'store.userstore',
+    alias: 'store.team',
 
     requires: [
-        'Smoovz.model.User',
         'Ext.data.proxy.Rest',
         'Ext.data.reader.Json',
-        'Ext.data.writer.Json'
+        'Ext.util.Grouper',
+        'Smoovz.model.Team',
+        'Smoovz.util.Config',
+        'Smoovz.util.Il8n'
     ],
 
     config: {
-        model: 'Smoovz.model.User',
-        storeId: 'User',
+        model: 'Smoovz.model.Team',
+        remoteFilter: true,
+        storeId: 'Team',
         proxy: {
             type: 'rest',
             reader: {
                 type: 'json',
                 messageProperty: 'message',
                 rootProperty: 'data'
-            },
-            writer: {
-                type: 'json'
+            }
+        },
+        grouper: {
+            groupFn: function (record) {
+                var trKey = Smoovz.model.Team.ageClassMap[record.get('ageClass')];
+                return Il8n.translate(trKey);
             }
         }
     },
 
     /**
-     * Initialize User store.
-     * sets API url
+     * Initialize Team store.
+     * Sets API url
      *
      * @returns {void}
      */
@@ -58,6 +64,6 @@ Ext.define('Smoovz.store.User', {
         var me = this;
 
         me.callParent();
-        me.getProxy().setUrl(Config.getApiUrl() + 'user');
+        me.getProxy().setUrl(Config.getApiUrl() + 'team');
     }
 });

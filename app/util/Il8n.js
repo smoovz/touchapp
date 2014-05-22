@@ -38,6 +38,24 @@ Ext.define('Smoovz.util.Il8n', {
                 lastname: 'Achternaam',
                 date_of_birth: 'Geboortedatum',
                 accept_terms: 'Ik accepteer de privacyverklaring en gebruiksvoorwaarden',
+                back: 'Terug',
+                loading: 'Laden…',
+
+                /* Team Categories */
+                ageclass_seniors: 'Senioren (18+)',
+                ageclass_a: 'Junioren A (17-18)',
+                ageclass_b: 'Junioren B (15-16)',
+                ageclass_c: 'Junioren C (13-14)',
+                ageclass_d: 'Pupillen D (11-12)',
+                ageclass_e: 'Pupillen E (9-10)',
+                ageclass_f: 'Pupillen F (7-8)',
+                ageclass_g: 'Gehandicapten (18+)',
+                ageclass_jg: 'Jeugd Gehandicapten (tot 18)',
+                ageclass_mp: 'Minipupillen (5-6)',
+                ageclass_o: 'Senioren (tot 23)',
+                ageclass_ve: 'Veteranen (35+)',
+                ageclass_35plus: 'Veteranen 7vs7 (35+)',
+                ageclass_45plus: 'Veteranen 7vs7 (45+)',
 
                 /* Messages */
                 password_no_match: 'komt niet overeen',
@@ -80,6 +98,24 @@ Ext.define('Smoovz.util.Il8n', {
                 lastname: 'Last name',
                 date_of_birth: 'Birthdate',
                 accept_terms: 'I accept the privacystatement and terms of use',
+                back: 'Back',
+                loading: 'Loading…',
+
+                /* Team categories */
+                ageclass_seniors: 'Seniors (18+)',
+                ageclass_a: 'Juniors A (17-18)',
+                ageclass_b: 'Juniors B (15-16)',
+                ageclass_c: 'Juniors C (13-14)',
+                ageclass_d: 'Pupills D (11-12)',
+                ageclass_e: 'Pupills E (9-10)',
+                ageclass_f: 'Pupills F (7-8)',
+                ageclass_g: 'Disabled (18+)',
+                ageclass_jg: 'Young Disabled (up to 18)',
+                ageclass_mp: 'Minipupils (5-6)',
+                ageclass_o: 'Seniors (up to 23)',
+                ageclass_ve: 'Veterans (35+)',
+                ageclass_35plus: 'Veterans 7vs7 (35+)',
+                ageclass_45plus: 'Veterans 7vs7 (45+)',
 
                 /* Messages */
                 password_no_match: 'does not match',

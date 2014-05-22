@@ -16,43 +16,42 @@
  */
 
 /**
- * Controller that handles finding teams using the drill down
+ * List of clubs.
  *
- * @class  {Smoovz.controller.TeamSelectController}
+ * @class  {Smoovz.view.ClubList}
  * @author Rocco Bruyn <rocco@smoovz.com>
  */
-Ext.define('Smoovz.controller.TeamSelectController', {
-    extend: 'Ext.app.Controller',
+Ext.define('Smoovz.view.ClubList', {
+    extend: 'Ext.dataview.List',
+    alias: 'widget.clublist',
 
     requires: [
-        'Ext.app.Route'
+        'Ext.XTemplate'
     ],
 
     config: {
-        models: [
-            'Club',
-            'Team'
-        ],
-        stores: [
-            'Club',
-            'Team'
-        ],
-        views: [
-            'TeamFinder'
-        ],
-        routes: {
-            'teamselect': 'showFinder'
-        },
-        refs: {
-            teamFinder: 'teamfinder'
-        }
+        disableSelection: true,
+        store: 'Club',
+        grouped: true,
+        striped: true,
+        itemTpl: [
+            '<div>{name:htmlEncode}</div>'
+        ]
     },
 
-    showFinder: function() {
-        var me         = this,
-            teamFinder = me.getTeamFinder();
+    /**
+     * Initialize the list.
+     * Sets all the localized texts.
+     *
+     * @returns {void}
+     */
+    initialize: function () {
+        var me = this;
 
-        Ext.Viewport.setActiveItem(teamFinder);
+        me.callParent();
+
+        me.setEmptyText(Il8n.translate('_emptyText_'));
+        me.setLoadingText(Il8n.translate('loading'));
     }
 
 });
