@@ -55,6 +55,9 @@ Ext.define('Smoovz.controller.RegistrationController', {
             'Smoovz.form.Register',
             'Smoovz.view.TeamFinder'
         ],
+        before: {
+            register: 'beforeRegister'
+        },
         routes: {
             register: 'register'
         },
@@ -82,10 +85,61 @@ Ext.define('Smoovz.controller.RegistrationController', {
      * @param   {Ext.Application} app
      * @returns {void}
      */
-    init: function(app) {
+    init: function (app) {
         var me = this;
 
         me.setValidator(Ext.create('Smoovz.form.validate.Register'));
+    },
+
+    /**
+     * Is exectuted before {@link #register}.
+     * Checks if the user is already logged in.
+     * Redirects to main view if this is the case.
+     * Checks if registration is already in progress.
+     * Redirects to teamselect if this is the case.
+     *
+     * @param   {Ext.app.Action} action
+     * @returns {void}
+     */
+    beforeRegister: function (action) {
+        var me       = this,
+            loggedin = false,    // stub
+            application, teamFinder, store, count, user;
+
+        if (true === loggedin) {
+            // TODO: check if user is logged in already
+            return;
+        } else {
+            store = Ext.StoreMgr.lookup('Registration');
+            count = store.getCount();
+            user;
+
+            switch (true) {
+                case (0 === count): // nothing saved
+                break;
+                case (1 === count): // register in progress
+                    application = action.getApplication();
+                    user        = store.getAt(0);
+                    teamFinder  = me.getTeamFinder();
+
+                    me.setRegUser(user);
+                    teamFinder.setMode('SINGLE');
+
+                    action.setController(application.getController('TeamSelectController'));
+                    action.setAction('showFinder');
+                    action.setUrl('teamselect');
+                    application.getHistory().add(action, true);
+                break;
+                case (1 < count): // ambiguous
+                default:
+                    me.setRegUser(null);
+                    store.removeAll();
+                    store.sync();
+                break;
+            }
+        }
+
+        action.resume();
     },
 
     /**
@@ -96,8 +150,6 @@ Ext.define('Smoovz.controller.RegistrationController', {
      */
     register: function () {
         var me = this;
-
-        // TODO: check if user is logged in already?
 
         Ext.Viewport.setActiveItem(me.getRegisterForm());
     },
@@ -171,8 +223,15 @@ Ext.define('Smoovz.controller.RegistrationController', {
             });
 
         me.setRegUser(user);
-        user.join(store);
+
+        // we have to set the model 'dirty' because it got an ID from the server,
+        // otherwise it's not saved to the localstorage
+        user.setDirty();
         store.add(user);
+
+        // we alse have to call sync manually because even though we've set the
+        // model to 'dirty', is't still not 'phantom' which needs to be the case
+        // for the autosync to kick in
         store.sync();
 
         me.redirectTo('teamselect');
@@ -226,10 +285,15 @@ Ext.define('Smoovz.controller.RegistrationController', {
      * @returns {void}
      */
     onTeamFinderSelect: function (teamFinder, team) {
-        var me    = this,
-            store = Ext.StoreMgr.lookup('Registration'),
-            user  = me.getRegUser();
+        var me   = this,
+            user = me.getRegUser(),
+            store;
 
+        if (!user) {
+            return;
+        }
+
+        store = Ext.StoreMgr.lookup('Registration');
         // The team was not loaded by association, but by a seperate store that
         // doesn't know about associations. Therefore we need to reload te club.
         team.getClub({
@@ -240,9 +304,8 @@ Ext.define('Smoovz.controller.RegistrationController', {
 
                 me.setRegUser(null);
                 store.remove(user);
-                user.unjoin(store);
+                store.sync();
             }
         });
-
     }
 });

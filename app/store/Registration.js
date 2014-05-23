@@ -34,6 +34,8 @@ Ext.define('Smoovz.store.Registration', {
     config: {
         model: 'Smoovz.model.User',
         storeId: 'Registration',
+        autoLoad: true,
+        autoSync: true,
         proxy: {
             type: 'localstorage',
             id: 'smoovz-user-register'

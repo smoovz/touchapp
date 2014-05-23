@@ -53,6 +53,14 @@ Ext.define('Smoovz.model.User', {
             name: 'dateOfBirth',
             type: 'date',
             dateFormat: 'timestamp'
+        }, {
+            name: 'club',
+            type: 'int',
+            mapping: 'club_id'
+        }, {
+            name: 'team',
+            type: 'int',
+            mapping: 'team_id'
         }],
 
         validations: [{
@@ -66,7 +74,7 @@ Ext.define('Smoovz.model.User', {
             field: 'lastname',
             type: 'presence'
         }, {
-            field: 'firstname',
+            field: 'lastname',
             type: 'length',
             min: 2
         }, {
@@ -78,14 +86,6 @@ Ext.define('Smoovz.model.User', {
         }, {
             field: 'dateOfBirth',
             type: 'presence'
-        }, {
-            name: 'club',
-            type: 'int',
-            mapping: 'club_id'
-        }, {
-            name: 'team',
-            type: 'int',
-            mapping: 'team_id'
         }],
 
         proxy: {
