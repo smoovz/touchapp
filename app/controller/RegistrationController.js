@@ -161,6 +161,7 @@ Ext.define('Smoovz.controller.RegistrationController', {
     onRegisterSuccess: function (form, result, response) {
         var me     = this,
             rd    = result.data,
+            store = Ext.StoreMgr.lookup('Registration'),
             user  = Ext.create('Smoovz.model.User', {
                 id: rd.id,
                 firstname: rd.firstname,
@@ -170,6 +171,10 @@ Ext.define('Smoovz.controller.RegistrationController', {
             });
 
         me.setRegUser(user);
+        user.join(store);
+        store.add(user);
+        store.sync();
+
         me.redirectTo('teamselect');
     },
 
@@ -222,6 +227,7 @@ Ext.define('Smoovz.controller.RegistrationController', {
      */
     onTeamFinderSelect: function (teamFinder, team) {
         var me    = this,
+            store = Ext.StoreMgr.lookup('Registration'),
             user  = me.getRegUser();
 
         // The team was not loaded by association, but by a seperate store that
@@ -231,6 +237,10 @@ Ext.define('Smoovz.controller.RegistrationController', {
             success: function (club) {
                 user.setClub(club);
                 user.setTeam(team);
+
+                me.setRegUser(null);
+                store.remove(user);
+                user.unjoin(store);
             }
         });
 
