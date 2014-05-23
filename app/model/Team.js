@@ -27,7 +27,12 @@ Ext.define('Smoovz.model.Team', {
     requires: [
         'Ext.data.Field',
         'Ext.data.proxy.Rest',
-        'Ext.data.reader.Json'
+        'Ext.data.reader.Json',
+        'Ext.data.association.BelongsTo'
+    ],
+
+    uses: [
+        'Smoovz.model.Club'
     ],
 
     statics: {
@@ -70,7 +75,7 @@ Ext.define('Smoovz.model.Team', {
             type: 'int'
         }, {
             name: 'matchRound',
-            type: 'int'
+            type: 'string'
         }, {
             name: 'club',
             type: 'int',
@@ -89,7 +94,25 @@ Ext.define('Smoovz.model.Team', {
             model: 'Smoovz.model.Club',
             foreignKey: 'club',
             getterName: 'getClub',
-            setterName: 'setClub'
+            setterName: 'setClub',
+            reader: {
+                type: 'json',
+                messageProperty: 'message',
+                rootProperty: 'data'
+            }
         }
+    },
+
+    /**
+     * Initialize model.
+     * Is called from {@link Ext.data.Model#constructor} (gotta love them undocumented features)
+     * Sets proxy url.
+     *
+     * @returns {void}
+     */
+    init: function () {
+        var me = this;
+
+        me.getProxy().setUrl(Config.getApiUrl() + 'team');
     }
 });

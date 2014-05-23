@@ -43,14 +43,24 @@ Ext.define('Smoovz.controller.RegistrationController', {
          * A validator class to validate the {@link Smoovz.form.Register form}.
          */
         validator: null,
+        /**
+         * @cfg {Smoovz.model.User} regUser
+         * User that is currently being registered
+         */
+        regUser: null,
+        stores: [
+            'Smoovz.store.Registration'
+        ],
         views: [
-            'Smoovz.form.Register'
+            'Smoovz.form.Register',
+            'Smoovz.view.TeamFinder'
         ],
         routes: {
-            'register': 'register'
+            register: 'register'
         },
         refs: {
-            registerForm: 'registerform'
+            registerForm: 'registerform',
+            teamFinder: 'teamfinder'
         },
         control: {
             'registerform button[itemId=registerBtn]': {
@@ -58,6 +68,9 @@ Ext.define('Smoovz.controller.RegistrationController', {
             },
             'registerform textfield': {
                 change: 'onTextFieldChange'
+            },
+            teamfinder: {
+                teamselect: 'onTeamFinderSelect'
             }
         }
     },
@@ -140,23 +153,32 @@ Ext.define('Smoovz.controller.RegistrationController', {
      * Callback when registration was successful.
      *
      * @protected
+     * @param   {Smoovz.form.Register} form
+     * @param   {Object} result
+     * @param   {String} response
      * @returns {void}
      */
-    onRegisterSuccess: function () {
-        var me = this;
+    onRegisterSuccess: function (form, result, response) {
+        var me     = this,
+            rd    = result.data,
+            user  = Ext.create('Smoovz.model.User', {
+                id: rd.id,
+                firstname: rd.firstname,
+                lastname: rd.lastname,
+                emailAddress: rd.emailAddress,
+                dateOfBirth: rd.dateOfBirth
+            });
 
-        console.log('REG SUCCESS');
-        console.dir(arguments);
-        console.log('do something useful with response');
-
+        me.setRegUser(user);
         me.redirectTo('teamselect');
     },
 
     /**
      * Callback when registration failed.
+     * Displays error message(s).
      *
      * @protected
-     * @param   {Ext.form.Register} form
+     * @param   {Smoovz.form.Register} form
      * @param   {Object} result
      * @returns {void}
      */
@@ -177,7 +199,7 @@ Ext.define('Smoovz.controller.RegistrationController', {
      * Validates the field.
      *
      * @protected
-     * @param   {Ext.field.Text} The field
+     * @param   {Ext.field.Text} field
      * @param   {Mixed} newValue
      * @param   {Mixed} oldValue
      * @param   {Object} eOpts
@@ -188,5 +210,29 @@ Ext.define('Smoovz.controller.RegistrationController', {
             validator = me.getValidator();
 
         validator.validateField(field);
+    },
+
+    /**
+     * Event handler for when a {@link Smoovz.model.Team team} is selected.
+     *
+     * @protected
+     * @param   {Smoovz.view.TeamFinder} teamFinder
+     * @param   {Smoovz.model.Team} team
+     * @returns {void}
+     */
+    onTeamFinderSelect: function (teamFinder, team) {
+        var me    = this,
+            user  = me.getRegUser();
+
+        // The team was not loaded by association, but by a seperate store that
+        // doesn't know about associations. Therefore we need to reload te club.
+        team.getClub({
+            reload: true,
+            success: function (club) {
+                user.setClub(club);
+                user.setTeam(team);
+            }
+        });
+
     }
 });

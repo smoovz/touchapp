@@ -22,6 +22,19 @@
  */
 Ext.define('Smoovz.model.User', {
     extend: 'Ext.data.Model',
+    alias: 'model.user',
+
+    requires: [
+        'Ext.data.Field',
+        'Ext.data.proxy.Rest',
+        'Ext.data.reader.Json',
+        'Ext.data.association.BelongsTo'
+    ],
+
+    uses: [
+        'Smoovz.model.Club',
+        'Smoovz.model.Team'
+    ],
 
     config: {
         fields: [{
@@ -65,6 +78,14 @@ Ext.define('Smoovz.model.User', {
         }, {
             field: 'dateOfBirth',
             type: 'presence'
+        }, {
+            name: 'club',
+            type: 'int',
+            mapping: 'club_id'
+        }, {
+            name: 'team',
+            type: 'int',
+            mapping: 'team_id'
         }],
 
         proxy: {
@@ -77,21 +98,42 @@ Ext.define('Smoovz.model.User', {
             writer: {
                 type: 'json'
             }
-        }
+        },
+        belongsTo: [{
+            instanceName: 'UserBelongsToClubInstance',
+            model: 'Smoovz.model.Club',
+            foreignKey: 'club',
+            getterName: 'getClub',
+            setterName: 'setClub',
+            reader: {
+                type: 'json',
+                messageProperty: 'message',
+                rootProperty: 'data'
+            }
+        }, {
+            instanceName: 'UserBelongsToTeamInstance',
+            model: 'Smoovz.model.Team',
+            foreignKey: 'team',
+            getterName: 'getTeam',
+            setterName: 'setTeam',
+            reader: {
+                type: 'json',
+                messageProperty: 'message',
+                rootProperty: 'data'
+            }
+        }]
     },
 
     /**
-     * Creates new User model.
+     * Initialize model.
+     * Is called from {@link Ext.data.Model#constructor} (gotta love them undocumented features)
      * Sets proxy url.
      *
-     * @constructor
-     * @param   {Object} config
      * @returns {void}
      */
-    constructor: function(config) {
+    init: function () {
         var me = this;
 
-        me.callParent([config]);
         me.getProxy().setUrl(Config.getApiUrl() + 'user');
     }
 });

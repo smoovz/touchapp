@@ -27,7 +27,13 @@ Ext.define('Smoovz.model.Club', {
     requires: [
         'Ext.data.Field',
         'Ext.data.proxy.Rest',
-        'Ext.data.reader.Json'
+        'Ext.data.reader.Json',
+        'Ext.data.association.HasMany'
+    ],
+
+    uses: [
+        'Smoovz.model.User',
+        'Smoovz.model.Team'
     ],
 
     config: {
@@ -83,10 +89,37 @@ Ext.define('Smoovz.model.Club', {
                 rootProperty: 'data'
             }
         },
-        hasMany: {
+        hasMany: [{
+            instanceName: 'ClubHasManyUserInstance',
+            model: 'Smoovz.model.User',
+            foreignKey: 'club',
+            reader: {
+                type: 'json',
+                messageProperty: 'message',
+                rootProperty: 'data'
+            }
+        }, {
             instanceName: 'ClubHasManyTeamInstance',
             model: 'Smoovz.model.Team',
-            foreignKey: 'club'
-        }
+            foreignKey: 'club',
+            reader: {
+                type: 'json',
+                messageProperty: 'message',
+                rootProperty: 'data'
+            }
+        }]
+    },
+
+    /**
+     * Initialize model.
+     * Is called from {@link Ext.data.Model#constructor} (gotta love them undocumented features)
+     * Sets proxy url.
+     *
+     * @returns {void}
+     */
+    init: function () {
+        var me = this;
+
+        me.getProxy().setUrl(Config.getApiUrl() + 'club');
     }
 });

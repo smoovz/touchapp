@@ -45,7 +45,7 @@ Ext.define('Smoovz.view.TeamFinder', {
          * Maps to {@link Ext.mixin.Selectable#cfg-mode select mode}
          * on {@link Smoovz.view.TeamList teamList}.
          */
-        mode: 'MULTI',
+        mode: 'SINGLE',
         scrollable: 'vertical',
         layout: {
             type: 'card',
