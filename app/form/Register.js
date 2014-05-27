@@ -15,17 +15,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * From to register new users.
+ *
+ * @author Rocco Bruyn <rocco@smoovz.com>
+ */
 Ext.define('Smoovz.form.Register', {
     extend: 'Ext.form.Panel',
     alias: 'widget.registerform',
 
     requires: [
         'Ext.Button',
+        'Ext.Date',
         'Ext.field.Checkbox',
         'Ext.field.DatePicker',
         'Ext.field.Email',
         'Ext.field.Password',
-        'Ext.form.FieldSet'
+        'Ext.form.FieldSet',
+        'Ext.TitleBar',
+        'Smoovz.form.Panel',
+        'Smoovz.field.Field',
+        'Smoovz.util.Config',
+        'Smoovz.util.Il8n'
     ],
 
     config: {
@@ -41,40 +52,66 @@ Ext.define('Smoovz.form.Register', {
             width: '90%',
             items: [{
                 xtype: 'emailfield',
-                name: 'email'
+                name: 'emailAddress',
+                required: true
             }, {
                 xtype: 'passwordfield',
-                name: 'password'
+                name: 'password',
+                required: true
             }, {
                 xtype: 'passwordfield',
-                name: 'pwcheck'
+                name: 'passwordConfirm',
+                required: true
             }, {
                 xtype: 'textfield',
-                name: 'firstname'
+                name: 'firstname',
+                required: true
             }, {
                 xtype: 'textfield',
-                name: 'lastname'
+                name: 'lastname',
+                required: true
             }, {
                 xtype: 'datepickerfield',
-                name: 'dateOfBirth'
+                name: 'dateOfBirth',
+                required: true,
+                picker: {
+                    yearFrom: 1900,
+                    value: Ext.Date.add(new Date(), Ext.Date.YEAR, -18),
+                    doneButton: {
+                        itemId: 'doneBtn'
+                    }
+                }
             }, {
                 xtype: 'checkboxfield',
+                name: 'agreedToEULAAt',
                 labelAlign: 'top',
-                labelWrap: true
+                labelWrap: true,
+                required: true,
+                value: Ext.Date.format(new Date(), 'U')
             }]
         }, {
             xtype: 'button',
             itemId: 'registerBtn',
             ui: 'action'
+        }],
+        listeners: [{
+            event: 'beforesubmit',
+            fn: 'onBeforeSubmit'
         }]
     },
 
+    /**
+     * Initialize the form.
+     * Sets all the localized texts.
+     *
+     * @returns {void}
+     */
     initialize: function () {
         var me = this;
 
         me.callParent();
 
-        me.setUrl(Config.getApiUrl() + 'sessions');
+        me.setUrl(Config.getApiUrl() + 'user');
         me.down('titlebar')
             .setTitle(Il8n.translate('register_title_12'));
         me.down('fieldset')
@@ -84,7 +121,7 @@ Ext.define('Smoovz.form.Register', {
             .setPlaceHolder(Il8n.translate('email_placeholder'));
         me.down('passwordfield[name=password]')
             .setLabel(Il8n.translate('password'));
-        me.down('passwordfield[name=pwcheck]')
+        me.down('passwordfield[name=passwordConfirm]')
             .setLabel(Il8n.translate('password'));
         me.down('textfield[name=firstname]')
             .setLabel(Il8n.translate('firstname'));
@@ -96,5 +133,26 @@ Ext.define('Smoovz.form.Register', {
             .setLabel(Il8n.translate('accept_terms'));
         me.getComponent('registerBtn')
             .setText(Il8n.translate('register_btn'));
+    },
+
+    /**
+     * Event handler for form submission.
+     * Transforms dateOfBirth to unix timestamp.
+     *
+     * See [the forum](http://www.sencha.com/forum/showthread.php?160553-Alter-form-data-using-the-beforesubmit-event).
+     *
+     * @protected
+     * @param   {Smoovz.form.Register} form
+     * @param   {Object} values
+     * @param   {Object} opts
+     * @param   {Ext.event.Event} evt
+     * @param   {Object} eOpts
+     * @returns {void}
+     */
+    onBeforeSubmit: function (form, values, opts, evt, eOpts) {
+        var timestamp = Ext.Date.format(values.dateOfBirth, 'U');
+
+        // setting the value on 'values' doesn't work so we do it on the (DOM) form
+        Ext.fly(opts.form).down('input[name=dateOfBirth]', true).value = timestamp;
     }
 });

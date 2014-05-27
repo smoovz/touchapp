@@ -40,9 +40,11 @@ Ext.define('Smoovz.controller.PasswordController', {
         }
     },
 
-    //called when the Application is launched, remove if not needed
-    launch: function(app) {
-
+    
+    init: function(app) {
+        Ext.Viewport.add({
+            xtype: 'passwordform'
+        });
     },
     
     onNewPasswordBtnTap: function (btn, evt, opts) {

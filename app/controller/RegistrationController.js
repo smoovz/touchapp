@@ -15,15 +15,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Controller that handles registration proccess.
+ *
+ * @author Rocco Bruyn <rocco@smoovz.com>
+ */
 Ext.define('Smoovz.controller.RegistrationController', {
     extend: 'Ext.app.Controller',
 
     requires: [
         'Ext.app.Route',
-        'Ext.viewport.Viewport'
+        'Smoovz.data.Errors',
+        'Smoovz.form.validate.Register'
+    ],
+
+    uses: [
+        'Ext.data.Error',
+        'Ext.data.Errors',
+        'Ext.MessageBox',
+        'Ext.viewport.Viewport',
+        'Smoovz.util.Il8n'
     ],
 
     config: {
+        /**
+         * @cfg {Smoovz.form.validate.Abstract} validator
+         * A validator class to validate the {@link Smoovz.form.Register form}.
+         */
+        validator: null,
         views: [
             'Smoovz.form.Register'
         ],
@@ -34,20 +53,140 @@ Ext.define('Smoovz.controller.RegistrationController', {
             registerForm: 'registerform'
         },
         control: {
-
+            'registerform button[itemId=registerBtn]': {
+                tap: 'onRegisterBtnTap'
+            },
+            'registerform textfield': {
+                change: 'onTextFieldChange'
+            }
         }
     },
 
-    //called when the Application is launched, remove if not needed
-    launch: function(app) {
+    /**
+     * Initialize controller.
+     * Creates {@link Smoovz.form.validate.Register validator}.
+     *
+     * @param   {Ext.Application} app
+     * @returns {void}
+     */
+    init: function(app) {
+        var me = this;
 
+        me.setValidator(Ext.create('Smoovz.form.validate.Register'));
     },
 
+    /**
+     * Register action.
+     * Displays the {@link Smoovz.form.Register register} form.
+     *
+     * @returns {void}
+     */
     register: function () {
         var me = this;
 
         // TODO: check if user is logged in already?
 
         Ext.Viewport.setActiveItem(me.getRegisterForm());
+    },
+
+    /**
+     * Event handler for the {@link Ext.Button#event-tap tap} event.
+     * Clears invalid fields, then {@link Smoovz.form.validate.Register#validateForm validates} again,
+     * {@link Smoovz.form.Register#markInvalid marking the invalid} fields (again).
+     * Display messages if {@link Smoovz.form.validate.Register#validateForm validates} fails.
+     * Submits {@link Smoovz.form.Registe form} otherwise.
+     *
+     * @protected
+     * @param   {Ext.Button} btn
+     * @param   {Ext.event.Event} evt
+     * @param   {Object} eOpts
+     * @returns {void}
+     */
+    onRegisterBtnTap: function (btn, evt, eOpts) {
+        var me        = this,
+            form      = me.getRegisterForm(),
+            validator = me.getValidator(),
+            errors, values, pass, passConfirm;
+
+        form.clearInvalid();
+
+        errors = validator.validateForm(form);
+        values = form.getValues();
+        if (values.password !== values.passwordConfirm) {
+            errors.add(Ext.create('Ext.data.Error', {
+                field  : 'passwordConfirm',
+                message: Il8n.translate('password_no_match')
+            }));
+        }
+
+        if (!errors.isValid()) {
+            Ext.Msg.show({
+                title: Il8n.translate('register_fail_title'),
+                message: Ext.data.Errors.format(errors),
+                icon: Ext.MessageBox.WARNING
+            });
+            return;
+        }
+
+        me.getRegisterForm().submit({
+            waitMsg: Il8n.translate('register_wait_msg'),
+            success: me.onRegisterSuccess,
+            failure: me.onRegisterFailure,
+            scope: me
+        });
+    },
+
+    /**
+     * Callback when registration was successful.
+     *
+     * @protected
+     * @returns {void}
+     */
+    onRegisterSuccess: function () {
+        var me = this;
+
+        console.log('REG SUCCESS');
+        console.dir(arguments);
+        console.log('do something useful with response');
+
+        me.redirectTo('teamselect');
+    },
+
+    /**
+     * Callback when registration failed.
+     *
+     * @protected
+     * @param   {Ext.form.Register} form
+     * @param   {Object} result
+     * @returns {void}
+     */
+    onRegisterFailure: function (form, result) {
+        var me     = this,
+            errors = Ext.data.Errors.fromServerMessages(result.message);
+
+        form.markInvalid(errors);
+        Ext.Msg.show({
+            title: Il8n.translate('register_fail_title'),
+            message: Ext.data.Errors.format(errors),
+            icon: Ext.MessageBox.WARNING
+        });
+    },
+
+    /**
+     * Event handler for {@link Ext.field.Text textfield} {@link Ext.field.Text#event-change change}.
+     * Validates the field.
+     *
+     * @protected
+     * @param   {Ext.field.Text} The field
+     * @param   {Mixed} newValue
+     * @param   {Mixed} oldValue
+     * @param   {Object} eOpts
+     * @returns {void}
+     */
+    onTextFieldChange: function (field, newValue, oldValue, eOpts) {
+        var me        = this,
+            validator = me.getValidator();
+
+        validator.validateField(field);
     }
 });

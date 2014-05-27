@@ -9,24 +9,35 @@
     changes and its generated code, it will produce a "merge conflict" that you
     will need to resolve manually.
 */
+Ext.Loader.setConfig({
+    disableCaching: false
+});
 
 Ext.application({
     name: 'Smoovz',
 
     requires: [
-        'Ext.MessageBox'
+        'Ext.MessageBox',
+        'Smoovz.data.Errors',
+        'Smoovz.form.Panel',
+        'Smoovz.field.Field',
+        'Smoovz.util.Config',
+        'Smoovz.util.Il8n'
     ],
 
     views: [
-        'Smoovz.util.Config',
-        'Smoovz.util.Il8n',
         'Main'
+    ],
+
+    stores: [
+        'User'
     ],
 
     controllers: [
         'RegistrationController',
         'SessionController',
-        'PasswordController'
+        'PasswordController',
+        'TeamSelectController'
     ],
 
     icon: {
@@ -56,6 +67,8 @@ Ext.application({
             xtype: 'loginform'
         }, {
             xtype: 'registerform'
+        }, {
+            xtype: 'teamfinder'
         }, {
             xtype: 'main'
         }]);

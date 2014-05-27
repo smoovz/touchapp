@@ -15,13 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Utility class for translating keys.
+ *
+ * @author Rocco Bruyn <rocco@smoovz.com>
+ */
 Ext.define('Smoovz.util.Il8n', {
     alternateClassName: 'Il8n',
-    singleton         : true,
+    singleton: true,
 
     config: {
-        defaultLanguage: 'nl',
-        translations   : {
+        defaultLanguage: 'en',
+        translations: {
         	nl: {
                 /* General */
         		name: 'Naam',
@@ -32,6 +37,27 @@ Ext.define('Smoovz.util.Il8n', {
                 lastname: 'Achternaam',
                 date_of_birth: 'Geboortedatum',
                 accept_terms: 'Ik accepteer de privacyverklaring en gebruiksvoorwaarden',
+                back: 'Terug',
+                loading: 'Laden…',
+
+                /* Team Categories */
+                ageclass_seniors: 'Senioren (18+)',
+                ageclass_a: 'Junioren A (17-18)',
+                ageclass_b: 'Junioren B (15-16)',
+                ageclass_c: 'Junioren C (13-14)',
+                ageclass_d: 'Pupillen D (11-12)',
+                ageclass_e: 'Pupillen E (9-10)',
+                ageclass_f: 'Pupillen F (7-8)',
+                ageclass_g: 'Gehandicapten (18+)',
+                ageclass_jg: 'Jeugd Gehandicapten (tot 18)',
+                ageclass_mp: 'Minipupillen (5-6)',
+                ageclass_o: 'Senioren (tot 23)',
+                ageclass_ve: 'Veteranen (35+)',
+                ageclass_35plus: 'Veteranen 7vs7 (35+)',
+                ageclass_45plus: 'Veteranen 7vs7 (45+)',
+
+                /* Messages */
+                password_no_match: 'komt niet overeen',
 
                 /* Login form */
         		sign_in_title: 'Inloggen',
@@ -55,7 +81,11 @@ Ext.define('Smoovz.util.Il8n', {
                 /* Register */
                 register_title_12: 'Registreren 1/2',
                 register_text: 'Create a new account',
-                register_btn: 'Ga verder naar club & team kiezen'
+                register_btn: 'Ga verder naar club & team kiezen',
+                register_wait_msg: 'Je account word aangemaakt',
+
+                /* Register fail */
+                register_fail_title: 'Registratie mislukt'
         	},
         	en: {
                 /* General */
@@ -67,10 +97,31 @@ Ext.define('Smoovz.util.Il8n', {
                 lastname: 'Last name',
                 date_of_birth: 'Birthdate',
                 accept_terms: 'I accept the privacystatement and terms of use',
+                back: 'Back',
+                loading: 'Loading…',
+
+                /* Team categories */
+                ageclass_seniors: 'Seniors (18+)',
+                ageclass_a: 'Juniors A (17-18)',
+                ageclass_b: 'Juniors B (15-16)',
+                ageclass_c: 'Juniors C (13-14)',
+                ageclass_d: 'Pupills D (11-12)',
+                ageclass_e: 'Pupills E (9-10)',
+                ageclass_f: 'Pupills F (7-8)',
+                ageclass_g: 'Disabled (18+)',
+                ageclass_jg: 'Young Disabled (up to 18)',
+                ageclass_mp: 'Minipupils (5-6)',
+                ageclass_o: 'Seniors (up to 23)',
+                ageclass_ve: 'Veterans (35+)',
+                ageclass_35plus: 'Veterans 7vs7 (35+)',
+                ageclass_45plus: 'Veterans 7vs7 (45+)',
+
+                /* Messages */
+                password_no_match: 'does not match',
 
                 /* Login form */
                 sign_in_title: 'Sign in',
-                sign_in_text: 'Sign in with your emailaddress',
+                sign_in_text: 'Sign in with your email address',
                 sign_in_btn_text: 'Sign in',
                 sign_in_wait_msg: 'You are being signed in',
                 lost_password: 'Did you lost your password?',
@@ -90,11 +141,21 @@ Ext.define('Smoovz.util.Il8n', {
                 /* Register */
                 register_title_12: 'Register 1/2',
                 register_text: 'Create a new account',
-                register_btn: 'Continue choosing club & team'
+                register_btn: 'Continue choosing club & team',
+                register_wait_msg: 'Your account is being created',
+
+                /* Register fail */
+                register_fail_title: 'Registration failed'
         	}
         }
     },
 
+    /**
+     * Create a new Il8n.
+     *
+     * @param   {Object} config
+     * @returns {void}
+     */
     constructor: function(config) {
         var me = this;
 
@@ -102,6 +163,12 @@ Ext.define('Smoovz.util.Il8n', {
         me.callParent([config]);
     },
 
+    /**
+     * Translate a key.
+     *
+     * @param   {String} key
+     * @returns {String}
+     */
     translate: function (key) {
     	var me = this,
             browserLanguage = window.navigator.userLanguage || window.navigator.language,

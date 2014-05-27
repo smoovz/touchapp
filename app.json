@@ -104,6 +104,10 @@
             "platform": ["windows"],
             "theme": "windows",
             "update": "delta"
+        },
+        {
+            "path": "resources/css/smoovz-touchapp.css",
+            "update": "delta"
         }
     ],
 
@@ -147,6 +151,8 @@
         "\.git",
         "coverage",
         "node_modules",
+        "siesta",
+        "specs",
         "tests"
     ],
 
