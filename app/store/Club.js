@@ -42,6 +42,9 @@ Ext.define('Smoovz.store.Club', {
                 type: 'json',
                 messageProperty: 'message',
                 rootProperty: 'data'
+            },
+            writer: {
+                type: 'json'
             }
         }
     },

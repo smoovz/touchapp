@@ -15,48 +15,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * User store.
- *
- * @author Rocco Bruyn <rocco@smoovz.com>
- */
-Ext.define('Smoovz.store.User', {
-    extend: 'Ext.data.Store',
-    alias: 'store.user',
+
+Ext.define('Smoovz.controller.MainController', {
+    extend: 'Ext.app.Controller',
 
     requires: [
-        'Smoovz.model.User',
-        'Ext.data.proxy.Rest',
-        'Ext.data.reader.Json',
-        'Ext.data.writer.Json'
+        'Ext.app.Route'
     ],
 
     config: {
-        model: 'Smoovz.model.User',
-        storeId: 'User',
-        proxy: {
-            type: 'rest',
-            reader: {
-                type: 'json',
-                messageProperty: 'message',
-                rootProperty: 'data'
-            },
-            writer: {
-                type: 'json'
-            }
+        views: [
+            'Smoovz.view.Main'
+        ],
+        routes: {
+            main: 'main'
+        },
+        refs: {
+            main: 'main'
         }
     },
 
     /**
-     * Initialize User store.
-     * sets API url
+     * Initialize controller.
+     * Adds {@link Smoovz.form.LoginForm loginForm} to the viewport.
      *
+     * @param   {Ext.Application} app
      * @returns {void}
      */
-    initialize: function() {
+    init: function (app) {
+        Ext.Viewport.add({
+            xtype: 'main'
+        });
+    },
+
+    main: function () {
         var me = this;
 
-        me.callParent();
-        me.getProxy().setUrl(Config.getApiUrl() + 'user');
+        Ext.Viewport.setActiveItem(me.getMain());
     }
 });

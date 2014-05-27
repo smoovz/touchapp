@@ -88,7 +88,7 @@ Ext.define('Smoovz.form.Login', {
 
         me.callParent();
 
-        me.setUrl(Config.getApiUrl() + 'sessions');
+        me.setUrl(Config.getApiUrl() + 'session');
         me.down('titlebar')
             .setTitle(Il8n.translate('sign_in_title'));
         me.down('fieldset')

@@ -29,15 +29,15 @@ Ext.define('Smoovz.controller.TeamSelectController', {
 
     config: {
         models: [
-            'Club',
-            'Team'
+            'Smoovz.model.Club',
+            'Smoovz.model.Team'
         ],
         stores: [
-            'Club',
-            'Team'
+            'Smoovz.store.Club',
+            'Smoovz.store.Team'
         ],
         views: [
-            'TeamFinder'
+            'Smoovz.view.TeamFinder'
         ],
         routes: {
             'teamselect': 'showFinder'
@@ -45,6 +45,19 @@ Ext.define('Smoovz.controller.TeamSelectController', {
         refs: {
             teamFinder: 'teamfinder'
         }
+    },
+
+    /**
+     * Initialize controller.
+     * Adds {@link Smoovz.view.TeamFinder teamFinder} to the viewport.
+     *
+     * @param   {Ext.Application} app
+     * @returns {void}
+     */
+    init: function (app) {
+        Ext.Viewport.add({
+            xtype: 'teamfinder'
+        });
     },
 
     /**

@@ -37,6 +37,7 @@ Ext.define('Smoovz.util.Il8n', {
                 lastname: 'Achternaam',
                 date_of_birth: 'Geboortedatum',
                 accept_terms: 'Ik accepteer de privacyverklaring en gebruiksvoorwaarden',
+                ok: 'Ok',
                 back: 'Terug',
                 loading: 'Laden…',
 
@@ -85,7 +86,13 @@ Ext.define('Smoovz.util.Il8n', {
                 register_wait_msg: 'Je account word aangemaakt',
 
                 /* Register fail */
-                register_fail_title: 'Registratie mislukt'
+                register_fail_title: 'Registratie mislukt',
+
+                /* Club list */
+                no_clubs_to_display: 'Geen clubs om te tonen',
+
+                /* Teams list */
+                no_teams_to_display: 'Geen teams om te tonen'
         	},
         	en: {
                 /* General */
@@ -97,6 +104,7 @@ Ext.define('Smoovz.util.Il8n', {
                 lastname: 'Last name',
                 date_of_birth: 'Birthdate',
                 accept_terms: 'I accept the privacystatement and terms of use',
+                ok: 'Ok',
                 back: 'Back',
                 loading: 'Loading…',
 
@@ -124,7 +132,7 @@ Ext.define('Smoovz.util.Il8n', {
                 sign_in_text: 'Sign in with your email address',
                 sign_in_btn_text: 'Sign in',
                 sign_in_wait_msg: 'You are being signed in',
-                lost_password: 'Did you lost your password?',
+                lost_password: 'Did you loose your password?',
                 no_account_yet: 'No SMOOVZ account yet?',
                 new_account_btn: 'Create new account',
                 new_password_btn: 'Request new password',
@@ -145,7 +153,13 @@ Ext.define('Smoovz.util.Il8n', {
                 register_wait_msg: 'Your account is being created',
 
                 /* Register fail */
-                register_fail_title: 'Registration failed'
+                register_fail_title: 'Registration failed',
+
+                /* Club list */
+                no_clubs_to_display: 'No clubs to display',
+
+                /* Teams list */
+                no_teams_to_display: 'Nu teams to display'
         	}
         }
     },

@@ -21,23 +21,17 @@ Ext.application({
         'Smoovz.data.Errors',
         'Smoovz.form.Panel',
         'Smoovz.field.Field',
+        'Smoovz.util.Auth',
         'Smoovz.util.Config',
         'Smoovz.util.Il8n'
     ],
 
-    views: [
-        'Main'
-    ],
-
-    stores: [
-        'User'
-    ],
-
     controllers: [
-        'RegistrationController',
-        'SessionController',
-        'PasswordController',
-        'TeamSelectController'
+        'Smoovz.controller.MainController',
+        'Smoovz.controller.PasswordController',
+        'Smoovz.controller.RegistrationController',
+        'Smoovz.controller.SessionController',
+        'Smoovz.controller.TeamSelectController'
     ],
 
     icon: {
@@ -59,19 +53,24 @@ Ext.application({
     },
 
     launch: function() {
+        var me      = this,
+            history = me.getHistory(),
+            ctrl;
+
         // Destroy the #appLoadingIndicator element
         Ext.fly('appLoadingIndicator').destroy();
 
-        // Initialize the main view
-        Ext.Viewport.add([{
-            xtype: 'loginform'
-        }, {
-            xtype: 'registerform'
-        }, {
-            xtype: 'teamfinder'
-        }, {
-            xtype: 'main'
-        }]);
+        // If we don't have a history token, add login action to the stack
+        if(!history.getToken()) {
+            ctrl = me.getController('SessionController');
+            history.add({
+                application: me,
+                controller: ctrl,
+                action: 'login',
+                scope: ctrl.login,
+                url: 'login'
+            }, true);
+        }
     },
 
     onUpdated: function() {
