@@ -50,7 +50,7 @@ Ext.define('Smoovz.controller.SessionController', {
         },
         refs: {
             loginForm: 'loginform',
-            teamFinder: 'teamFinder'
+            teamFinder: 'teamfinder'
         },
         control: {
             'loginform button[itemId=signInBtn]': {
@@ -108,10 +108,7 @@ Ext.define('Smoovz.controller.SessionController', {
 
         Auth.check({
             scope: me,
-            success: function (user) {
-                var me = this;
-                me.redirectTo('main');
-            }
+            success: me.redirectLoggedInUser
         });
 
         action.resume();
@@ -142,7 +139,7 @@ Ext.define('Smoovz.controller.SessionController', {
 
         Auth.logout({
             scope: me,
-            success: function (user) {
+            success: function () {
                 var me = this;
                 me.redirectTo('login');
             }
@@ -245,19 +242,7 @@ Ext.define('Smoovz.controller.SessionController', {
         }
 
         Auth.setUser(user);
-        switch (user.get('status')) {
-            case 'complete':
-                nextView = 'main';
-            break;
-
-            case 'incomplete':
-            default: // conservative
-                me.getTeamFinder().setMode('SINGLE');
-                nextView = 'teamfinder';
-            break;
-        }
-
-        Ext.Viewport.setActiveItem(nextView);
+        me.redirectLoggedInUser(user);
     },
 
     /**
@@ -298,6 +283,33 @@ Ext.define('Smoovz.controller.SessionController', {
                 }
             }
         });
+    },
+
+    /**
+     * Redirects a logged in user to the main view or the teamselector
+     * based on his/her status.
+     *
+     * @private
+     * @param  {Smoovz.model.User} user
+     * @return {void}
+     */
+    redirectLoggedInUser: function(user) {
+        var me    = this,
+            place = 'main';
+
+        switch (user.get('status')) {
+            case 'complete':
+                place = 'main';    // redundant, i know..
+            break;
+
+            case 'incomplete':
+            default: // we're being conservative
+                me.getTeamFinder().setMode('SINGLE');
+                place = 'teamselect';
+            break;
+        }
+
+        me.redirectTo(place);
     },
 
     /**
