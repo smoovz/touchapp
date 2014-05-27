@@ -331,6 +331,17 @@
         "name": "RegistrationController",
         "controllerNamespace": "Smoovz.controller"
       }
+    },
+    "app/view/Password.js": {
+      "source": "{formFileName}.js.tpl.merge",
+      "version": "9502f3b14cc89647cc0b6d8dd845342687ee4777",
+      "parameters": {
+        "formFileName": "Password",
+        "xtype": "password",
+        "appName": "Smoovz",
+        "name": "Password",
+        "fields": "email:email:Email"
+      }
     }
   }
 }

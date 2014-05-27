@@ -29,7 +29,7 @@ Ext.define('Smoovz.util.Il8n', {
         translations: {
         	nl: {
                 /* General */
-        		name: 'Naam',
+        	name: 'Naam',
                 email: 'Email',
                 email_placeholder: 'email@voorbeeld.nl',
                 password: 'Wachtwoord',
@@ -61,7 +61,7 @@ Ext.define('Smoovz.util.Il8n', {
                 password_no_match: 'komt niet overeen',
 
                 /* Login form */
-        		sign_in_title: 'Inloggen',
+        	sign_in_title: 'Inloggen',
                 sign_in_text: 'Log in met je emailadres',
                 sign_in_btn_text: 'Inloggen',
                 sign_in_wait_msg: 'Je wordt ingelogd',
@@ -70,6 +70,11 @@ Ext.define('Smoovz.util.Il8n', {
                 new_account_btn: 'Nieuw account aanmaken',
                 new_password_btn: 'Nieuw wachtwoord opvragen',
                 try_again_btn: 'Opnieuw proberen',
+                
+                /* New password form */
+                new_password_title: 'Wachtwoord',
+                new_password_text:  'Wachtwoord vergeten',
+                new_password_wait_msg: 'Email wordt verzonden',
 
                 /* Login fail */
                 sign_in_fail_title: 'Inloggen mislukt',
@@ -78,7 +83,18 @@ Ext.define('Smoovz.util.Il8n', {
                     'Maak een nieuw account aan of vraag je wachtwoord opnieuw op.'
                 ].join('<br>'),
                 sign_in_fail_error_create_user_title: 'Je kan niet ingelogd worden',
-
+                
+                /*# Password fail */
+                password_fail_title: 'Aanvragen mislukt',
+                password_fail_msg: [
+                    'Het emailadres is niet bekend.',
+                    'Maak een nieuw account aan of probeer het nog eens.'
+                ].join('<br>'),
+                
+                /* Password success */
+                password_email_sent_title: 'Email verzonden',
+                password_email_sent_text: 'Een aanvraag voor een nieuw wachtwoord is naar je emailadres verstuurd',
+                
                 /* Register */
                 register_title_12: 'Registreren 1/2',
                 register_text: 'Create a new account',
@@ -137,6 +153,11 @@ Ext.define('Smoovz.util.Il8n', {
                 new_account_btn: 'Create new account',
                 new_password_btn: 'Request new password',
                 try_again_btn: 'Try again',
+                
+                /* New password form */
+                new_password_title: 'Password',
+                new_password_text:  'Forgot password',
+                new_password_wait_msg: 'Email is being sent',
 
                 /* Login fail */
                 sign_in_fail_title: 'Sign in failed',
@@ -145,7 +166,15 @@ Ext.define('Smoovz.util.Il8n', {
                     'Create a new account or request a new password'
                 ].join('<br>'),
                 sign_in_fail_error_create_user_title: 'You could not be logged in',
-
+                
+                 /*# Password fail */
+                password_fail_title: 'Request failed',
+                password_fail_msg: 'The emailaddress is unknown. Create a new account or try again.',
+                
+                /* Password success */
+                password_email_sent_title: 'Email sent',
+                password_email_sent_text: 'A request for a new password has been sent to your emailaddress',
+                
                 /* Register */
                 register_title_12: 'Register 1/2',
                 register_text: 'Create a new account',

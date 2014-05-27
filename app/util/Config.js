@@ -25,7 +25,7 @@ Ext.define('Smoovz.util.Config', {
     singleton: true,
 
     config: {
-        apiUrl: 'http://platform.smoovz.dev/apiv2/',
+        apiUrl: 'http://platform.laptop.dev/apiv2/',
 //        apiUrl: 'http://rocco-platform.office.smoovz.com/apiv2/',
 
         authUser: null

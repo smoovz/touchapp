@@ -170,7 +170,7 @@ Ext.define('Smoovz.controller.SessionController', {
     
     onNewPasswordBtnTap: function (btn, evt, opts) {
         var me = this;
-
+        
         me.redirectTo('resetpassword');
     },
 
