@@ -15,30 +15,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * Registration store.
- * Backed by localstorage, saves {@link Smoovz.model.User user model} during
- * registration so it can be resumed later on.
- *
- * @author Rocco Bruyn <rocco@smoovz.com>
- */
-Ext.define('Smoovz.store.Registration', {
-    extend: 'Ext.data.Store',
-    alias: 'store.registration',
+
+Ext.define('Smoovz.controller.MainController', {
+    extend: 'Ext.app.Controller',
 
     requires: [
-        'Ext.data.proxy.LocalStorage',
-        'Smoovz.model.User'
+        'Ext.app.Route'
     ],
 
     config: {
-        model: 'Smoovz.model.User',
-        storeId: 'Registration',
-        autoLoad: true,
-        autoSync: true,
-        proxy: {
-            type: 'localstorage',
-            id: 'smoovz-user-register'
+        views: [
+            'Smoovz.view.Main'
+        ],
+        routes: {
+            main: 'main'
+        },
+        refs: {
+            main: 'main'
         }
+    },
+
+    /**
+     * Initialize controller.
+     * Adds {@link Smoovz.form.LoginForm loginForm} to the viewport.
+     *
+     * @param   {Ext.Application} app
+     * @returns {void}
+     */
+    init: function (app) {
+        Ext.Viewport.add({
+            xtype: 'main'
+        });
+    },
+
+    main: function () {
+        var me = this;
+
+        Ext.Viewport.setActiveItem(me.getMain());
     }
 });

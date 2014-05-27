@@ -34,6 +34,7 @@ Ext.define('Smoovz.controller.RegistrationController', {
         'Ext.data.Errors',
         'Ext.MessageBox',
         'Ext.viewport.Viewport',
+        'Smoovz.util.Auth',
         'Smoovz.util.Il8n'
     ],
 
@@ -43,14 +44,6 @@ Ext.define('Smoovz.controller.RegistrationController', {
          * A validator class to validate the {@link Smoovz.form.Register form}.
          */
         validator: null,
-        /**
-         * @cfg {Smoovz.model.User} regUser
-         * User that is currently being registered
-         */
-        regUser: null,
-        stores: [
-            'Smoovz.store.Registration'
-        ],
         views: [
             'Smoovz.form.Register',
             'Smoovz.view.TeamFinder'
@@ -81,6 +74,7 @@ Ext.define('Smoovz.controller.RegistrationController', {
     /**
      * Initialize controller.
      * Creates {@link Smoovz.form.validate.Register validator}.
+     * Adds {@link Smoovz.form.RegisterForm registerForm} to the viewport.
      *
      * @param   {Ext.Application} app
      * @returns {void}
@@ -89,56 +83,22 @@ Ext.define('Smoovz.controller.RegistrationController', {
         var me = this;
 
         me.setValidator(Ext.create('Smoovz.form.validate.Register'));
+        Ext.Viewport.add({
+            xtype: 'registerform'
+        });
     },
 
     /**
      * Is exectuted before {@link #register}.
-     * Checks if the user is already logged in.
-     * Redirects to main view if this is the case.
-     * Checks if registration is already in progress.
-     * Redirects to teamselect if this is the case.
+     * Logs out user, just te be sure.
      *
      * @param   {Ext.app.Action} action
      * @returns {void}
      */
     beforeRegister: function (action) {
-        var me       = this,
-            loggedin = false,    // stub
-            application, teamFinder, store, count, user;
+        var me = this;
 
-        if (true === loggedin) {
-            // TODO: check if user is logged in already
-            return;
-        } else {
-            store = Ext.StoreMgr.lookup('Registration');
-            count = store.getCount();
-            user;
-
-            switch (true) {
-                case (0 === count): // nothing saved
-                break;
-                case (1 === count): // register in progress
-                    application = action.getApplication();
-                    user        = store.getAt(0);
-                    teamFinder  = me.getTeamFinder();
-
-                    me.setRegUser(user);
-                    teamFinder.setMode('SINGLE');
-
-                    action.setController(application.getController('TeamSelectController'));
-                    action.setAction('showFinder');
-                    action.setUrl('teamselect');
-                    application.getHistory().add(action, true);
-                break;
-                case (1 < count): // ambiguous
-                default:
-                    me.setRegUser(null);
-                    store.removeAll();
-                    store.sync();
-                break;
-            }
-        }
-
+        Auth.logout();
         action.resume();
     },
 
@@ -171,7 +131,7 @@ Ext.define('Smoovz.controller.RegistrationController', {
         var me        = this,
             form      = me.getRegisterForm(),
             validator = me.getValidator(),
-            errors, values, pass, passConfirm;
+            errors, values;
 
         form.clearInvalid();
 
@@ -213,27 +173,16 @@ Ext.define('Smoovz.controller.RegistrationController', {
     onRegisterSuccess: function (form, result, response) {
         var me     = this,
             rd    = result.data,
-            store = Ext.StoreMgr.lookup('Registration'),
             user  = Ext.create('Smoovz.model.User', {
                 id: rd.id,
                 firstname: rd.firstname,
                 lastname: rd.lastname,
                 emailAddress: rd.emailAddress,
-                dateOfBirth: rd.dateOfBirth
+                dateOfBirth: rd.dateOfBirth,
+                status: rd.status
             });
 
-        me.setRegUser(user);
-
-        // we have to set the model 'dirty' because it got an ID from the server,
-        // otherwise it's not saved to the localstorage
-        user.setDirty();
-        store.add(user);
-
-        // we alse have to call sync manually because even though we've set the
-        // model to 'dirty', is't still not 'phantom' which needs to be the case
-        // for the autosync to kick in
-        store.sync();
-
+        Auth.setUser(user);
         me.redirectTo('teamselect');
     },
 
@@ -286,14 +235,12 @@ Ext.define('Smoovz.controller.RegistrationController', {
      */
     onTeamFinderSelect: function (teamFinder, team) {
         var me   = this,
-            user = me.getRegUser(),
-            store;
+            user = Auth.getUser();
 
         if (!user) {
             return;
         }
 
-        store = Ext.StoreMgr.lookup('Registration');
         // The team was not loaded by association, but by a seperate store that
         // doesn't know about associations. Therefore we need to reload te club.
         team.getClub({
@@ -302,9 +249,7 @@ Ext.define('Smoovz.controller.RegistrationController', {
                 user.setClub(club);
                 user.setTeam(team);
 
-                me.setRegUser(null);
-                store.remove(user);
-                store.sync();
+                user.save();    // to main view on success
             }
         });
     }

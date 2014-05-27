@@ -43,6 +43,9 @@ Ext.define('Smoovz.store.Team', {
                 type: 'json',
                 messageProperty: 'message',
                 rootProperty: 'data'
+            },
+            writer: {
+                type: 'json'
             }
         },
         grouper: {

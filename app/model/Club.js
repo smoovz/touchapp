@@ -87,6 +87,9 @@ Ext.define('Smoovz.model.Club', {
                 type: 'json',
                 messageProperty: 'message',
                 rootProperty: 'data'
+            },
+            writer: {
+                type: 'json'
             }
         },
         hasMany: [{

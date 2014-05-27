@@ -54,6 +54,9 @@ Ext.define('Smoovz.model.User', {
             type: 'date',
             dateFormat: 'timestamp'
         }, {
+            name: 'status',
+            type: 'string'
+        }, {
             name: 'club',
             type: 'int',
             mapping: 'club_id'

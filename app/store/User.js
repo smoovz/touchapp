@@ -22,7 +22,7 @@
  */
 Ext.define('Smoovz.store.User', {
     extend: 'Ext.data.Store',
-    alias: 'store.userstore',
+    alias: 'store.user',
 
     requires: [
         'Smoovz.model.User',

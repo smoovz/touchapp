@@ -132,7 +132,7 @@ Ext.define('Smoovz.util.Il8n', {
                 sign_in_text: 'Sign in with your email address',
                 sign_in_btn_text: 'Sign in',
                 sign_in_wait_msg: 'You are being signed in',
-                lost_password: 'Did you lost your password?',
+                lost_password: 'Did you loose your password?',
                 no_account_yet: 'No SMOOVZ account yet?',
                 new_account_btn: 'Create new account',
                 new_password_btn: 'Request new password',

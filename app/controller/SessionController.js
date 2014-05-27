@@ -41,12 +41,16 @@ Ext.define('Smoovz.controller.SessionController', {
         views: [
             'Smoovz.form.Login'
         ],
+        before: {
+            login: 'beforeLogin'
+        },
         routes: {
-            'login': 'login',
-            'logout': 'logout'
+            login: 'login',
+            logout: 'logout'
         },
         refs: {
-            loginForm: 'loginform'
+            loginForm: 'loginform',
+            teamFinder: 'teamFinder'
         },
         control: {
             'loginform button[itemId=signInBtn]': {
@@ -59,6 +63,19 @@ Ext.define('Smoovz.controller.SessionController', {
                 tap: 'onNewAccountBtnTap'
             }
         }
+    },
+
+    /**
+     * Initialize controller.
+     * Adds {@link Smoovz.form.LoginForm loginForm} to the viewport.
+     *
+     * @param   {Ext.Application} app
+     * @returns {void}
+     */
+    init: function (app) {
+        Ext.Viewport.add({
+            xtype: 'loginform'
+        });
     },
 
     /**
@@ -79,6 +96,28 @@ Ext.define('Smoovz.controller.SessionController', {
     },
 
     /**
+     * Is exectuted before {@link #login}.
+     * Checks if the user is already logged in.
+     * Redirects to main view if this is the case.
+     *
+     * @param   {Ext.app.Action} action
+     * @returns {void}
+     */
+    beforeLogin: function (action) {
+        var me = this;
+
+        Auth.check({
+            scope: me,
+            success: function (user) {
+                var me = this;
+                me.redirectTo('main');
+            }
+        });
+
+        action.resume();
+    },
+
+    /**
      * Login action.
      * Displays {@link Smoovz.form.Login login} form.
      *
@@ -94,13 +133,20 @@ Ext.define('Smoovz.controller.SessionController', {
      * Logout action.
      * Logs out user, then redirects to {@link #login login}.
      *
+     * @todo Destroy session
+     *
      * @returns {void}
      */
     logout: function () {
         var me = this;
 
-        Config.setAuthUser(null);
-        me.redirectTo('login');
+        Auth.logout({
+            scope: me,
+            success: function (user) {
+                var me = this;
+                me.redirectTo('login');
+            }
+        });
     },
 
     /**
@@ -152,7 +198,8 @@ Ext.define('Smoovz.controller.SessionController', {
             waitMsg: Il8n.translate('sign_in_wait_msg'),
             success: me.onLoginSuccess,
             failure: me.onLoginFailure,
-            scope: me
+            scope: me,
+            withCredentials: true
         });
     },
 
@@ -170,34 +217,47 @@ Ext.define('Smoovz.controller.SessionController', {
      * @returns {void}
      */
     onLoginSuccess: function (form, result, data) {
-        var me   = this,
-            rd   = result.data,
-            user = Ext.create('Smoovz.model.User', {
+        var me       = this,
+            messages = [],
+            rd       = result.data,
+            user     = Ext.create('Smoovz.model.User', {
                 id: rd.id,
                 firstname: rd.firstname,
                 lastname: rd.lastname,
                 emailAddress: rd.emailAddress,
-                dateOfBirth: rd.dateOfBirth
-            }),
-            errors = user.validate(),
-            messages = [], msg;
+                dateOfBirth: rd.dateOfBirth,
+                status: rd.status
+            }), errors, msg, nextView;
 
-        if (errors.isValid()) {
-            Config.setAuthUser(user);
-            Ext.Viewport.setActiveItem('main');
+        errors = user.validate();
+        if (!errors.isValid()) {
+            errors.each(function (err) {
+                msg = Ext.String.format('{0} {1}', err.getField(), err.getMessage());
+                messages.push(msg);
+            }, me);
+
+            Ext.Msg.show({
+                title: Il8n.translate('sign_in_fail_error_create_user_title'),
+                message: messages.join('<br>'),
+                icon: Ext.MessageBox.ERROR
+            });
             return;
         }
 
-        errors.each(function (err) {
-            msg = Ext.String.format('{0} {1}', err.getField(), err.getMessage());
-            messages.push(msg);
-        }, me);
+        Auth.setUser(user);
+        switch (user.get('status')) {
+            case 'complete':
+                nextView = 'main';
+            break;
 
-        Ext.Msg.show({
-            title: Il8n.translate('sign_in_fail_error_create_user_title'),
-            message: messages.join('<br>'),
-            icon: Ext.MessageBox.ERROR
-        });
+            case 'incomplete':
+            default: // conservative
+                me.getTeamFinder().setMode('SINGLE');
+                nextView = 'teamfinder';
+            break;
+        }
+
+        Ext.Viewport.setActiveItem(nextView);
     },
 
     /**
