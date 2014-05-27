@@ -29,6 +29,7 @@ Ext.define('Smoovz.form.Login', {
         'Ext.field.Email',
         'Ext.field.Password',
         'Ext.form.FieldSet',
+        'Ext.SegmentedButton',
         'Ext.TitleBar',
         'Smoovz.form.Panel',
         'Smoovz.field.Field',
@@ -59,21 +60,18 @@ Ext.define('Smoovz.form.Login', {
             itemId: 'signInBtn',
             ui: 'action'
         }, {
-            xtype: 'component',
-            itemId: 'lostpass',
-            margin: '50 0 5 0'
-        }, {
-            xtype: 'button',
-            itemId: 'newPasswordBtn',
-            ui: 'confirm'
-        }, {
-            xtype: 'component',
-            itemId: 'noaccount',
-            margin: '50 0 5 0'
-        }, {
-            xtype: 'button',
-            itemId: 'newAccountBtn',
-            ui: 'confirm'
+            xtype: 'segmentedbutton',
+            allowToggle: false,
+            margin: '50 0 0 0',
+            items: [{
+                xtype: 'button',
+                itemId: 'newPasswordBtn',
+                ui: 'confirm'
+            }, {
+                xtype: 'button',
+                itemId: 'newAccountBtn',
+                ui: 'confirm'
+            }]
         }]
     },
 
@@ -100,13 +98,13 @@ Ext.define('Smoovz.form.Login', {
             .setLabel(Il8n.translate('password'));
         me.getComponent('signInBtn')
             .setText(Il8n.translate('sign_in_btn_text'));
-        me.getComponent('lostpass')
-            .setHtml(Il8n.translate('lost_password'));
-        me.getComponent('newPasswordBtn')
+//        me.getComponent('lostpass')
+//            .setHtml(Il8n.translate('lost_password'));
+        me.down('button[itemId=newPasswordBtn]')
             .setText(Il8n.translate('new_password_btn'));
-        me.getComponent('noaccount')
-            .setHtml(Il8n.translate('no_account_yet'));
-        me.getComponent('newAccountBtn')
+//        me.getComponent('noaccount')
+//            .setHtml(Il8n.translate('no_account_yet'));
+        me.down('button[itemId=newAccountBtn]')
             .setText(Il8n.translate('new_account_btn'));
     }
 });
