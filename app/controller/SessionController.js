@@ -28,7 +28,6 @@ Ext.define('Smoovz.controller.SessionController', {
     ],
 
     uses: [
-        'Ext.Ajax',
         'Ext.MessageBox',
         'Ext.String',
         'Ext.viewport.Viewport'
@@ -75,23 +74,6 @@ Ext.define('Smoovz.controller.SessionController', {
     init: function (app) {
         Ext.Viewport.add({
             xtype: 'loginform'
-        });
-    },
-
-    /**
-     * Application launch.
-     * Register global Ajax listener to check for HTTP 401, 403, 500 etc.
-     * @todo refactor to separate class (single responsibility and whatnot..).
-     *
-     * @param   {Ext.Application} app
-     * @returns {void}
-     */
-    launch: function(app) {
-        var me = this;
-
-        Ext.Ajax.on({
-            requestcomplete: me.onRequestComplete,
-            requestexception: me.onRequestException
         });
     },
 
@@ -294,12 +276,12 @@ Ext.define('Smoovz.controller.SessionController', {
      * @return {void}
      */
     redirectLoggedInUser: function(user) {
-        var me    = this,
-            place = 'main';
+        var me = this,
+            place;
 
         switch (user.get('status')) {
             case 'complete':
-                place = 'main';    // redundant, i know..
+                place = 'main';
             break;
 
             case 'incomplete':
@@ -310,48 +292,5 @@ Ext.define('Smoovz.controller.SessionController', {
         }
 
         me.redirectTo(place);
-    },
-
-    /**
-     * Event handler for all xhr-requests that are completed.
-     * Checks for [HTTP Status Codes](http://en.wikipedia.org/wiki/List_of_HTTP_status_codes).
-     * @todo refactor to separate class (single responsibility and whatnot..).
-     *
-     * @protected
-     * @param   {Ext.data.Connection} conn The connection object
-     * @param   {Object} response The [XHR](http://www.w3.org/TR/XMLHttpRequest) object containing the response data
-     * @param   {Object} opts The options config object passed to the {@link Ext.Ajax#request request} method
-     * @param   {Object} eOpts The options object passed to {@link Ext.util.Observable#addListener addListener}
-     * @returns {void}
-     */
-    onRequestComplete: function (conn, response, opts, eOpts) {
-        var me = this;
-
-        switch (response.status) {
-            case 200:   // OK
-            default:
-                break;
-
-            case 401:   // Unauthorized
-                me.redirectTo('login');
-                break;
-            case 403:   // Forbidden
-                break;
-        }
-    },
-
-    /**
-     * Event handler for all xhr-requests that are completed.
-     * Checks for [HTTP Status Codes](http://en.wikipedia.org/wiki/List_of_HTTP_status_codes).
-     * @todo refactor to separate class (single responsibility and whatnot..).
-     *
-     * @param   {Ext.data.Connection} conn The connection object
-     * @param   {Object} response The [XHR](http://www.w3.org/TR/XMLHttpRequest) object containing the response data
-     * @param   {Object} opts The options config object passed to the {@link Ext.Ajax#request request} method
-     * @param   {Object} eOpts The options object passed to {@link Ext.util.Observable#addListener addListener}
-     * @returns {void}
-     */
-    onRequestException: function (conn, response, opts, eOpts) {
-        console.log('request exception');
     }
 });
