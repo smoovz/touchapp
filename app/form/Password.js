@@ -39,12 +39,10 @@ Ext.define('Smoovz.form.Password', {
         }, {
             xtype: 'fieldset',
             width: '90%',
-            items: [
-                {
-                    name: 'emailAddress',
-                    xtype: 'emailfield'
-                }
-            ]
+            items: [{
+                name: 'emailAddress',
+                xtype: 'emailfield'
+            }]
         },{
             xtype: 'button',
             ui: 'action',
