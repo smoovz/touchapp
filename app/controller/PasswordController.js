@@ -20,13 +20,24 @@ Ext.define('Smoovz.controller.PasswordController', {
 
     requires: [
         'Ext.app.Route',
-        'Ext.viewport.Viewport'
+        'Smoovz.data.Errors',
+        'Smoovz.form.validate.Password'
+    ],
+
+    uses: [
+        'Ext.data.Error',
+        'Ext.data.Errors',
+        'Ext.MessageBox',
+        'Ext.viewport.Viewport',
+        'Smoovz.util.Auth',
+        'Smoovz.util.Il8n'
     ],
 
     config: {
         views: [
             'Smoovz.form.Password'
         ],
+        validator: null,
         routes: {
             'resetpassword': 'resetpassword'
         },
@@ -40,15 +51,35 @@ Ext.define('Smoovz.controller.PasswordController', {
         }
     },
 
-    
+
     init: function(app) {
+        var me = this;
+
+        me.setValidator(Ext.create('Smoovz.form.validate.Password'));
         Ext.Viewport.add({
             xtype: 'passwordform'
         });
     },
-    
+
     onNewPasswordBtnTap: function (btn, evt, opts) {
-        var me = this;
+        var me        = this,
+            form      = me.getPasswordForm(),
+            validator = me.getValidator(),
+            errors, values;
+
+        form.clearInvalid();
+
+        errors = validator.validateForm(form);
+        values = form.getValues();
+
+        if (!errors.isValid()) {
+            Ext.Msg.show({
+                title: Il8n.translate('password_fail_title'),
+                message: Ext.data.Errors.format(errors),
+                icon: Ext.MessageBox.WARNING
+            });
+            return;
+        }
 
         me.getPasswordForm().submit({
             waitMsg: Il8n.translate('new_password_wait_msg'),
@@ -57,20 +88,20 @@ Ext.define('Smoovz.controller.PasswordController', {
             scope: me
         });
     },
-    
+
     onNewPasswordSuccess: function () {
         var me = this;
-        
+
          Ext.Msg.show({
             title: Il8n.translate('password_email_sent_title'),
-            message: messages.join('password_email_sent_text'),
+            message: Il8n.translate('password_email_sent_text'),
             icon: Ext.Msg.INFO
         });
     },
-    
+
     onNewPasswordFailure: function () {
         var me = this;
-        
+
         Ext.Msg.show({
             title: Il8n.translate('password_fail_title'),
             message: Il8n.translate('password_fail_msg'),
