@@ -248,9 +248,42 @@ Ext.define('Smoovz.controller.RegistrationController', {
             success: function (club) {
                 user.setClub(club);
                 user.setTeam(team);
-
-                user.save();    // to main view on success
+                user.save({
+                    success: me.onRegisterCompleteSuccess,
+                    failure: me.onRegisterCompleteFailure
+                }, me);
             }
+        });
+    },
+
+    /**
+     * @protected
+     * @param   {Smoovz.model.User} user
+     * @param   {Ext.data.Operation} op
+     * @returns {void}
+     */
+    onRegisterCompleteSuccess: function (user, op) {
+        var me = this;
+
+        Auth.setUser(user);
+        me.redirectTo('main');
+    },
+
+    /**
+     * @protected
+     * @param   {Smoovz.model.User} user
+     * @param   {Ext.data.Operation} op
+     * @returns {void}
+     */
+    onRegisterCompleteFailure: function (user, op) {
+        var me     = this,
+            o      = Ext.decode(op.getResponse().responseText),
+            errors = errors = Ext.data.Errors.fromServerMessages(o.message);
+
+        Ext.Msg.show({
+            title: Il8n.translate('register_fail_title'),
+            message: Ext.data.Errors.format(errors),
+            icon: Ext.MessageBox.WARNING
         });
     }
 });
