@@ -55,7 +55,8 @@ Ext.define('Smoovz.model.User', {
             dateFormat: 'timestamp'
         }, {
             name: 'status',
-            type: 'string'
+            type: 'string',
+            persist: false
         }, {
             name: 'club',
             type: 'int',
