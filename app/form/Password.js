@@ -19,7 +19,7 @@
 Ext.define('Smoovz.form.Password', {
     extend: 'Ext.form.Panel',
     alias: 'widget.passwordform',
-    
+
      requires: [
         'Ext.Button',
         'Ext.field.Email',
@@ -27,7 +27,7 @@ Ext.define('Smoovz.form.Password', {
         'Ext.TitleBar',
         'Smoovz.util.Il8n'
     ],
-    
+
     config: {
         layout: {
             type: 'vbox',
@@ -41,7 +41,7 @@ Ext.define('Smoovz.form.Password', {
             width: '90%',
             items: [
                 {
-                    name: 'email',
+                    name: 'emailAddress',
                     xtype: 'emailfield'
                 }
             ]
@@ -51,14 +51,14 @@ Ext.define('Smoovz.form.Password', {
             itemId: 'newPasswordBtn'
         }]
     },
-    
+
     initialize: function () {
         var me = this;
-        
+
         me.callParent();
-        
+
         me.setUrl(Config.getApiUrl() + 'password');
-        
+
         me.down('titlebar')
             .setTitle(Il8n.translate('new_password_title'));
         me.down('fieldset')
