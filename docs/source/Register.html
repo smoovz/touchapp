@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * Copyright (C) 2014 Rocco Bruyn &lt;rocco@smoovz.com&gt;
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+ */
+
+<span id='Smoovz-form-Register'>/**
+</span> * From to register new users.
+ *
+ * @class Smoovz.form.Register
+ * @author Rocco Bruyn &lt;rocco@smoovz.com&gt;
+ */
+Ext.define(&#39;Smoovz.form.Register&#39;, {
+    extend: &#39;Ext.form.Panel&#39;,
+    alias: &#39;widget.registerform&#39;,
+
+    requires: [
+        &#39;Ext.Button&#39;,
+        &#39;Ext.Date&#39;,
+        &#39;Ext.field.Checkbox&#39;,
+        &#39;Ext.field.DatePicker&#39;,
+        &#39;Ext.field.Email&#39;,
+        &#39;Ext.field.Password&#39;,
+        &#39;Ext.form.FieldSet&#39;,
+        &#39;Ext.TitleBar&#39;,
+        &#39;Smoovz.form.Panel&#39;,
+        &#39;Smoovz.field.Field&#39;,
+        &#39;Smoovz.util.Config&#39;,
+        &#39;Smoovz.util.Il8n&#39;
+    ],
+
+    config: {
+<span id='Smoovz-form-Register-cfg-layout'>        layout: {
+</span>            type: &#39;vbox&#39;,
+            align: &#39;center&#39;
+        },
+<span id='Smoovz-form-Register-cfg-items'>        items: [{
+</span>            xtype: &#39;titlebar&#39;,
+            docked: &#39;top&#39;
+        }, {
+            xtype: &#39;fieldset&#39;,
+            width: &#39;90%&#39;,
+            items: [{
+                xtype: &#39;emailfield&#39;,
+                name: &#39;emailAddress&#39;,
+                required: true
+            }, {
+                xtype: &#39;passwordfield&#39;,
+                name: &#39;password&#39;,
+                required: true
+            }, {
+                xtype: &#39;passwordfield&#39;,
+                name: &#39;passwordConfirm&#39;,
+                required: true
+            }, {
+                xtype: &#39;textfield&#39;,
+                name: &#39;firstname&#39;,
+                required: true
+            }, {
+                xtype: &#39;textfield&#39;,
+                name: &#39;lastname&#39;,
+                required: true
+            }, {
+                xtype: &#39;datepickerfield&#39;,
+                name: &#39;dateOfBirth&#39;,
+                required: true,
+                picker: {
+                    yearFrom: 1900,
+                    value: Ext.Date.add(new Date(), Ext.Date.YEAR, -18)
+                }
+            }, {
+                xtype: &#39;checkboxfield&#39;,
+                name: &#39;agreeToEULA&#39;,
+                labelAlign: &#39;top&#39;,
+                labelWrap: true,
+                required: true,
+                value: Date.now()
+            }]
+        }, {
+            xtype: &#39;button&#39;,
+            itemId: &#39;registerBtn&#39;,
+            ui: &#39;action&#39;
+        }],
+<span id='Smoovz-form-Register-cfg-listeners'>        listeners: [{
+</span>            event: &#39;beforesubmit&#39;,
+            fn: &#39;onBeforeSubmit&#39;
+        }]
+    },
+
+<span id='Smoovz-form-Register-method-initialize'>    /**
+</span>     * Initialize the form.
+     * Sets all the localized texts.
+     *
+     * @returns {void}
+     */
+    initialize: function () {
+        var me = this;
+
+        me.callParent();
+
+        me.setUrl(Config.getApiUrl() + &#39;user&#39;);
+        me.down(&#39;titlebar&#39;)
+            .setTitle(Il8n.translate(&#39;register_title_12&#39;));
+        me.down(&#39;fieldset&#39;)
+            .setTitle(Il8n.translate(&#39;register_text&#39;));
+        me.down(&#39;emailfield&#39;)
+            .setLabel(Il8n.translate(&#39;email&#39;))
+            .setPlaceHolder(Il8n.translate(&#39;email_placeholder&#39;));
+        me.down(&#39;passwordfield[name=password]&#39;)
+            .setLabel(Il8n.translate(&#39;password&#39;));
+        me.down(&#39;passwordfield[name=passwordConfirm]&#39;)
+            .setLabel(Il8n.translate(&#39;password&#39;));
+        me.down(&#39;textfield[name=firstname]&#39;)
+            .setLabel(Il8n.translate(&#39;firstname&#39;));
+        me.down(&#39;textfield[name=lastname]&#39;)
+            .setLabel(Il8n.translate(&#39;lastname&#39;));
+        me.down(&#39;datepickerfield&#39;)
+            .setLabel(Il8n.translate(&#39;date_of_birth&#39;));
+        me.down(&#39;checkboxfield&#39;)
+            .setLabel(Il8n.translate(&#39;accept_terms&#39;));
+        me.getComponent(&#39;registerBtn&#39;)
+            .setText(Il8n.translate(&#39;register_btn&#39;));
+    },
+
+<span id='Smoovz-form-Register-method-onBeforeSubmit'>    /**
+</span>     * Event handler for form submission.
+     * Transforms dateOfBirth to unix timestamp.
+     *
+     * See [the forum](http://www.sencha.com/forum/showthread.php?160553-Alter-form-data-using-the-beforesubmit-event).
+     *
+     * @protected
+     * @param   {Smoovz.form.Register} form
+     * @param   {Object} values
+     * @param   {Object} opts
+     * @param   {Ext.event.Event} evt
+     * @param   {Object} eOpts
+     * @returns {void}
+     */
+    onBeforeSubmit: function (form, values, opts, evt, eOpts) {
+        var timestamp = Ext.Date.format(values.dateOfBirth, &#39;U&#39;);
+
+        // setting the value on &#39;values&#39; doesn&#39;t work so we do it on the (DOM) form
+        Ext.fly(opts.form).down(&#39;input[name=dateOfBirth]&#39;, true).value = timestamp;
+    }
+});</pre>
+</body>
+</html>

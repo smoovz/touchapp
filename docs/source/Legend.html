@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-chart-Legend'>/**
+</span> * @class Ext.chart.Legend
+ * @extends Ext.dataview.DataView
+ *
+ * A default legend for charts.
+ *
+ *     @example preview
+ *     var chart = new Ext.chart.Chart({
+ *         animate: true,
+ *         store: {
+ *           fields: [&#39;name&#39;, &#39;data1&#39;, &#39;data2&#39;, &#39;data3&#39;, &#39;data4&#39;, &#39;data5&#39;],
+ *           data: [
+ *               {&#39;name&#39;:&#39;metric one&#39;, &#39;data1&#39;:10, &#39;data2&#39;:12, &#39;data3&#39;:14, &#39;data4&#39;:8, &#39;data5&#39;:13},
+ *               {&#39;name&#39;:&#39;metric two&#39;, &#39;data1&#39;:7, &#39;data2&#39;:8, &#39;data3&#39;:16, &#39;data4&#39;:10, &#39;data5&#39;:3},
+ *               {&#39;name&#39;:&#39;metric three&#39;, &#39;data1&#39;:5, &#39;data2&#39;:2, &#39;data3&#39;:14, &#39;data4&#39;:12, &#39;data5&#39;:7},
+ *               {&#39;name&#39;:&#39;metric four&#39;, &#39;data1&#39;:2, &#39;data2&#39;:14, &#39;data3&#39;:6, &#39;data4&#39;:1, &#39;data5&#39;:23},
+ *               {&#39;name&#39;:&#39;metric five&#39;, &#39;data1&#39;:27, &#39;data2&#39;:38, &#39;data3&#39;:36, &#39;data4&#39;:13, &#39;data5&#39;:33}
+ *           ]
+ *         },
+ *         legend: {
+ *           position: &#39;bottom&#39;
+ *         },
+ *         axes: [{
+ *             type: &#39;numeric&#39;,
+ *             position: &#39;left&#39;,
+ *             fields: [&#39;data1&#39;],
+ *             title: {
+ *                 text: &#39;Sample Values&#39;,
+ *                 fontSize: 15
+ *             },
+ *             grid: true,
+ *             minimum: 0
+ *         }, {
+ *             type: &#39;category&#39;,
+ *             position: &#39;bottom&#39;,
+ *             fields: [&#39;name&#39;],
+ *             title: {
+ *                 text: &#39;Sample Values&#39;,
+ *                 fontSize: 15
+ *             }
+ *         }],
+ *         series: [{
+ *             type: &#39;area&#39;,
+ *             title: [&#39;Data1&#39;, &#39;Data2&#39;, &#39;Data3&#39;],
+ *             subStyle: {
+ *                 fill: [&#39;blue&#39;, &#39;green&#39;, &#39;red&#39;]
+ *             },
+ *             xField: &#39;name&#39;,
+ *             yField: [&#39;data1&#39;, &#39;data2&#39;, &#39;data3&#39;]
+ *         
+ *         }]
+ *     });
+ *     Ext.Viewport.setLayout(&#39;fit&#39;);
+ *     Ext.Viewport.add(chart);
+ */
+Ext.define(&quot;Ext.chart.Legend&quot;, {
+    xtype: &#39;legend&#39;,
+    extend: &quot;Ext.dataview.DataView&quot;,
+    config: {
+<span id='Ext-chart-Legend-cfg-itemTpl'>        itemTpl: [
+</span>            &quot;&lt;span class=\&quot;x-legend-item-marker {[values.disabled?\&#39;x-legend-inactive\&#39;:\&#39;\&#39;]}\&quot; style=\&quot;background:{mark};\&quot;&gt;&lt;/span&gt;{name}&quot;
+        ],
+<span id='Ext-chart-Legend-cfg-baseCls'>        baseCls: &#39;x-legend&#39;,
+</span><span id='Ext-chart-Legend-cfg-padding'>        padding: 5,
+</span><span id='Ext-chart-Legend-cfg-disableSelection'>        disableSelection: true,
+</span><span id='Ext-chart-Legend-cfg-inline'>        inline: true,
+</span><span id='Ext-chart-Legend-cfg-position'>        /**
+</span>         * @cfg {String} position
+         * @deprecated Use `docked` instead.
+         * Delegates to `docked`
+         */
+        position: null,
+<span id='Ext-chart-Legend-cfg-toggleable'>        /**
+</span>         * @cfg {Boolean} toggleable &#39;true&#39; if the series items in the legend can be toggled on and off.
+         */
+        toggleable: true,
+<span id='Ext-chart-Legend-cfg-docked'>        docked: &#39;top&#39;,
+</span><span id='Ext-chart-Legend-cfg-horizontalHeight'>        horizontalHeight: 48,
+</span><span id='Ext-chart-Legend-cfg-verticalWidth'>        verticalWidth: 150
+</span>    },
+
+<span id='Ext-chart-Legend-method-constructor'>    constructor: function () {
+</span>        this.callSuper(arguments);
+
+        var scroller = this.getScrollable().getScroller(),
+            onDrag = scroller.onDrag;
+        scroller.onDrag = function (e) {
+            e.stopPropagation();
+            onDrag.call(this, e);
+        };
+    },
+
+<span id='Ext-chart-Legend-method-doSetDocked'>    doSetDocked: function (docked) {
+</span>        this.callSuper(arguments);
+        if (docked === &#39;top&#39; || docked === &#39;bottom&#39;) {
+            this.setLayout({type: &#39;hbox&#39;, pack: &#39;center&#39;});
+            this.setInline(true);
+            // TODO: Remove this when possible
+            this.setWidth(null);
+            this.setHeight(this.getHorizontalHeight());
+            if (this.getScrollable()) {
+                this.setScrollable({direction: &#39;horizontal&#39;});
+            }
+        } else {
+            this.setLayout({pack: &#39;center&#39;});
+            this.setInline(false);
+            // TODO: Remove this when possible
+            this.setWidth(this.getVerticalWidth());
+            this.setHeight(null);
+            if (this.getScrollable()) {
+                this.setScrollable({direction: &#39;vertical&#39;});
+            }
+        }
+    },
+
+<span id='Ext-chart-Legend-method-setScrollable'>    setScrollable: function (scrollable) {
+</span>        this.callSuper(arguments);
+        if (scrollable === true) {
+            if (this.getDocked() === &#39;top&#39; || this.getDocked() === &#39;bottom&#39;) {
+                this.setScrollable({direction: &#39;horizontal&#39;});
+            } else if (this.getDocked() === &#39;left&#39; || this.getDocked() === &#39;right&#39;) {
+                this.setScrollable({direction: &#39;vertical&#39;});
+            }
+        }
+    },
+
+    
+<span id='Ext-chart-Legend-method-setPosition'>    setPosition: function (position) {
+</span>        this.setDocked(position);
+    },
+    
+<span id='Ext-chart-Legend-method-getPosition'>    getPosition: function () {
+</span>        return this.getDocked();
+    },
+
+<span id='Ext-chart-Legend-method-onItemTap'>    onItemTap: function (container, target, index, e) {
+</span>        this.callSuper(arguments);
+        if(this.getToggleable()) {
+            var me = this,
+                store = me.getStore(),
+                record = store &amp;&amp; store.getAt(index);
+            record.beginEdit();
+            record.set(&#39;disabled&#39;, !record.get(&#39;disabled&#39;));
+            record.commit();
+        }
+    }
+});</pre>
+</body>
+</html>

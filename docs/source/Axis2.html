@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-chart-axis-sprite-Axis'>/**
+</span> * @private
+ * @class Ext.chart.axis.sprite.Axis
+ * @extends Ext.draw.sprite.Sprite
+ *
+ * The axis sprite. Currently all types of the axis will be rendered with this sprite.
+ * TODO(touch-2.2): Split different types of axis into different sprite classes.
+ */
+Ext.define(&#39;Ext.chart.axis.sprite.Axis&#39;, {
+    extend: &#39;Ext.draw.sprite.Sprite&#39;,
+    mixins: {
+        markerHolder: &#39;Ext.chart.MarkerHolder&#39;
+    },
+
+    requires: [&#39;Ext.draw.sprite.Text&#39;],
+
+    inheritableStatics: {
+<span id='Ext-chart-axis-sprite-Axis-static-property-def'>        def: {
+</span>            processors: {
+<span id='Ext-chart-axis-sprite-Axis-cfg-grid'>                /**
+</span>                 * @cfg {Boolean} grid &#39;true&#39; if the axis has a grid.
+                 */
+                grid: &#39;bool&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-axisLine'>                /**
+</span>                 * @cfg {Boolean} axisLine &#39;true&#39; if the main line of the axis is drawn.
+                 */
+                axisLine: &#39;bool&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-minorTricks'>                /**
+</span>                 * @cfg {Boolean} minorTricks &#39;true&#39; if the axis has sub ticks.
+                 */
+                minorTicks: &#39;bool&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-minorTickSize'>                /**
+</span>                 * @cfg {Number} minorTickSize The length of the minor ticks.
+                 */
+                minorTickSize: &#39;number&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-majorTicks'>                /**
+</span>                 * @cfg {Boolean} majorTicks &#39;true&#39; if the axis has major ticks.
+                 */
+                majorTicks: &#39;bool&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-majorTickSize'>                /**
+</span>                 * @cfg {Number} majorTickSize The length of the major ticks.
+                 */
+                majorTickSize: &#39;number&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-length'>                /**
+</span>                 * @cfg {Number} length The total length of the axis.
+                 */
+                length: &#39;number&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-startGap'>                /**
+</span>                 * @private
+                 * @cfg {Number} startGap Axis start determined by the chart inset padding.
+                 */
+                startGap: &#39;number&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-endGap'>                /**
+</span>                 * @private
+                 * @cfg {Number} endGap Axis end determined by the chart inset padding.
+                 */
+                endGap: &#39;number&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-dataMin'>                /**
+</span>                 * @cfg {Number} dataMin The minimum value of the axis data.
+                 */
+                dataMin: &#39;number&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-dataMax'>                /**
+</span>                 * @cfg {Number} dataMax The maximum value of the axis data.
+                 */
+                dataMax: &#39;number&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-visibleMin'>                /**
+</span>                 * @cfg {Number} visibleMin The minimum value that is displayed.
+                 */
+                visibleMin: &#39;number&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-visibleMax'>                /**
+</span>                 * @cfg {Number} visibleMax The maximum value that is displayed.
+                 */
+                visibleMax: &#39;number&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-position'>                /**
+</span>                 * @cfg {String} position The position of the axis on the chart.
+                 */
+                position: &#39;enums(left,right,top,bottom,angular,radial)&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-minStepSize'>                /**
+</span>                 * @cfg {Number} minStepSize The minimum step size between ticks.
+                 */
+                minStepSize: &#39;number&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-estStepSize'>                /**
+</span>                 * @private
+                 * @cfg {Number} estStepSize The estimated step size between ticks.
+                 */
+                estStepSize: &#39;number&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-property-titleOffset'>                /**
+</span>                 * @private
+                 * Unused.
+                 */
+                titleOffset: &#39;number&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-textPadding'>                /**
+</span>                 * @cfg {Number} textPadding The padding around axis labels to determine collision.
+                 */
+                textPadding: &#39;number&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-min'>                /**
+</span>                 * @cfg {Number} min The minimum value of the axis.
+                 */
+                min: &#39;number&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-max'>                /**
+</span>                 * @cfg {Number} max The maximum value of the axis.
+                 */
+                max: &#39;number&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-centerX'>                /**
+</span>                 * @cfg {Number} centerX The central point of the angular axis on the x-axis.
+                 */
+                centerX: &#39;number&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-centerY'>                /**
+</span>                 * @cfg {Number} centerY The central point of the angular axis on the y-axis.
+                 */
+                centerY: &#39;number&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-radius'>                /**
+</span>                 * @private
+                 * @cfg {Number} radius
+                 * Unused.
+                 */
+                radius: &#39;number&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-The'>                /**
+</span>                 * @cfg {Number} The starting rotation of the angular axis.
+                 */
+                baseRotation: &#39;number&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-property-data'>                /**
+</span>                 * @private
+                 * Unused.
+                 */
+                data: &#39;default&#39;,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-enlargeEstStepSizeByText'>                /**
+</span>                 * @cfg {Boolean} &#39;true&#39; if the estimated step size is adjusted by text size.
+                 */
+                enlargeEstStepSizeByText: &#39;bool&#39;
+            },
+
+            defaults: {
+                grid: false,
+                axisLine: true,
+                minorTicks: false,
+                minorTickSize: 3,
+                majorTicks: true,
+                majorTickSize: 5,
+                length: 0,
+                startGap: 0,
+                endGap: 0,
+                visibleMin: 0,
+                visibleMax: 1,
+                dataMin: 0,
+                dataMax: 1,
+                position: &#39;&#39;,
+                minStepSize: 0,
+                estStepSize: 20,
+                min: 0,
+                max: 1,
+                centerX: 0,
+                centerY: 0,
+                radius: 1,
+                baseRotation: 0,
+                data: null,
+                titleOffset: 0,
+                textPadding: 5,
+                scalingCenterY: 0,
+                scalingCenterX: 0,
+                // Override default
+                strokeStyle: &#39;black&#39;,
+                enlargeEstStepSizeByText: false
+            },
+
+            dirtyTriggers: {
+                minorTickSize: &#39;bbox&#39;,
+                majorTickSize: &#39;bbox&#39;,
+                position: &#39;bbox,layout&#39;,
+                axisLine: &#39;bbox,layout&#39;,
+                min: &#39;layout&#39;,
+                max: &#39;layout&#39;,
+                length: &#39;layout&#39;,
+                minStepSize: &#39;layout&#39;,
+                estStepSize: &#39;layout&#39;,
+                data: &#39;layout&#39;,
+                dataMin: &#39;layout&#39;,
+                dataMax: &#39;layout&#39;,
+                visibleMin: &#39;layout&#39;,
+                visibleMax: &#39;layout&#39;,
+                enlargeEstStepSizeByText: &#39;layout&#39;
+            },
+            updaters: {
+                &#39;layout&#39;: function () {
+                    this.doLayout();
+                }
+            }
+        }
+    },
+
+    config: {
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-label'>        /**
+</span>         * @cfg {Object} label
+         *
+         * The label configuration object for the Axis. This object may include style attributes
+         * like `spacing`, `padding`, `font` that receives a string or number and
+         * returns a new string with the modified values.
+         */
+        label: null,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-layout'>        /**
+</span>         * @cfg {Object|Ext.chart.axis.layout.Layout} layout The layout configuration used by the axis.
+         */
+        layout: null,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-segmenter'>        /**
+</span>         * @cfg {Object|Ext.chart.axis.segmenter.Segmenter} segmenter The method of segmenter used by the axis.
+         */
+        segmenter: null,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-renderer'>        /**
+</span>         * @cfg {Function} renderer Allows direct customisation of rendered axis sprites.
+         */
+        renderer: null,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-layoutContext'>        /**
+</span>         * @private
+         * @cfg {Object} layoutContext Stores the context after calculating layout.
+         */
+        layoutContext: null,
+
+<span id='Ext-chart-axis-sprite-Axis-cfg-axis'>        /**
+</span>         * @cfg {Ext.chart.axis.Axis} axis The axis represented by the this sprite.
+         */
+        axis: null
+    },
+
+<span id='Ext-chart-axis-sprite-Axis-property-thickness'>    thickness: 0,
+</span>
+<span id='Ext-chart-axis-sprite-Axis-property-stepSize'>    stepSize: 0,
+</span>
+<span id='Ext-chart-axis-sprite-Axis-method-getBBox'>    getBBox: function () { return null; },
+</span>
+<span id='Ext-chart-axis-sprite-Axis-method-doLayout'>    doLayout: function () {
+</span>        var me = this,
+            attr = me.attr,
+            layout = me.getLayout(),
+            min = attr.dataMin + (attr.dataMax - attr.dataMin) * attr.visibleMin,
+            max = attr.dataMin + (attr.dataMax - attr.dataMin) * attr.visibleMax,
+            context = {
+                attr: attr,
+                segmenter: me.getSegmenter()
+            };
+
+        if (attr.position === &#39;left&#39; || attr.position === &#39;right&#39;) {
+            attr.translationX = 0;
+            attr.translationY = max * attr.length / (max - min);
+            attr.scalingX = 1;
+            attr.scalingY = -attr.length / (max - min);
+            attr.scalingCenterY = 0;
+            attr.scalingCenterX = 0;
+            me.applyTransformations(true);
+        } else if (attr.position === &#39;top&#39; || attr.position === &#39;bottom&#39;) {
+            attr.translationX = -min * attr.length / (max - min);
+            attr.translationY = 0;
+            attr.scalingX = attr.length / (max - min);
+            attr.scalingY = 1;
+            attr.scalingCenterY = 0;
+            attr.scalingCenterX = 0;
+            me.applyTransformations(true);
+        }
+
+        if (layout) {
+            layout.calculateLayout(context);
+            me.setLayoutContext(context);
+        }
+    },
+
+<span id='Ext-chart-axis-sprite-Axis-method-iterate'>    iterate: function (snaps, fn) {
+</span>        var i, position;
+        if (snaps.getLabel) {
+            if (snaps.min &lt; snaps.from) {
+                fn.call(this, snaps.min, snaps.getLabel(snaps.min), -1, snaps);
+            }
+            for (i = 0; i &lt;= snaps.steps; i++) {
+                fn.call(this, snaps.get(i), snaps.getLabel(i), i, snaps);
+            }
+            if (snaps.max &gt; snaps.to) {
+                fn.call(this, snaps.max, snaps.getLabel(snaps.max), snaps.steps + 1, snaps);
+            }
+        } else {
+            if (snaps.min &lt; snaps.from) {
+                fn.call(this, snaps.min, snaps.min, -1, snaps);
+            }
+            for (i = 0; i &lt;= snaps.steps; i++) {
+                position = snaps.get(i);
+                fn.call(this, position, position, i, snaps);
+            }
+            if (snaps.max &gt; snaps.to) {
+                fn.call(this, snaps.max, snaps.max, snaps.steps + 1, snaps);
+            }
+        }
+    },
+
+<span id='Ext-chart-axis-sprite-Axis-method-renderTicks'>    renderTicks: function (surface, ctx, layout, clipRegion) {
+</span>        var me = this,
+            attr = me.attr,
+            docked = attr.position,
+            matrix = attr.matrix,
+            halfLineWidth = 0.5 * attr.lineWidth,
+            xx = matrix.getXX(),
+            dx = matrix.getDX(),
+            yy = matrix.getYY(),
+            dy = matrix.getDY(),
+            majorTicks = layout.majorTicks,
+            majorTickSize = attr.majorTickSize,
+            minorTicks = layout.minorTicks,
+            minorTickSize = attr.minorTickSize;
+
+        if (majorTicks) {
+            switch (docked) {
+                case &#39;right&#39;:
+                    function getRightTickFn(size) {
+                        return function (position, labelText, i) {
+                            position = surface.roundPixel(position * yy + dy) + halfLineWidth;
+                            ctx.moveTo(0, position);
+                            ctx.lineTo(size, position);
+                        };
+                    }
+                    me.iterate(majorTicks, getRightTickFn(majorTickSize));
+                    minorTicks &amp;&amp; me.iterate(minorTicks, getRightTickFn(minorTickSize));
+                    break;
+                case &#39;left&#39;:
+                    function getLeftTickFn(size) {
+                        return function (position, labelText, i) {
+                            position = surface.roundPixel(position * yy + dy) + halfLineWidth;
+                            ctx.moveTo(clipRegion[2] - size, position);
+                            ctx.lineTo(clipRegion[2], position);
+                        };
+                    }
+                    me.iterate(majorTicks, getLeftTickFn(majorTickSize));
+                    minorTicks &amp;&amp; me.iterate(minorTicks, getLeftTickFn(minorTickSize));
+                    break;
+                case &#39;bottom&#39;:
+                    function getBottomTickFn(size) {
+                        return function (position, labelText, i) {
+                            position = surface.roundPixel(position * xx + dx) - halfLineWidth;
+                            ctx.moveTo(position, 0);
+                            ctx.lineTo(position, size);
+                        };
+                    }
+                    me.iterate(majorTicks, getBottomTickFn(majorTickSize));
+                    minorTicks &amp;&amp; me.iterate(minorTicks, getBottomTickFn(minorTickSize));
+                    break;
+                case &#39;top&#39;:
+                    function getTopTickFn(size) {
+                        return function (position, labelText, i) {
+                            position = surface.roundPixel(position * xx + dx) - halfLineWidth;
+                            ctx.moveTo(position, clipRegion[3]);
+                            ctx.lineTo(position, clipRegion[3] - size);
+                        };
+                    }
+                    me.iterate(majorTicks, getTopTickFn(majorTickSize));
+                    minorTicks &amp;&amp; me.iterate(minorTicks, getTopTickFn(minorTickSize));
+                    break;
+                case &#39;angular&#39;:
+                    me.iterate(majorTicks, function (position, labelText, i) {
+                        position = position / (attr.max + 1) * Math.PI * 2 + attr.baseRotation;
+                        ctx.moveTo(
+                            attr.centerX + (attr.length) * Math.cos(position),
+                            attr.centerY + (attr.length) * Math.sin(position)
+                        );
+                        ctx.lineTo(
+                            attr.centerX + (attr.length + majorTickSize) * Math.cos(position),
+                            attr.centerY + (attr.length + majorTickSize) * Math.sin(position)
+                        );
+                    });
+                    break;
+            }
+        }
+    },
+
+<span id='Ext-chart-axis-sprite-Axis-method-renderLabels'>    renderLabels: function (surface, ctx, layout, clipRegion) {
+</span>        var me = this,
+            attr = me.attr,
+            halfLineWidth = 0.5 * attr.lineWidth,
+            docked = attr.position,
+            matrix = attr.matrix,
+            textPadding = attr.textPadding,
+            xx = matrix.getXX(),
+            dx = matrix.getDX(),
+            yy = matrix.getYY(),
+            dy = matrix.getDY(),
+            thickness = 0,
+            majorTicks = layout.majorTicks,
+            padding = Math.max(attr.majorTickSize, attr.minorTickSize) + attr.lineWidth,
+            label = this.getLabel(), font,
+            lastLabelText = null,
+            textSize = 0, textCount = 0,
+            segmenter = layout.segmenter,
+            renderer = this.getRenderer(),
+            labelInverseMatrix, lastBBox = null, bbox, fly, text;
+        if (majorTicks &amp;&amp; label &amp;&amp; !label.attr.hidden) {
+            font = label.attr.font;
+            if (ctx.font !== font) {
+                ctx.font = font;
+            } // This can profoundly improve performance.
+            label.setAttributes({translationX: 0, translationY: 0}, true, true);
+            label.applyTransformations();
+            labelInverseMatrix = label.attr.inverseMatrix.elements.slice(0);
+            switch (docked) {
+                case &#39;left&#39;:
+                    label.setAttributes({
+                        translationX: surface.roundPixel(clipRegion[2] - padding + dx) - halfLineWidth - me.thickness / 2
+                    }, true, true);
+                    break;
+                case &#39;right&#39;:
+                    label.setAttributes({
+                        translationX: surface.roundPixel(padding + dx) - halfLineWidth + me.thickness / 2
+                    }, true, true);
+                    break;
+                case &#39;top&#39;:
+                    label.setAttributes({
+                        translationY: surface.roundPixel(clipRegion[3] - padding) - halfLineWidth - me.thickness / 2
+                    }, true, true);
+                    break;
+                case &#39;bottom&#39;:
+                    label.setAttributes({
+                        translationY: surface.roundPixel(padding) - halfLineWidth + me.thickness / 2
+                    }, true, true);
+                    break;
+                case &#39;radial&#39; :
+                    label.setAttributes({
+                        translationX: attr.centerX
+                    }, true, true);
+                    break;
+                case &#39;angular&#39;:
+                    label.setAttributes({
+                        translationY: attr.centerY
+                    }, true, true);
+                    break;
+            }
+
+            // TODO: there are better ways to detect collision.
+            if (docked === &#39;left&#39; || docked === &#39;right&#39;) {
+                me.iterate(majorTicks, function (position, labelText, i) {
+                    if (labelText === undefined) {
+                        return;
+                    }
+                    text = renderer ? renderer.call(this, labelText, layout, lastLabelText) : segmenter.renderer(labelText, layout, lastLabelText);
+                    lastLabelText = labelText;
+                    label.setAttributes({
+                        text: String(text),
+                        translationY: surface.roundPixel(position * yy + dy)
+                    }, true, true);
+                    label.applyTransformations();
+                    thickness = Math.max(thickness, label.getBBox().width + padding);
+                    if (thickness &lt;= me.thickness) {
+                        fly = Ext.draw.Matrix.fly(label.attr.matrix.elements.slice(0));
+                        bbox = fly.prepend.apply(fly, labelInverseMatrix).transformBBox(label.getBBox(true));
+                        if (lastBBox &amp;&amp; !Ext.draw.Draw.isBBoxIntersect(bbox, lastBBox, textPadding)) {
+                            return;
+                        }
+                        surface.renderSprite(label);
+                        lastBBox = bbox;
+                        textSize += bbox.height;
+                        textCount++;
+                    }
+                });
+            } else if (docked === &#39;top&#39; || docked === &#39;bottom&#39;) {
+                me.iterate(majorTicks, function (position, labelText, i) {
+                    if (labelText === undefined) {
+                        return;
+                    }
+                    text = renderer ? renderer.call(this, labelText, layout, lastLabelText) : segmenter.renderer(labelText, layout, lastLabelText);
+                    lastLabelText = labelText;
+                    label.setAttributes({
+                        text: String(text),
+                        translationX: surface.roundPixel(position * xx + dx)
+                    }, true, true);
+                    label.applyTransformations();
+                    thickness = Math.max(thickness, label.getBBox().height + padding);
+                    if (thickness &lt;= me.thickness) {
+                        fly = Ext.draw.Matrix.fly(label.attr.matrix.elements.slice(0));
+                        bbox = fly.prepend.apply(fly, labelInverseMatrix).transformBBox(label.getBBox(true));
+                        if (lastBBox &amp;&amp; !Ext.draw.Draw.isBBoxIntersect(bbox, lastBBox, textPadding)) {
+                            return;
+                        }
+                        surface.renderSprite(label);
+                        lastBBox = bbox;
+                        textSize += bbox.width;
+                        textCount++;
+                    }
+                });
+            } else if (docked === &#39;radial&#39;) {
+                me.iterate(majorTicks, function (position, labelText, i) {
+                    if (labelText === undefined) {
+                        return;
+                    }
+                    text = renderer ? renderer.call(this, labelText, layout, lastLabelText) : segmenter.renderer(labelText, layout, lastLabelText);
+                    lastLabelText = labelText;
+                    if (typeof text !== &#39;undefined&#39;) {
+                        label.setAttributes({
+                            text: String(text),
+                            translationY: attr.centerY - surface.roundPixel(position) / attr.max * attr.length
+                        }, true, true);
+                        label.applyTransformations();
+                        bbox = label.attr.matrix.transformBBox(label.getBBox(true));
+                        if (lastBBox &amp;&amp; !Ext.draw.Draw.isBBoxIntersect(bbox, lastBBox)) {
+                            return;
+                        }
+                        surface.renderSprite(label);
+                        lastBBox = bbox;
+                        textSize += bbox.width;
+                        textCount++;
+                    }
+                });
+            } else if (docked === &#39;angular&#39;) {
+                me.iterate(majorTicks, function (position, labelText, i) {
+                    if (labelText === undefined) {
+                        return;
+                    }
+                    text = renderer ? renderer.call(this, labelText, layout, lastLabelText) : segmenter.renderer(labelText, layout, lastLabelText);
+                    lastLabelText = labelText;
+
+                    if (typeof text !== &#39;undefined&#39;) {
+                        var angle = position / (attr.max + 1) * Math.PI * 2 + attr.baseRotation;
+                        label.setAttributes({
+                            text: String(text),
+                            translationX: attr.centerX + (attr.length + 10) * Math.cos(angle),
+                            translationY: attr.centerY + (attr.length + 10) * Math.sin(angle)
+                        }, true, true);
+                        label.applyTransformations();
+                        bbox = label.attr.matrix.transformBBox(label.getBBox(true));
+                        if (lastBBox &amp;&amp; !Ext.draw.Draw.isBBoxIntersect(bbox, lastBBox)) {
+                            return;
+                        }
+                        surface.renderSprite(label);
+                        lastBBox = bbox;
+                        textSize += bbox.width;
+                        textCount++;
+                    }
+                });
+            }
+
+            if (attr.enlargeEstStepSizeByText &amp;&amp; textCount) {
+                textSize /= textCount;
+                textSize += padding;
+                textSize *= 2;
+                if (attr.estStepSize &lt; textSize) {
+                    attr.estStepSize = textSize;
+                }
+            }
+
+            if (Math.abs(me.thickness - (thickness)) &gt; 1) {
+                me.thickness = thickness;
+                attr.bbox.plain.dirty = true;
+                attr.bbox.transform.dirty = true;
+                me.doThicknessChanged();
+                return false;
+            }
+        }
+    },
+
+<span id='Ext-chart-axis-sprite-Axis-method-renderAxisLine'>    renderAxisLine: function (surface, ctx, layout, clipRegion) {
+</span>        var me = this,
+            attr = me.attr,
+            halfLineWidth = attr.lineWidth * 0.5,
+            docked = attr.position,
+            position;
+        if (attr.axisLine) {
+            switch (docked) {
+                case &#39;left&#39;:
+                    position = surface.roundPixel(clipRegion[2]) - halfLineWidth;
+                    ctx.moveTo(position, -attr.endGap);
+                    ctx.lineTo(position, attr.length + attr.startGap);
+                    break;
+                case &#39;right&#39;:
+                    ctx.moveTo(halfLineWidth, -attr.endGap);
+                    ctx.lineTo(halfLineWidth, attr.length + attr.startGap);
+                    break;
+                case &#39;bottom&#39;:
+                    ctx.moveTo(-attr.startGap, halfLineWidth);
+                    ctx.lineTo(attr.length + attr.endGap, halfLineWidth);
+                    break;
+                case &#39;top&#39;:
+                    position = surface.roundPixel(clipRegion[3]) - halfLineWidth;
+                    ctx.moveTo(-attr.startGap, position);
+                    ctx.lineTo(attr.length + attr.endGap, position);
+                    break;
+                case &#39;angular&#39;:
+                    ctx.moveTo(attr.centerX + attr.length, attr.centerY);
+                    ctx.arc(attr.centerX, attr.centerY, attr.length, 0, Math.PI * 2, true);
+                    break;
+            }
+        }
+    },
+
+<span id='Ext-chart-axis-sprite-Axis-method-renderGridLines'>    renderGridLines: function (surface, ctx, layout, clipRegion) {
+</span>        var me = this,
+            attr = me.attr,
+            matrix = attr.matrix,
+            startGap = attr.startGap,
+            endGap = attr.endGap,
+            xx = matrix.getXX(),
+            yy = matrix.getYY(),
+            dx = matrix.getDX(),
+            dy = matrix.getDY(),
+            position = attr.position,
+            majorTicks = layout.majorTicks,
+            anchor, j, lastAnchor;
+        if (attr.grid) {
+            if (majorTicks) {
+                if (position === &#39;left&#39; || position === &#39;right&#39;) {
+                    lastAnchor = attr.min * yy + dy + endGap + startGap;
+                    me.iterate(majorTicks, function (position, labelText, i) {
+                        anchor = position * yy + dy + endGap;
+                        me.putMarker(&#39;horizontal-&#39; + (i % 2 ? &#39;odd&#39; : &#39;even&#39;), {
+                            y: anchor,
+                            height: lastAnchor - anchor
+                        }, j = i, true);
+                        lastAnchor = anchor;
+                    });
+                    j++;
+                    anchor = 0;
+                    me.putMarker(&#39;horizontal-&#39; + (j % 2 ? &#39;odd&#39; : &#39;even&#39;), {
+                        y: anchor,
+                        height: lastAnchor - anchor
+                    }, j, true);
+                } else if (position === &#39;top&#39; || position === &#39;bottom&#39;) {
+                    lastAnchor = attr.min * xx + dx + startGap;
+                    if (startGap) {
+                        me.putMarker(&#39;vertical-even&#39;, {
+                            x: 0,
+                            width: lastAnchor
+                        }, -1, true);
+                    }
+                    me.iterate(majorTicks, function (position, labelText, i) {
+                        anchor = position * xx + dx + startGap;
+                        me.putMarker(&#39;vertical-&#39; + (i % 2 ? &#39;odd&#39; : &#39;even&#39;), {
+                            x: anchor,
+                            width: lastAnchor - anchor
+                        }, j = i, true);
+                        lastAnchor = anchor;
+                    });
+                    j++;
+                    anchor = attr.length + attr.startGap + attr.endGap;
+                    me.putMarker(&#39;vertical-&#39; + (j % 2 ? &#39;odd&#39; : &#39;even&#39;), {
+                        x: anchor,
+                        width: lastAnchor - anchor
+                    }, j, true);
+                } else if (position === &#39;radial&#39;) {
+                    me.iterate(majorTicks, function (position, labelText, i) {
+                        anchor = position / attr.max * attr.length;
+                        me.putMarker(&#39;circular-&#39; + (i % 2 ? &#39;odd&#39; : &#39;even&#39;), {
+                            scalingX: anchor,
+                            scalingY: anchor
+                        }, i, true);
+                        lastAnchor = anchor;
+                    });
+                } else if (position === &#39;angular&#39;) {
+                    me.iterate(majorTicks, function (position, labelText, i) {
+                        anchor = position / (attr.max + 1) * Math.PI * 2 + attr.baseRotation;
+                        me.putMarker(&#39;radial-&#39; + (i % 2 ? &#39;odd&#39; : &#39;even&#39;), {
+                            rotationRads: anchor,
+                            rotationCenterX: 0,
+                            rotationCenterY: 0,
+                            scalingX: attr.length,
+                            scalingY: attr.length
+                        }, i, true);
+                        lastAnchor = anchor;
+                    });
+                }
+            }
+        }
+    },
+
+<span id='Ext-chart-axis-sprite-Axis-method-doThicknessChanged'>    doThicknessChanged: function () {
+</span>        var axis = this.getAxis();
+        if (axis) {
+            axis.onThicknessChanged();
+        }
+    },
+
+<span id='Ext-chart-axis-sprite-Axis-method-render'>    render: function (surface, ctx, clipRegion) {
+</span>        var me = this,
+            layout = me.getLayoutContext();
+        if (layout) {
+            if (false === me.renderLabels(surface, ctx, layout, clipRegion)) {
+                return false;
+            }
+            ctx.beginPath();
+            me.renderTicks(surface, ctx, layout, clipRegion);
+            me.renderAxisLine(surface, ctx, layout, clipRegion);
+            me.renderGridLines(surface, ctx, layout, clipRegion);
+            ctx.stroke();
+        }
+    }
+});</pre>
+</body>
+</html>

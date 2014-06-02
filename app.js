@@ -32,6 +32,7 @@ Ext.application({
 
     controllers: [
         'Smoovz.controller.MainController',
+        'Smoovz.controller.PasswordController',
         'Smoovz.controller.RegistrationController',
         'Smoovz.controller.SessionController',
         'Smoovz.controller.TeamSelectController'

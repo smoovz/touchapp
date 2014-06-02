@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-draw-sprite-Path'>/**
+</span> * @class Ext.draw.sprite.Path
+ * @extends Ext.draw.sprite.Sprite
+ *
+ * A sprite that represents a path.
+ *
+ *     @example preview miniphone
+ *     var component = new Ext.draw.Component({
+ *       items: [{
+ *         type: &#39;path&#39;,
+ *         path: &#39;M75,75 c0,-25 50,25 50,0 c0,-25 -50,25 -50,0&#39;,
+ *         fillStyle: &#39;blue&#39;
+ *       }]
+ *     });
+ *     Ext.Viewport.setLayout(&#39;fit&#39;);
+ *     Ext.Viewport.add(component);
+ */
+Ext.define(&#39;Ext.draw.sprite.Path&#39;, {
+    extend: &#39;Ext.draw.sprite.Sprite&#39;,
+    requires: [&#39;Ext.draw.Draw&#39;, &#39;Ext.draw.Path&#39;],
+    alias: &#39;sprite.path&#39;,
+<span id='Ext-draw-sprite-Path-property-type'>    type: &#39;path&#39;,
+</span>    inheritableStatics: {
+<span id='Ext-draw-sprite-Path-static-property-def'>        def: {
+</span>            processors: {
+<span id='Ext-draw-sprite-Path-cfg-path'>                /**
+</span>                 * @cfg {String} path The SVG based path string used by the sprite.
+                 */
+                path: function (n, o) {
+                    if (!(n instanceof Ext.draw.Path)) {
+                        n = new Ext.draw.Path(n);
+                    }
+                    return n;
+                }
+            },
+            aliases: {
+                d: &#39;path&#39;
+            },
+            dirtyTriggers: {
+                path: &#39;bbox&#39;
+            },
+            updaters: {
+                path: function (attr) {
+                    var path = attr.path;
+                    if (!path || path.bindAttr !== attr) {
+                        path = new Ext.draw.Path();
+                        path.bindAttr = attr;
+                        attr.path = path;
+                    }
+                    path.clear();
+                    this.updatePath(path, attr);
+                    attr.dirtyFlags.bbox = [&#39;path&#39;];
+                }
+            }
+        }
+    },
+
+<span id='Ext-draw-sprite-Path-method-updatePlainBBox'>    updatePlainBBox: function (plain) {
+</span>        if (this.attr.path) {
+            this.attr.path.getDimension(plain);
+        }
+    },
+
+<span id='Ext-draw-sprite-Path-method-updateTransformedBBox'>    updateTransformedBBox: function (transform) {
+</span>        if (this.attr.path) {
+            this.attr.path.getDimensionWithTransform(this.attr.matrix, transform);
+        }
+    },
+
+<span id='Ext-draw-sprite-Path-method-render'>    render: function (surface, ctx) {
+</span>        var mat = this.attr.matrix,
+            attr = this.attr;
+        if (!attr.path || attr.path.coords.length === 0) {
+            return;
+        }
+        mat.toContext(ctx);
+        ctx.appendPath(attr.path);
+        ctx.fillStroke(attr);
+    },
+
+<span id='Ext-draw-sprite-Path-method-updatePath'>    /**
+</span>     * Update the path.
+     * @param {Ext.draw.Path} path An empty path to draw on using path API.
+     * @param {Object} attr The attribute object. Note: DO NOT use the `sprite.attr` instead of this
+     * if you want to work with instancing.
+     */
+    updatePath: function (path, attr) {}
+});</pre>
+</body>
+</html>
